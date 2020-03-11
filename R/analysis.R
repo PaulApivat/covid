@@ -1,9 +1,156 @@
 ## Visualizing Global Map of cases confirmed, deaths and recovered across the globe ##
 
+# data source (Johns Hopkins CSSE)
+# https://www.kaggle.com/imdevskp/corona-virus-report/data#
+# https://github.com/CSSEGISandData/COVID-19
+
+
 # libraries and setup
 getwd()
 setwd("/Users/paulapivat/Desktop")
+library(tidyverse)
 library(rgdal)    # download as geospatial, then change to data frame, then plot in ggplot2, is faster
 library(broom)   # required to turn geospatial data into dataframe, so we can read into ggplot2 (this is called “fortify”) 
 
+### Open and Plot Shapefiles in R ###
+
+# geospatial data - must use plot()
+my_spdf <- readOGR(dsn = paste0(getwd(), "/temp_covid/world_shape_file/"), layer = "TM_WORLD_BORDERS_SIMPL-0.3", verbose = FALSE)
+par(mar = c(0,0,0,0))
+plot(my_spdf, col="#f2f2f2", bg="skyblue", lwd=0.25, border=0)
+
+# data frame - plotting with ggplot2 instead
+spdf_fortified <- tidy(my_spdf, region = "NAME")
+
+# plot
+# faster than maps or map_data
+ggplot() + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#69b3a2", color = "white") + theme_void()  
+
+
+### Download Data Set into local environment ###
+
+# Confirmed, Death, Recovered from 1/22/20 - 3/8/20
+df <- read_csv("/Users/paulapivat/Desktop/temp_covid/covid_19_clean_complete.csv")
+
+# match “id” from spdf_fortified with df
+# setting up data frame to be joined 
+
+df[,'id'] <- NA
+
+# change id one-by-one (manual process)
+# Note: categories that did not match: df$`Country/Region` == Others, North Macedonia, Vatican City and Republic of Ireland
+
+# Mainland China —> china
+df$id <- if_else(df$`Country/Region`=="Mainland China", df$id <- "China", NULL)
+
+df$id = ifelse(df$`Country/Region`=="US", "United States", df$id)    # change ‘US’ to ‘United States’ while leaving everything else untouched
+
+df$id = ifelse(df$`Country/Region`=="South Korea", "Korea, Republic of", df$id)    # “South Korea” to “Korea, Republic of” 
+df$id = ifelse(df$`Country/Region`=="Thailand", "Thailand", df$id)      #Thailand remains same
+df$id = ifelse(df$`Country/Region`=="Japan", "Japan", df$id)              #Japan remains same
+df$id = ifelse(df$`Country/Region`=="Taiwan", "Taiwan", df$id)
+df$id = ifelse(df$`Country/Region`=="Macau", "Macau", df$id)
+df$id = ifelse(df$`Country/Region`=="Hong Kong", "Hong Kong", df$id)
+df$id = ifelse(df$`Country/Region`=="Singapore", "Singapore", df$id)
+df$id = ifelse(df$`Country/Region`=="Vietnam", "Viet Nam", df$id)
+df$id = ifelse(df$`Country/Region`=="France", "France", df$id)
+df$id = ifelse(df$`Country/Region`=="Nepal", "Nepal", df$id)
+df$id = ifelse(df$`Country/Region`=="Malaysia", "Malaysia", df$id)
+df$id = ifelse(df$`Country/Region`=="Canada", "Canada", df$id)
+df$id = ifelse(df$`Country/Region`=="Australia", "Australia", df$id)
+df$id = ifelse(df$`Country/Region`=="Cambodia", "Cambodia", df$id)
+df$id = ifelse(df$`Country/Region`=="Sri Lanka", "Sri Lanka", df$id)
+df$id = ifelse(df$`Country/Region`=="Germany", "Germany", df$id)
+df$id = ifelse(df$`Country/Region`=="Finland", "Finland", df$id)
+df$id = ifelse(df$`Country/Region`=="United Arab Emirates", "United Arab Emirates", df$id)
+df$id = ifelse(df$`Country/Region`=="Philippines", "Philippines", df$id)
+df$id = ifelse(df$`Country/Region`=="India", "India", df$id)
+
+df$id = ifelse(df$`Country/Region`=="Italy", "Italy", df$id)
+df$id = ifelse(df$`Country/Region`=="UK", "United Kingdom", df$id)
+df$id = ifelse(df$`Country/Region`=="Russia", "Russia", df$id)
+df$id = ifelse(df$`Country/Region`=="Sweden", "Sweden", df$id)
+df$id = ifelse(df$`Country/Region`=="Spain", "Spain", df$id)
+df$id = ifelse(df$`Country/Region`=="Belgium", "Belgium", df$id)
+df$id = ifelse(df$`Country/Region`=="Egypt", "Egypt", df$id)
+
+df$id = ifelse(df$`Country/Region`=="Iran", "Iran (Islamic Republic of)", df$id)
+df$id = ifelse(df$`Country/Region`=="Lebanon", "Lebanon", df$id)
+df$id = ifelse(df$`Country/Region`=="Iraq", "Iraq", df$id)
+df$id = ifelse(df$`Country/Region`=="Oman", "Oman", df$id)
+df$id = ifelse(df$`Country/Region`=="Afghanistan", "Afghanistan", df$id)
+df$id = ifelse(df$`Country/Region`=="Bahrain", "Bahrain", df$id)
+df$id = ifelse(df$`Country/Region`=="Kuwait", "Kuwait", df$id)
+df$id = ifelse(df$`Country/Region`=="Algeria", "Algeria", df$id)
+df$id = ifelse(df$`Country/Region`=="Croatia", "Croatia", df$id)
+df$id = ifelse(df$`Country/Region`=="Switzerland", "Switzerland", df$id)
+df$id = ifelse(df$`Country/Region`=="Austria", "Austria", df$id)
+df$id = ifelse(df$`Country/Region`=="Israel", "Israel", df$id)
+df$id = ifelse(df$`Country/Region`=="Pakistan", "Pakistan", df$id)
+
+df$id = ifelse(df$`Country/Region`=="Brazil", "Brazil", df$id)
+df$id = ifelse(df$`Country/Region`=="Georgia", "Georgia", df$id)
+df$id = ifelse(df$`Country/Region`=="Greece", "Greece", df$id)
+df$id = ifelse(df$`Country/Region`=="Norway", "Norway", df$id)
+df$id = ifelse(df$`Country/Region`=="Romania", "Romania", df$id)
+df$id = ifelse(df$`Country/Region`=="Denmark", "Denmark", df$id)
+df$id = ifelse(df$`Country/Region`=="Estonia", "Estonia", df$id) 
+df$id = ifelse(df$`Country/Region`=="Netherlands", "Netherlands", df$id)
+df$id = ifelse(df$`Country/Region`=="San Marino", "San Marino", df$id)
+df$id = ifelse(df$`Country/Region`=="Belarus", "Belarus", df$id)
+df$id = ifelse(df$`Country/Region`=="Iceland", "Iceland", df$id)
+df$id = ifelse(df$`Country/Region`=="Lithuania", "Lithuania", df$id)
+df$id = ifelse(df$`Country/Region`=="Mexico", "Mexico", df$id)
+
+df$id = ifelse(df$`Country/Region`=="New Zealand", "New Zealand", df$id)
+df$id = ifelse(df$`Country/Region`=="Nigeria", "Nigeria", df$id)
+df$id = ifelse(df$`Country/Region`=="Ireland", "Ireland", df$id)
+df$id = ifelse(df$`Country/Region`=="Luxembourg", "Luxembourg", df$id)
+df$id = ifelse(df$`Country/Region`=="Monaco", "Monaco", df$id)
+df$id = ifelse(df$`Country/Region`=="Qatar", "Qatar", df$id)
+df$id = ifelse(df$`Country/Region`=="Ecuador", "Ecuador", df$id)
+df$id = ifelse(df$`Country/Region`=="Azerbaijan", "Azerbaijan", df$id)
+df$id = ifelse(df$`Country/Region`=="Czech Republic", "Czech Republic", df$id)
+df$id = ifelse(df$`Country/Region`=="Armenia", "Armenia", df$id)
+df$id = ifelse(df$`Country/Region`=="Dominican Republic", "Dominican Republic", df$id)
+df$id = ifelse(df$`Country/Region`=="Indonesia", "Indonesia", df$id)
+df$id = ifelse(df$`Country/Region`=="Portugal", "Portugal", df$id)
+df$id = ifelse(df$`Country/Region`=="Andorra", "Andorra", df$id)
+df$id = ifelse(df$`Country/Region`=="Latvia", "Latvia", df$id)
+df$id = ifelse(df$`Country/Region`=="Morocco", "Morocco", df$id)
+df$id = ifelse(df$`Country/Region`=="Saudi Arabia", "Saudi Arabia", df$id)
+df$id = ifelse(df$`Country/Region`=="Senegal", "Senegal", df$id)
+df$id = ifelse(df$`Country/Region`=="Argentina", "Argentina", df$id)
+
+df$id = ifelse(df$`Country/Region`=="Chile", "Chile", df$id)
+df$id = ifelse(df$`Country/Region`=="Jordan", "Jordan", df$id)
+df$id = ifelse(df$`Country/Region`=="Ukraine", "Ukraine", df$id)
+df$id = ifelse(df$`Country/Region`=="Saint Barthelemy", "Saint Barthelemy", df$id)
+df$id = ifelse(df$`Country/Region`=="Hungary", "Hungary", df$id)
+df$id = ifelse(df$`Country/Region`=="Faroe Islands", "Faroe Islands", df$id)
+df$id = ifelse(df$`Country/Region`=="Gibraltar", "Gibraltar", df$id)
+df$id = ifelse(df$`Country/Region`=="Liechtenstein", "Liechtenstein", df$id)
+df$id = ifelse(df$`Country/Region`=="Poland", "Poland", df$id)
+df$id = ifelse(df$`Country/Region`=="Tunisia", "Tunisia", df$id)
+df$id = ifelse(df$`Country/Region`=="Palestine", "Palestine", df$id)
+df$id = ifelse(df$`Country/Region`=="Bosnia and Herzegovina", "Bosnia and Herzegovina", df$id)
+df$id = ifelse(df$`Country/Region`=="Slovenia", "Slovenia", df$id)
+df$id = ifelse(df$`Country/Region`=="South Africa", "South Africa", df$id)
+df$id = ifelse(df$`Country/Region`=="Bhutan", "Bhutan", df$id)
+
+df$id = ifelse(df$`Country/Region`=="Cameroon", "Cameroon", df$id)
+df$id = ifelse(df$`Country/Region`=="Colombia", "Colombia", df$id)
+df$id = ifelse(df$`Country/Region`=="Costa Rica", "Costa Rica", df$id)
+df$id = ifelse(df$`Country/Region`=="Peru", "Peru", df$id)
+df$id = ifelse(df$`Country/Region`=="Serbia", "Serbia", df$id)
+df$id = ifelse(df$`Country/Region`=="Slovakia", "Slovakia", df$id)
+df$id = ifelse(df$`Country/Region`=="Togo", "Togo", df$id)
+df$id = ifelse(df$`Country/Region`=="French Guiana", "French Guiana", df$id)
+df$id = ifelse(df$`Country/Region`=="Malta", "Malta", df$id)
+df$id = ifelse(df$`Country/Region`=="Martinique", "Martinique", df$id)
+df$id = ifelse(df$`Country/Region`=="Bulgaria", "Bulgaria", df$id)
+df$id = ifelse(df$`Country/Region`=="Maldives", "Maldives", df$id)
+df$id = ifelse(df$`Country/Region`=="Bangladesh", "Bangladesh", df$id)
+df$id = ifelse(df$`Country/Region`=="Moldova", "Republic of Moldova", df$id)
+df$id = ifelse(df$`Country/Region`=="Paraguay", "Paraguay", df$id)
 
