@@ -29,7 +29,7 @@ ggplot() + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = gr
 
 ### Download Data Set into local environment ###
 
-# Confirmed, Death, Recovered from 1/22/20 - 3/8/20
+# Confirmed, Death, Recovered from 1/22/20 - 3/8/20 (Jan 22 - March 8)
 covid_df <- read_csv("/Users/paulapivat/Desktop/temp_covid/covid_19_clean_complete.csv")
 
 df <- covid_df
@@ -183,7 +183,7 @@ spdf_fortified2 <- spdf_fortified
 # join df3 and spdf_fortified2
 spdf_fortified2 <- spdf_fortified2 %>% inner_join(df3, by = "id")
 
-# plots
+#######--------- Plots ----------#########
 
 # no distinction in color
 ggplot(data = spdf_fortified2) 
@@ -202,5 +202,18 @@ ggplot(data = march_7)
 ggplot(data = march_7) 
 + geom_polygon(aes(x = long, y = lat, fill = march_7$Confirmed, group = group), color = "black") 
 + scale_fill_gradientn(colours = rev(rainbow(7)), breaks = c(2, 4, 10, 100, 1000, 10000, 50000), trans = "log10") 
++ theme_classic()
+
+# March 7th - scale_fill_viridis_c(option = "plasma", trans = "log10") - best color scheme
+ggplot(data = march_7) 
++ geom_polygon(aes(x = long, y = lat, fill = march_7$Confirmed, group = group), color = "black") 
++ scale_fill_viridis_c(option = "plasma", trans = "log10") 
++ theme_classic()
+
+# scale_fill_distiller(palette = "Spectral", trans = "log") also good option
+# log vs log10
+ggplot(data = march_7) 
++ geom_polygon(aes(x = long, y = lat, fill = march_7$Confirmed, group = group), color = "black") 
++ scale_fill_distiller(palette = "Spectral", trans = "log") 
 + theme_classic()
 
