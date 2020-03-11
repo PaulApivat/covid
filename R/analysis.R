@@ -30,7 +30,9 @@ ggplot() + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = gr
 ### Download Data Set into local environment ###
 
 # Confirmed, Death, Recovered from 1/22/20 - 3/8/20
-df <- read_csv("/Users/paulapivat/Desktop/temp_covid/covid_19_clean_complete.csv")
+covid_df <- read_csv("/Users/paulapivat/Desktop/temp_covid/covid_19_clean_complete.csv")
+
+df <- covid_df
 
 # match “id” from spdf_fortified with df
 # setting up data frame to be joined 
@@ -43,8 +45,9 @@ df[,'id'] <- NA
 # Mainland China —> china
 df$id <- if_else(df$`Country/Region`=="Mainland China", df$id <- "China", NULL)
 
-df$id = ifelse(df$`Country/Region`=="US", "United States", df$id)    # change ‘US’ to ‘United States’ while leaving everything else untouched
+# note: using ifelse() base function to conditionally change, but leave everything else as is
 
+df$id = ifelse(df$`Country/Region`=="US", "United States", df$id)    # change ‘US’ to ‘United States’ while leaving everything else untouched
 df$id = ifelse(df$`Country/Region`=="South Korea", "Korea, Republic of", df$id)    # “South Korea” to “Korea, Republic of” 
 df$id = ifelse(df$`Country/Region`=="Thailand", "Thailand", df$id)      #Thailand remains same
 df$id = ifelse(df$`Country/Region`=="Japan", "Japan", df$id)              #Japan remains same
@@ -161,4 +164,15 @@ diamond_princess <- df %>% filter(df$`Country/Region`=="Others")
 north_macedonia <- df %>% filter(df$`Country/Region`=="North Macedonia")
 vatican_city <- df %>% filter(df$`Country/Region`=="Vatican City")
 republic_ireland <- df %>% filter(df$`Country/Region`=="Republic of Ireland")
+
+# Delete all rows where id is NA
+df2 <- df  # assign to new data frame
+
+# delete Others (Diamond Princess cruise ship), North Macedonia, Vatican City and Republic of Ireland from df2
+df2 <- df2[!df2$`Country/Region`=="Others",]
+df2 <- df2[!df2$`Country/Region`=="North Macedonia",]
+df2 <- df2[!df2$`Country/Region`=="Vatican City",]
+df2 <- df2[!df2$`Country/Region`=="Republic of Ireland",]
+
+
 
