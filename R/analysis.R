@@ -191,6 +191,10 @@ ggplot(data = spdf_fortified2)
 + scale_fill_gradient2(low = "#69b3a2", mid = "white", high = "#0571B0", midpoint = 100000, space = "Lab", na.value = "grey50", guide = "colourbar", aesthetics = "fill") 
 + theme_classic()
 
+# filter on per date basis
+march_7 <- spdf_fortified2 %>% filter(Date=="3/7/20")
+jan_22 <- spdf_fortified2 %>% filter(Date=="1/22/20")
+
 # filter to one date - March 7th - some distinction in color
 # log transformation due to scale differences
 ggplot(data = march_7) 
