@@ -192,8 +192,21 @@ ggplot(data = spdf_fortified2)
 + theme_classic()
 
 # filter on per date basis
-march_7 <- spdf_fortified2 %>% filter(Date=="3/7/20")
 jan_22 <- spdf_fortified2 %>% filter(Date=="1/22/20")
+jan_23 <- spdf_fortified2 %>% filter(Date=="1/23/20")
+jan_24 <- spdf_fortified2 %>% filter(Date=="1/24/20")
+jan_25 <- spdf_fortified2 %>% filter(Date=="1/25/20")
+jan_26 <- spdf_fortified2 %>% filter(Date=="1/26/20")
+jan_27 <- spdf_fortified2 %>% filter(Date=="1/27/20")
+jan_28 <- spdf_fortified2 %>% filter(Date=="1/28/20")
+jan_29 <- spdf_fortified2 %>% filter(Date=="1/29/20")
+jan_30 <- spdf_fortified2 %>% filter(Date=="1/30/20")
+jan_31 <- spdf_fortified2 %>% filter(Date=="1/31/20")
+feb_1 <- spdf_fortified2 %>% filter(Date=="2/1/20")
+feb_2 <- spdf_fortified2 %>% filter(Date=="2/2/20")
+
+march_7 <- spdf_fortified2 %>% filter(Date=="3/7/20")
+
 
 # filter to one date - March 7th - some distinction in color
 # log transformation due to scale differences
