@@ -174,5 +174,13 @@ df2 <- df2[!df2$`Country/Region`=="North Macedonia",]
 df2 <- df2[!df2$`Country/Region`=="Vatican City",]
 df2 <- df2[!df2$`Country/Region`=="Republic of Ireland",]
 
+# prepare to join; create new data frame with selected variables: id, confirmed, deaths, recovered, date
+df3 <- df2 %>% select(id, Date, Confirmed, Deaths, Recovered)
+
+# assign backup for spatial data frame
+spdf_fortified2 <- spdf_fortified
+
+# join df3 and spdf_fortified2
+spdf_fortified2 <- spdf_fortified2 %>% inner_join(df3, by = "id")
 
 
