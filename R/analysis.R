@@ -183,4 +183,24 @@ spdf_fortified2 <- spdf_fortified
 # join df3 and spdf_fortified2
 spdf_fortified2 <- spdf_fortified2 %>% inner_join(df3, by = "id")
 
+# plots
+
+# no distinction in color
+ggplot(data = spdf_fortified2) 
++ geom_polygon(aes(x = long, y = lat, fill = spdf_fortified2$Confirmed, group = group), color = "black") 
++ scale_fill_gradient2(low = "#69b3a2", mid = "white", high = "#0571B0", midpoint = 100000, space = "Lab", na.value = "grey50", guide = "colourbar", aesthetics = "fill") 
++ theme_classic()
+
+# filter to one date - March 7th - some distinction in color
+# log transformation due to scale differences
+ggplot(data = march_7) 
++ geom_polygon(aes(x = long, y = lat, fill = march_7$Confirmed, group = group), color = "black") 
++ scale_fill_gradient(trans = "log10") 
++ theme_classic()
+
+# March 7th - better distinction in color
+ggplot(data = march_7) 
++ geom_polygon(aes(x = long, y = lat, fill = march_7$Confirmed, group = group), color = "black") 
++ scale_fill_gradientn(colours = rev(rainbow(7)), breaks = c(2, 4, 10, 100, 1000, 10000, 50000), trans = "log10") 
++ theme_classic()
 
