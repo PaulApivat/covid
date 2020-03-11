@@ -154,3 +154,11 @@ df$id = ifelse(df$`Country/Region`=="Bangladesh", "Bangladesh", df$id)
 df$id = ifelse(df$`Country/Region`=="Moldova", "Republic of Moldova", df$id)
 df$id = ifelse(df$`Country/Region`=="Paraguay", "Paraguay", df$id)
 
+# Note: categories that did not match: df$`Country/Region` == Others (Diamond Princess Cruise Ship), North Macedonia, Vatican City and Republic of Ireland
+# save special cases to their own data frames
+
+diamond_princess <- df %>% filter(df$`Country/Region`=="Others")
+north_macedonia <- df %>% filter(df$`Country/Region`=="North Macedonia")
+vatican_city <- df %>% filter(df$`Country/Region`=="Vatican City")
+republic_ireland <- df %>% filter(df$`Country/Region`=="Republic of Ireland")
+
