@@ -302,7 +302,51 @@ rate_double <- rate_df %>%
 + summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), Recovered = sum(Recovered))
 
 # Our World in Data calculates growth
-# which countries have more than 20 cases
+# which countries have at least 20 cases (n = 40 countries)
+
+# Australia, Austria, Bahrain, Belgium, Canada, China, Czech Republic, Denmark, Egypt, 
+# Finland, France, Germany, Greece, Hong Kong, Iceland, India, Iran, Iraq, Israel
+# Italy, Japan, S. Korea,  Kuwait, Lebanon, Malaysia, Netherlands, Norway, Palestine
+# Portugal, San Marino, Singapore, Spain, Sweden, Switzerland, Taiwan, Thailand, 
+# United Arab Emirates, United Kingdom, United States and Viet Nam
+View(rate_double %>% filter(Confirmed > 20) %>% summarise(n_distinct(id)))
+
+# How many days till it doubled (from 20 -> ~ 40)?
+
+# Australia (12), Austria (3), Bahrain (5), Belgium (2), Canada (5), China (3), Czech Republic (1, 19->31), Denmark (3, 10 -> 23), Egypt (3, 15->49), 
+# Finland (4, 12->23), France (3), Germany (3), Greece (3), Hong Kong (7), Iceland (3), India (3, 5->28), Iran (2), Iraq (5), Israel (3)
+# Italy (2), Japan (3), S. Korea (15),  Kuwait (6), Lebanon (-), Malaysia (19), Netherlands (2), Norway (2), Palestine (-)
+# Portugal (2, 13->30), San Marino, Singapore (6), Spain (3), Sweden (3), Switzerland (3), Taiwan (18), Thailand (33), 
+# United Arab Emirates (8), United Kingdom (4), United States (9) and Viet Nam (-)
+View(rate_double %>% filter(Confirmed > 20))
+
+# How many many times did it double (20 -> 40 -> 80 is two times)
+
+
+View(rate_double %>% filter(Confirmed > 20))
+
 # time it took for number of confirmed cases to double
 # e.g., Confirmed cases have doubled in teh last 4 days 
+
+# Visualizing how exponential growth happens within any country, basic bar chart (use date as x-axis)
+# Italy
+rate_double %>%
++ filter(id=="Italy") %>%
++ ggplot(aes(x=Date, y=Confirmed)) + geom_bar(stat = "identity")
+
+# Japan
+rate_double %>% 
+filter(id=="Japan") %>% 
+ggplot(aes(x=Date, y=Confirmed)) + geom_bar(stat = "identity")
+
+# Korea
+rate_double %>% 
+filter(id=="Korea, Republic of") %>% 
+ggplot(aes(x=Date, y=Confirmed)) + geom_bar(stat = "identity")
+
+# Spain
+rate_double %>% filter(id=="Spain") %>% ggplot(aes(x=Date, y=Confirmed)) + geom_bar(stat = "identity")
+
+# Sweden
+rate_double %>% filter(id=="Sweden") %>% ggplot(aes(x=Date, y=Confirmed)) + geom_bar(stat = "identity")
 
