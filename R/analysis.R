@@ -185,6 +185,8 @@ spdf_fortified2 <- spdf_fortified2 %>% inner_join(df3, by = "id")
 
 #######--------- Plots ----------#########
 
+### Choropleth Maps ###
+
 # no distinction in color
 ggplot(data = spdf_fortified2) 
 + geom_polygon(aes(x = long, y = lat, fill = spdf_fortified2$Confirmed, group = group), color = "black") 
@@ -233,4 +235,39 @@ ggplot(data = march_7)
 + geom_polygon(aes(x = long, y = lat, fill = march_7$Confirmed, group = group), color = "black") 
 + scale_fill_distiller(palette = "Spectral", trans = "log") 
 + theme_classic()
+
+###### ----- STATIC BUBBLE MAP ----- ######
+
+# geospatial data - must use plot()
+my_spdf <- readOGR(dsn = paste0(getwd(), "/temp_covid/world_shape_file/"), layer = "TM_WORLD_BORDERS_SIMPL-0.3", verbose = FALSE)
+par(mar = c(0,0,0,0))
+plot(my_spdf, col="#f2f2f2", bg="skyblue", lwd=0.25, border=0)
+
+# data frame - plotting with ggplot2 instead
+spdf_fortified <- tidy(my_spdf, region = "NAME")
+
+# overlap John Hopkins Data points onto geospatial data
+
+# Confirmed
+ggplot() 
++ geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
++ theme_void() 
+# data points from df, separate from spdf_fortified which is the map (purple for neutral color)
++ geom_point(data = df, aes(x=Long, y=Lat, size=Confirmed, color=Confirmed), colour = "purple", alpha = .5) 
++ scale_size_continuous(range = c(1,12), breaks = c(0, 20000, 40000, 60000))
+
+# recovered
+ggplot() 
++ geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
++ theme_void() 
++ geom_point(data = df, aes(x=Long, y=Lat, size=Recovered, color=Recovered), colour = "#33FFFF", alpha = .5) 
++ scale_size_continuous(range = c(1,12), breaks = c(0, 20000, 40000, 60000))
+
+# recovered (viridis color palette)
+ggplot() 
++ geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "whitesmoke", color = "white") 
++ theme_void() 
++ geom_point(data = df, aes(x=Long, y=Lat, size=Recovered, color=Recovered)) 
++ scale_size_continuous(range = c(1,12)) 
++ scale_color_viridis_c(trans = "log")
 
