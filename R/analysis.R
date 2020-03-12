@@ -30,6 +30,7 @@ ggplot() + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = gr
 ### Download Data Set into local environment ###
 
 # Confirmed, Death, Recovered from 1/22/20 - 3/8/20 (Jan 22 - March 8)
+# NUMBERS ARE CUMMULATIVE
 covid_df <- read_csv("/Users/paulapivat/Desktop/temp_covid/covid_19_clean_complete.csv")
 
 df <- covid_df
@@ -278,4 +279,30 @@ total_country <- df
 %>% summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), Recovered = sum(Recovered))
 
 # scale issues (China), cummulative
-ggplot(total_country, aes(x=reorder(id, Confirmed), y=Confirmed)) + geom_bar(stat = "identity") + coord_flip()
+ggplot(total_country, aes(x=reorder(id, Confirmed), y=Confirmed)) 
++ geom_bar(stat = "identity") 
++ coord_flip()
+
+
+##### ------ Calculating Rate Doubling in Days ------- ######
+
+
+# first, change Date format in df from character to date format
+df$Date <- as.Date(df$Date, format = "%m/%d/%y")
+
+# select only columns of interest
+# NOTE: multiple rows per date is problematic (ie country may have many provinces)
+rate_df <- df %>% select(id, Date, Confirmed, Deaths, Recovered)
+
+
+# shape data so one date per observation (row) 
+# zoom out from province to country level
+rate_double <- rate_df %>%
++ group_by(id, Date) %>%
++ summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), Recovered = sum(Recovered))
+
+# Our World in Data calculates growth
+# which countries have more than 20 cases
+# time it took for number of confirmed cases to double
+# e.g., Confirmed cases have doubled in teh last 4 days 
+
