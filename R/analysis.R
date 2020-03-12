@@ -271,3 +271,11 @@ ggplot()
 + scale_size_continuous(range = c(1,12)) 
 + scale_color_viridis_c(trans = "log")
 
+#### Basic Bar Plot #####
+
+total_country <- df 
+%>% group_by(id) 
+%>% summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), Recovered = sum(Recovered))
+
+# scale issues (China), cummulative
+ggplot(total_country, aes(x=reorder(id, Confirmed), y=Confirmed)) + geom_bar(stat = "identity") + coord_flip()
