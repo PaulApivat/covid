@@ -322,7 +322,11 @@ View(rate_double %>% filter(Confirmed > 20))
 
 # How many many times did it double (20 -> 40 -> 80 is two times)
 
-
+# Australia (1), Austria (2), Bahrain (2), Belgium (2), Canada (1), China (6), Czech Republic, Denmark, Egypt, 
+# Finland, France (4), Germany (4), Greece, Hong Kong (2), Iceland (1), India, Iran (7), Iraq (1), Israel (1)
+# Italy (6), Japan (4), S. Korea (8),  Kuwait (1), Lebanon, Malaysia (3), Netherlands (3), Norway (2), Palestine
+# Portugal, San Marino, Singapore (2), Spain (3), Sweden (3), Switzerland (3), Taiwan (1), Thailand (1), 
+# United Arab Emirates (1), United Kingdom (2), United States (3) and Viet Nam
 View(rate_double %>% filter(Confirmed > 20))
 
 # time it took for number of confirmed cases to double
