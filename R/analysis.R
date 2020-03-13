@@ -250,21 +250,29 @@ spdf_fortified <- tidy(my_spdf, region = "NAME")
 # overlap John Hopkins Data points onto geospatial data
 
 # Confirmed
+# note: emphasize scale 
+# breaks for color scale shows doubling rate
+mybreaks <- c(20, 40, 80, 160, 320, 640, 1280, 2560, 5120, 10240, 20480, 40960)
+
 ggplot() 
 + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
 + theme_void() 
-# data points from df, separate from spdf_fortified which is the map (purple for neutral color)
-+ geom_point(data = df, aes(x=Long, y=Lat, size=Confirmed, color=Confirmed), colour = "purple", alpha = .5) 
-+ scale_size_continuous(range = c(1,12), breaks = c(0, 20000, 40000, 60000))
++ geom_point(data = df, aes(x=Long, y=Lat, size=Confirmed, color=Confirmed)) 
++ scale_size_continuous(range = c(1,12), breaks = mybreaks) 
++ scale_color_viridis_c(option = "magma", trans = "log", breaks=mybreaks) 
++ scale_alpha_continuous(range = c(0.1, .9), breaks = mybreaks, trans = "log") 
++ guides(colour = guide_legend())
 
-# recovered
+
+
+# recovered - Doesn't make sense on a map
 ggplot() 
 + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
 + theme_void() 
 + geom_point(data = df, aes(x=Long, y=Lat, size=Recovered, color=Recovered), colour = "#33FFFF", alpha = .5) 
 + scale_size_continuous(range = c(1,12), breaks = c(0, 20000, 40000, 60000))
 
-# recovered (viridis color palette)
+# recovered (viridis color palette) - Doesn't make sense on a map
 ggplot() 
 + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "whitesmoke", color = "white") 
 + theme_void() 
