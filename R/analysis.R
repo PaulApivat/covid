@@ -11,6 +11,7 @@ setwd("/Users/paulapivat/Desktop")
 library(tidyverse)
 library(rgdal)    # download as geospatial, then change to data frame, then plot in ggplot2, is faster
 library(broom)   # required to turn geospatial data into dataframe, so we can read into ggplot2 (this is called “fortify”) 
+library(patchwork)  # to organize multiple chart into one view
 
 ### Open and Plot Shapefiles in R ###
 
@@ -254,15 +255,15 @@ spdf_fortified <- tidy(my_spdf, region = "NAME")
 # breaks for color scale shows doubling rate
 mybreaks <- c(20, 40, 80, 160, 320, 640, 1280, 2560, 5120, 10240, 20480, 40960)
 
-ggplot() 
+map <- ggplot() 
 + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
 + theme_void() 
 + geom_point(data = df, aes(x=Long, y=Lat, size=Confirmed, color=Confirmed)) 
 + scale_size_continuous(range = c(1,12), breaks = mybreaks) 
 + scale_color_viridis_c(option = "magma", trans = "log", breaks=mybreaks) 
 + scale_alpha_continuous(range = c(0.1, .9), breaks = mybreaks, trans = "log") 
-+ guides(colour = guide_legend())
-
++ guides(colour = guide_legend()) 
++ labs(title = "Confirmed COVID-19 cases around the World", subtitle = "as of March 8th, 2020")
 
 
 # recovered - Doesn't make sense on a map
@@ -371,28 +372,74 @@ rate_double_stack <- rate_double %>%
 + gather(`Confirmed`, `Deaths`, `Recovered`, key = "Status", value = "People")
 
 # Italy - stacked
-rate_double_stack %>% filter(id=="Italy") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+Italy <- rate_double_stack %>% 
+filter(id=="Italy") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: Italy", subtitle = "Jan 22 - Mar 08")
 
 # China - stacked
-rate_double_stack %>% filter(id=="China") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+China <- rate_double_stack %>% 
+filter(id=="China") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: China", subtitle = "Jan 22 - Mar 08")
+
 
 # Thailand - stacked
-rate_double_stack %>% filter(id=="Thailand") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+Thailand <- rate_double_stack %>% 
+filter(id=="Thailand") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: Thailand", subtitle = "Jan 22 - Mar 08")
+
 
 # Germany - stacked 
-rate_double_stack %>% filter(id=="Germany") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+Germany <- rate_double_stack %>% 
+filter(id=="Germany") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: Germany", subtitle = "Jan 22 - Mar 08")
+
 
 # S.Korea - stacked
-rate_double_stack %>% filter(id=="Korea, Republic of") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+South_Korea <- rate_double_stack %>% 
+filter(id=="Korea, Republic of") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: South Korea", subtitle = "Jan 22 - Mar 08")
 
 # Taiwan - stacked
 rate_double_stack %>% filter(id=="Taiwan") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
 
 # Japan - stacked
-rate_double_stack %>% filter(id=="Japan") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+Japan <- rate_double_stack %>% 
+filter(id=="Japan") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: Japan", subtitle = "Jan 22 - Mar 08")
 
 # France - stacked
-rate_double_stack %>% filter(id=="France") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+France <- rate_double_stack %>% 
+filter(id=="France") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: France", subtitle = "Jan 22 - Mar 08")
+
 
 ####### ------ MAP ANIMATION ------- ##########
 library(gganimate)
