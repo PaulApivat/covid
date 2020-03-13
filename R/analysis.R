@@ -354,3 +354,36 @@ rate_double %>% filter(id=="Spain") %>% ggplot(aes(x=Date, y=Confirmed)) + geom_
 # Sweden
 rate_double %>% filter(id=="Sweden") %>% ggplot(aes(x=Date, y=Confirmed)) + geom_bar(stat = "identity")
 
+
+#### ----- Stacked Bar Chart (Confirmed, Deaths, Recovered) ----- #####
+# Note: only countries with at least 20 cases and growing exponentially
+
+# Tidy Gather first
+rate_double_stack <- rate_double %>%
++ gather(`Confirmed`, `Deaths`, `Recovered`, key = "Status", value = "People")
+
+# Italy - stacked
+rate_double_stack %>% filter(id=="Italy") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# China - stacked
+rate_double_stack %>% filter(id=="China") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# Thailand - stacked
+rate_double_stack %>% filter(id=="Thailand") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# Germany - stacked 
+rate_double_stack %>% filter(id=="Germany") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# S.Korea - stacked
+rate_double_stack %>% filter(id=="Korea, Republic of") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# Taiwan - stacked
+rate_double_stack %>% filter(id=="Taiwan") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# Japan - stacked
+rate_double_stack %>% filter(id=="Japan") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+# France - stacked
+rate_double_stack %>% filter(id=="France") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
+
+
