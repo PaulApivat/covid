@@ -440,6 +440,42 @@ ggplot(aes(x=Date, y=People, fill = Status))
 + scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
 + labs(title = "COVID-19 Growth: France", subtitle = "Jan 22 - Mar 08")
 
+# United States
+United_States <- rate_double_stack %>% 
+filter(id=="United States") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: United States", subtitle = "Jan 22 - Mar 08")
+
+# United Kingdom
+United_Kingdom <- rate_double_stack %>% 
+filter(id=="United Kingdom") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: United Kingdom", subtitle = "Jan 22 - Mar 08")
+
+# Canada
+Canada <- rate_double_stack %>% 
+filter(id=="Canada") %>% 
+ggplot(aes(x=Date, y=People, fill = Status)) 
++ geom_bar(position = "stack", stat = "identity") 
++ theme_classic() 
++ scale_fill_manual(values = c("#f03b20", "black", "#fecc5c")) 
++ labs(title = "COVID-19 Growth: Canada", subtitle = "Jan 22 - Mar 08")
+
+
+
+## Patchwork of Stacked Bar Charts ##
+library(patchwork)
+
+((France + Germany) / (Italy + South_Korea))
+
+
+
 
 ####### ------ MAP ANIMATION ------- ##########
 library(gganimate)
