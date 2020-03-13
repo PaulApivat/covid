@@ -394,4 +394,22 @@ rate_double_stack %>% filter(id=="Japan") %>% ggplot(aes(x=Date, y=People, fill 
 # France - stacked
 rate_double_stack %>% filter(id=="France") %>% ggplot(aes(x=Date, y=People, fill = Status)) + geom_bar(position = "stack", stat = "identity")
 
+####### ------ MAP ANIMATION ------- ##########
+library(gganimate)
+install.packages("gifski")
+install.packages("png")
+
+# placeholder
+ggplot() 
++ geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
++ theme_void() 
++ geom_point(data = df, aes(x=Long, y=Lat, size=Confirmed, color=Confirmed)) 
++ scale_size_continuous(range = c(1,12), breaks = mybreaks) 
++ scale_color_viridis_c(option = "magma", trans = "log", breaks=mybreaks) 
++ scale_alpha_continuous(range = c(0.1, .9), breaks = mybreaks, trans = "log") 
++ guides(colour = guide_legend()) 
+## gganimate
++ transition_time(Date) 
++ labs(title = "Date: {frame_time}")
+
 
