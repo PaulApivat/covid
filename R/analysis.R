@@ -399,8 +399,10 @@ library(gganimate)
 install.packages("gifski")
 install.packages("png")
 
-# placeholder
-ggplot() 
+
+mybreaks <- c(20, 40, 80, 160, 320, 640, 1280, 2560, 5120, 10240, 20480, 40960)
+
+map_animate <- ggplot() 
 + geom_polygon(data = spdf_fortified, aes(x = long, y = lat, group = group), fill = "#DCDCDC", color = "white") 
 + theme_void() 
 + geom_point(data = df, aes(x=Long, y=Lat, size=Confirmed, color=Confirmed)) 
@@ -408,8 +410,8 @@ ggplot()
 + scale_color_viridis_c(option = "magma", trans = "log", breaks=mybreaks) 
 + scale_alpha_continuous(range = c(0.1, .9), breaks = mybreaks, trans = "log") 
 + guides(colour = guide_legend()) 
-## gganimate
-+ transition_time(Date) 
-+ labs(title = "Date: {frame_time}")
-
+# gganimate
++ labs(title = "Confirmed COVID-19 cases around the World", subtitle = "Date: {frame_time}") 
++ transition_time(df$Date) 
++ ease_aes("linear")
 
