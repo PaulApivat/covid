@@ -42,6 +42,20 @@ new_cases_thailand <- new_cases_thailand %>%
 + arrange(date) %>%
 + mutate(Thailand_Growth_Factor = Thailand_Changes / lag(Thailand_Changes, default = first(Thailand_Changes)))
 
+## Prepare to Plot
+
+# convert Inf to NA - Thailand_Growth_Factor & World_Growth_Factor
+new_cases_thailand$Thailand_Growth_Factor = ifelse(new_cases_thailand$Thailand_Growth_Factor==Inf, NA, new_cases_thailand$Thailand_Growth_Factor)
+
+new_cases_thailand$World_Growth_Factor = ifelse(new_cases_thailand$World_Growth_Factor==Inf, NA, new_cases_thailand$World_Growth_Factor)
+
+# basic bar plot of Thailand's Growth Factor
+ggplot(data = new_cases_thailand, mapping = aes(x = date, y = Thailand_Growth_Factor)) + geom_bar(stat = "identity") + ylim(-1,2)
+# basic bar plot of World's Growth Factor
+ggplot(data = new_cases_thailand, mapping = aes(x = date, y = World_Growth_Factor)) + geom_bar(stat = "identity") + ylim(-1,2)
+
+
+
 
 
 
