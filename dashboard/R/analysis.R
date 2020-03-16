@@ -112,6 +112,12 @@ ggplot(data = italy_full_data, mapping = aes(x=date, y=total_cases))
 
 # note: (rough estimate) going off regression line, Italy's cases, on average, will
 # 100x every 16 days
+# this is only after we've seen exponential growth
+# how can we tell people the growth rate in real-time?
+
+
+
+
 
 
 
