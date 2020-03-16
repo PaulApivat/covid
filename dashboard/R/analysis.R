@@ -101,7 +101,7 @@ ggplot(data = italy_full_data, aes(x=date))
 
 #### Scatter Plot with Best Fitting Line (Linear Regression) ####
 
-# Italy
+# Italy - Total Cases
 ggplot(data = italy_full_data, mapping = aes(x=date, y=total_cases)) 
 + geom_point() 
 # transfor Italy's total cases to a logarithmic transformation
@@ -110,10 +110,28 @@ ggplot(data = italy_full_data, mapping = aes(x=date, y=total_cases))
 + geom_smooth(method = "lm")
 + labs(title = "Italy Total Cases with Logarithmic transformation", x = "Date", y = "Number of Cases")
 
-# note: (rough estimate) going off regression line, Italy's cases, on average, will
+# note: (rough estimate) going off regression line, Italy's total cases, on average, will
 # 100x every 16 days
 # this is only after we've seen exponential growth
 # how can we tell people the growth rate in real-time?
+# how to interpret negative growth
+
+# Italy - Change in New Cases
+# Note: recommended 
+# roughly 10x new cases in 10 days
+ggplot(data = italy_full_data, aes(x=date, y=change_new_cases)) 
++ geom_point() 
++ scale_y_continuous(trans = "log10") 
++ geom_smooth(method = "lm", se = FALSE) 
++ labs(title = "Italy: Changes in new cases with Logarithmic transformation", x = "Date", y = "Changes in New Cases")
+
+#### Data Frames Created ####
+new_cases 
+new_cases_thailand
+full_data 
+italy_full_data
+thailand_full_data
+
 
 
 
