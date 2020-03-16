@@ -63,6 +63,21 @@ ggplot(data = new_cases_thailand, aes(x=date))
 + theme_classic() 
 + ggtitle("New Cases vs Growth Factor")
 
+# add total cases column for Thailand
+thailand_full_data <- full_data %>% filter(location=="Thailand")
+new_cases_thailand[,'Thailand_Total_Cases'] <- thailand_full_data$total_cases
+
+# plot bar chart overlay line graph
+# Thailand Total Cases and Growth Factor
+
+ggplot(data = new_cases_thailand, aes(x=date)) 
++ geom_bar(aes(y=Thailand_Total_Cases), stat = "identity", size=1, fill = "steelblue", color = "white", alpha = 0.4) 
++ geom_line(aes(y=Thailand_Growth_Factor), size=2, color = "red") 
++ theme_classic() 
++ ggtitle("Total Cases vs Growth Factor")
+
+
+
 
 
 
