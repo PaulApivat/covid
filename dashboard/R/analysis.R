@@ -17,7 +17,9 @@ new_cases_thailand <- new_cases %>%
 new_cases_thailand[,"World_Changes"] <- NA
 new_cases_thailand[,"Thailand_Changes"] <- NA
 
+## Change in new cases
 ## subtract value from previous row using dplyr
+
 # World
 new_cases_thailand <- new_cases_thailand %>%
 + arrange(date) %>%
@@ -27,6 +29,19 @@ new_cases_thailand <- new_cases_thailand %>%
 new_cases_thailand <- new_cases_thailand %>%
 + arrange(date) %>%
 + mutate(Thailand_Changes = Thailand - lag(Thailand, default = first(Thailand)))
+
+## Growth factor of new cases
+
+# World
+new_cases_thailand <- new_cases_thailand %>%
++ arrange(date) %>%
++ mutate(World_Growth_Factor = World_Changes / lag(World_Changes, default = first(World_Changes)))
+
+# Thailand
+new_cases_thailand <- new_cases_thailand %>%
++ arrange(date) %>%
++ mutate(Thailand_Growth_Factor = Thailand_Changes / lag(Thailand_Changes, default = first(Thailand_Changes)))
+
 
 
 
