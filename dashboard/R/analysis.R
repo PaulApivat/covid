@@ -59,3 +59,5 @@ ggplot(data = new_cases_thailand, mapping = aes(x = date, y = World_Growth_Facto
 
 
 
+
+
