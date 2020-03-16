@@ -54,7 +54,14 @@ ggplot(data = new_cases_thailand, mapping = aes(x = date, y = Thailand_Growth_Fa
 # basic bar plot of World's Growth Factor
 ggplot(data = new_cases_thailand, mapping = aes(x = date, y = World_Growth_Factor)) + geom_bar(stat = "identity") + ylim(-1,2)
 
+# plot bar chart overlay line graph
+# Thailand New Cases and Growth Factor
 
+ggplot(data = new_cases_thailand, aes(x=date)) 
++ geom_bar(aes(y=Thailand), stat = "identity", size=1, fill = "#69b3a2", color = "white", alpha=0.4) 
++ geom_line(aes(y=Thailand_Growth_Factor), size=2, color = "red") 
++ theme_classic() 
++ ggtitle("New Cases vs Growth Factor")
 
 
 
