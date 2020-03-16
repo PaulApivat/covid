@@ -76,6 +76,22 @@ ggplot(data = new_cases_thailand, aes(x=date))
 + theme_classic() 
 + ggtitle("Total Cases vs Growth Factor")
 
+#### Italy ####
+
+# create data frame
+italy_full_data <- full_data %>% filter(location=="Italy")
+
+# create Change in new cases
+italy_full_data <- italy_full_data %>%
++ arrange(date) %>%
++ mutate(change_new_cases = new_cases - lag(new_cases, default = first(new_cases)))
+
+# create Growth Factor in new cases
+italy_full_data <- italy_full_data %>%
++ arrange(date) %>%
++ mutate(growth_new_cases = change_new_cases / lag(change_new_cases, default = first(change_new_cases)))
+
+
 
 
 
