@@ -91,6 +91,13 @@ italy_full_data <- italy_full_data %>%
 + arrange(date) %>%
 + mutate(growth_new_cases = change_new_cases / lag(change_new_cases, default = first(change_new_cases)))
 
+# change Inf to NA
+italy_full_data$growth_new_cases = ifelse(italy_full_data$growth_new_cases==Inf, NA, italy_full_data$growth_new_cases)
+
+# plots
+# basic bar plot of Italy's Growth Factor
+ggplot(data = italy_full_data, aes(x=date)) 
++ geom_bar(aes(y=growth_new_cases), stat = "identity", size=1, fill = "steelblue", color = "white", alpha = 0.4)
 
 
 
