@@ -99,6 +99,24 @@ italy_full_data$growth_new_cases = ifelse(italy_full_data$growth_new_cases==Inf,
 ggplot(data = italy_full_data, aes(x=date)) 
 + geom_bar(aes(y=growth_new_cases), stat = "identity", size=1, fill = "steelblue", color = "white", alpha = 0.4)
 
+#### Scatter Plot with Best Fitting Line (Linear Regression) ####
+
+# Italy
+ggplot(data = italy_full_data, mapping = aes(x=date, y=total_cases)) 
++ geom_point() 
+# transfor Italy's total cases to a logarithmic transformation
++ scale_y_continuous(trans = "log10") 
+# linear regression line through the points (after log transformation)
++ geom_smooth(method = "lm")
++ labs(title = "Italy Total Cases with Logarithmic transformation", x = "Date", y = "Number of Cases")
+
+# note: (rough estimate) going off regression line, Italy's cases, on average, will
+# 100x every 16 days
+
+
+
+
+
 
 
 
