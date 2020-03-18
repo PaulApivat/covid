@@ -33,9 +33,19 @@ thailand_full_data <- thailand_full_data %>%
 # convert Inf to NA - in Growth column
 thailand_full_data$Growth = ifelse(thailand_full_data$Growth==Inf, NA, thailand_full_data$Growth)
 
+# Growth RATE
+# subtract previous row, then divide by previous row 
+
+thailand_full_data <- thailand_full_data %>% 
++ arrange(date) %>% 
++ mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
+
 ##### --- FLEXDASHBOARD, refer to sample.Rmd -------#######
 
-# Yesterday Growth Factor
+# Growth Rate (%) from yesterday
+yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(yesterday_growth_rate, color = "#333399")
+
 # Today Growth Factor
 today_growth <- format(round(full_thailand$Growth[nrow(full_thailand)], 2), nsmall = 2)
 valueBox(today_growth, color = ifelse(today_growth < 1, "#33cc33", "#ff3300"))
