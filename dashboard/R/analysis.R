@@ -9,42 +9,29 @@ library(tidyverse)
 new_cases <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/new_cases.csv")
 full_data <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/full_data.csv")
 
-## sub data frame new cases Thailand
-new_cases_thailand <- new_cases %>%
-+ select(date, World, Thailand)
-
-## add new columns
-new_cases_thailand[,"World_Changes"] <- NA
-new_cases_thailand[,"Thailand_Changes"] <- NA
-
-## Change in new cases
-## subtract value from previous row using dplyr
-
-# World
-new_cases_thailand <- new_cases_thailand %>%
-+ arrange(date) %>%
-+ mutate(World_Changes = World - lag(World, default = first(World)))
-
-# Thailand
-new_cases_thailand <- new_cases_thailand %>%
-+ arrange(date) %>%
-+ mutate(Thailand_Changes = Thailand - lag(Thailand, default = first(Thailand)))
-
-## Growth factor of new cases
-
-# World
-new_cases_thailand <- new_cases_thailand %>%
-+ arrange(date) %>%
-+ mutate(World_Growth_Factor = World_Changes / lag(World_Changes, default = first(World_Changes)))
-
-# Thailand
-new_cases_thailand <- new_cases_thailand %>%
-+ arrange(date) %>%
-+ mutate(Thailand_Growth_Factor = Thailand_Changes / lag(Thailand_Changes, default = first(Thailand_Changes)))
-
 # sub dataframe Total Cases Thailand
 thailand_full_data <- full_data %>% filter(location=="Thailand")
 
+# add new columns
+thailand_full_data[,"Changes"] <- NA 
+thailand_full_data[,"Growth"] <- NA
+
+# Changes in Totals
+# subtract value from previous row
+
+thailand_full_data <- thailand_full_data %>%
++ arrange(date) %>%
++ mutate(Changes = total_cases - lag(total_cases, default = first(total_cases)))
+
+# Growth Factor
+# divide value from previous row
+
+thailand_full_data <- thailand_full_data %>%
++ arrange(date) %>%
++ mutate(Growth = Changes / lag(Changes, default = first(Changes)))
+
+# convert Inf to NA - in Growth column
+thailand_full_data$Growth = ifelse(thailand_full_data$Growth==Inf, NA, thailand_full_data$Growth)
 
 
 
