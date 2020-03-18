@@ -9,7 +9,7 @@ library(tidyverse)
 new_cases <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/new_cases.csv")
 full_data <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/full_data.csv")
 
-## sub data frame Thailand
+## sub data frame new cases Thailand
 new_cases_thailand <- new_cases %>%
 + select(date, World, Thailand)
 
@@ -41,6 +41,12 @@ new_cases_thailand <- new_cases_thailand %>%
 new_cases_thailand <- new_cases_thailand %>%
 + arrange(date) %>%
 + mutate(Thailand_Growth_Factor = Thailand_Changes / lag(Thailand_Changes, default = first(Thailand_Changes)))
+
+# sub dataframe Total Cases Thailand
+thailand_full_data <- full_data %>% filter(location=="Thailand")
+
+
+
 
 ## Prepare to Plot
 
