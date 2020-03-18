@@ -49,6 +49,10 @@ new_cases_thailand$Thailand_Growth_Factor = ifelse(new_cases_thailand$Thailand_G
 
 new_cases_thailand$World_Growth_Factor = ifelse(new_cases_thailand$World_Growth_Factor==Inf, NA, new_cases_thailand$World_Growth_Factor)
 
+# ACCESS LAST ROW in Thailand_Growth_Factor column
+new_cases_thailand$Thailand_Growth_Factor[nrow(new_cases_thailand)]
+
+
 # basic bar plot of Thailand's Growth Factor
 ggplot(data = new_cases_thailand, mapping = aes(x = date, y = Thailand_Growth_Factor)) + geom_bar(stat = "identity") + ylim(-1,2)
 # basic bar plot of World's Growth Factor
