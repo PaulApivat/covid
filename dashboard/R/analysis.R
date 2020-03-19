@@ -6,7 +6,6 @@
 library(tidyverse)
 
 ## load files
-new_cases <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/new_cases.csv")
 full_data <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/full_data.csv")
 
 # sub dataframe Total Cases Thailand
@@ -16,7 +15,7 @@ thailand_full_data <- full_data %>% filter(location=="Thailand")
 thailand_full_data[,"Changes"] <- NA 
 thailand_full_data[,"Growth"] <- NA
 
-# Changes in Totals
+# Changes in Totals (same as new_cases)
 # subtract value from previous row
 
 thailand_full_data <- thailand_full_data %>%
@@ -48,7 +47,9 @@ valueBox(yesterday_growth_rate, color = "#333399")
 
 # Today Growth Factor
 today_growth <- format(round(full_thailand$Growth[nrow(full_thailand)], 2), nsmall = 2)
-valueBox(today_growth, color = ifelse(today_growth < 1, "#33cc33", "#ff3300"))
+valueBox(today_growth, color = ifelse(today_growth=="NA", "#808080", ifelse(today_growth < 1.15, "#33cc33", "#FF3300")))
+
+#valueBox(today_growth, color = ifelse(today_growth < 1, "#33cc33", "#ff3300"))
 
 # Total COVID-19 tests performed
 # data source: https://ddc.moph.go.th/viralpneumonia/eng/index.php
@@ -86,7 +87,6 @@ thai_total_bar <- ggplot(data = full_thailand, aes(x=date))
 
 
 #### Data Frames Created ####
-new_cases 
 full_data 
 thailand_full_data
 
