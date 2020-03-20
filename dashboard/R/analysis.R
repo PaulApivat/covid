@@ -2,8 +2,9 @@
 
 ## directory 
 
-## package
+## packages
 library(tidyverse)
+library(rsconnect)
 
 ## load files
 full_data <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/full_data.csv")
@@ -166,6 +167,23 @@ ddc_who_data <- ddc_who_data %>%
 # Write to csv
 write.csv(ddc_who_data, "/Users/paulapivat/Desktop/covid/dashboard/ddc_who_data.csv")
 
+# Deploy to Shiny
+
+library(rsconnect)
+
+# move sample.Rmd to same directory as ddc_who_data.csv
+# CANNOT contain absolute paths: df_full <- read.csv("/Users/paulapivat/Desktop/covid/dashboard/ddc_who_data.csv")
+# Error: Paths should be to files within the project directory.
+
+# create director to /Desktop/covid/shiny
+# place sample.Rmd and ddc_who_data.csv in the same directory
+# within sample.Rmd: df_full <- read.csv("ddc_who_data.csv")  *relative, not absolute path
+
+# NOTE: If you are going to deploy your app on a system other than yours 
+# then you can't use absolute paths (to a local file), 
+# you have to use file paths relative to the app's root folder.
+
+# either Republish or Other Destination in RStudio
 
 
 
