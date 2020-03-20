@@ -127,9 +127,41 @@ ddc_who_data[59,] <- c('2020-03-19', "Thailand", 60, 0, 272, 1)
 ddc_who_data[60,] <- c('2020-03-20', "Thailand", 50, 0, 322, 1)
 
 # Create new column Changes (daily new cases)
+
+ddc_who_data[,"Changes"] <- NA 
+
+# ***** ERROR ****** #
+# possible that entry method of new rows causes coercion to "chr" type
+# need to try specifying data type while adding new rows
+# change all numbers to numeric (as in thailand_who_data)
+ddc_who_data$new_cases <- as.numeric(ddc_who_data$new_cases)
+ddc_who_data$new_deaths <- as.numeric(ddc_who_data$new_deaths)
+ddc_who_data$total_cases <- as.numeric(ddc_who_data$total_cases)
+ddc_who_data$total_deaths <- as.numeric(ddc_who_data$total_deaths)
+
+# now this works without error
+# calculate Changes (should be same as new_cases)
+ddc_who_data <- ddc_who_data %>%
++ arrange(date) %>%
++ mutate(Changes = total_cases - lag(total_cases, default = first(total_cases)))
+
+
 # Create new column Growth Factor (today new cases / yesterday new cases)
+
+ddc_who_data[,"Growth_Factor"] <- NA
+
+ddc_who_data <- ddc_who_data %>%
++ arrange(date) %>%
++ mutate(Growth_Factor = Changes / lag(Changes, default = first(Changes)))
+
+ddc_who_data$Growth_Factor = ifelse(ddc_who_data$Growth_Factor==Inf, NA, ddc_who_data$Growth_Factor)
+
+
 # Create new column for Growth Rate ((today total - yesterday total) / yesterday total)
 
+ddc_who_data <- ddc_who_data %>% 
++ arrange(date) %>% 
++ mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
 
 
 
