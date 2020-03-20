@@ -88,11 +88,47 @@ thai_total_bar <- ggplot(data = full_thailand, aes(x=date))
 
 #### Data Frames Created ####
 full_data 
-thailand_full_data
+thailand_full_data  # ECDC March 19th
+who_data            # WHO March 17th 
+thailand_who_data   # WHO March 17th 
 
+ddc_who_data        # custom dataset
 
+## World Health Organization, WHO) ##
+who_data <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/who_full_data.csv")
 
+## Manual process of reconciling WHO data with DDC data
+ddc_who_data <- thailand_who_data
+# March 14th update WHO total cases from 75 to 82; update new_cases from 0 to 7
+ddc_who_data[54,5] <- 82
+ddc_who_data[54,3] <- 7
 
+# March 15th update WHO total cases from 75 to 114; update new_cases from 0 to 32
+ddc_who_data[55,5] <- 114
+ddc_who_data[55,3] <- 32
+
+# March 16th update WHO total cases from 114 to 147; update new_cases from 39 to 33
+ddc_who_data[56,5] <- 147
+ddc_who_data[56,3] <- 33
+
+# March 17th update WHO total cases from 147 to 177; 
+ddc_who_data[57,5] <- 177
+ddc_who_data[57,3] <- 30
+
+# March 18th use Thai DDC total cases at 212
+# backup
+ddc_who_data2 <- ddc_who_data
+ddc_who_data[58,] <- c('2020-03-18', "Thailand", 35, 0, 212, 1)
+
+# March 19th use Thai DDC total cases at 272
+ddc_who_data[59,] <- c('2020-03-19', "Thailand", 60, 0, 272, 1)
+
+# March 20th use Thai DDC total cases at 322
+ddc_who_data[60,] <- c('2020-03-20', "Thailand", 50, 0, 322, 1)
+
+# Create new column Changes (daily new cases)
+# Create new column Growth Factor (today new cases / yesterday new cases)
+# Create new column for Growth Rate ((today total - yesterday total) / yesterday total)
 
 
 
