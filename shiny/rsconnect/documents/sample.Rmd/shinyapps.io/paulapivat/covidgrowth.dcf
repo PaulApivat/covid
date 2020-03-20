@@ -1,0 +1,12 @@
+name: covidgrowth
+title: covidgrowth
+username:
+account: paulapivat
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1970835
+bundleId: 2902041
+url: https://paulapivat.shinyapps.io/covidgrowth/
+when: 1584713715.98099
+asMultiple: FALSE
+asStatic: FALSE

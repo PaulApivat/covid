@@ -1,0 +1,124 @@
+---
+title: "Thailand: COVID-19 Growth Dashboard"
+date: "last updated: `r format(Sys.time()-86400, '%d %B, %Y')`"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# DDC_WHO data
+df_full <- read.csv("ddc_who_data.csv")
+# ECDC data
+#df_full <- read.csv("https://covid.ourworldindata.org/data/ecdc/full_data.csv")
+
+# WHO data
+#df_full <- read.csv("https://covid.ourworldindata.org/data/full_data.csv")
+#df_new <- read.csv("https://covid.ourworldindata.org/data/new_cases.csv")
+```
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Row
+-----------------------------------------------------------------------
+
+```{r, include=FALSE}
+library(tidyverse)
+
+# total cases
+full_thailand <- df_full %>% filter(location=="Thailand")
+# add new columns
+full_thailand[,"Changes"] <- NA
+full_thailand[,"Growth_Factor"] <- NA
+
+# calculate Changes (same as daily new_cases)
+full_thailand <- full_thailand %>%
+        arrange(date) %>%
+        mutate(Changes = total_cases - lag(total_cases, default = first(total_cases)))
+
+# calculate Growth Factor
+full_thailand <- full_thailand %>%
+        arrange(date) %>%
+        mutate(Growth_Factor = Changes / lag(Changes, default = first(Changes)))
+
+# convert Inf to NA - in Growth Factor column
+full_thailand$Growth_Factor = ifelse(full_thailand$Growth_Factor==Inf, NA, full_thailand$Growth_Factor)
+
+# calculate Growth Rate
+full_thailand <- full_thailand %>% 
+        arrange(date) %>% 
+        mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
+
+```
+
+
+### Growth Rate (%) from yesterday
+
+```{r}
+yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(yesterday_growth_rate, color = "#333399")
+```
+
+### Growth Factor
+
+```{r}
+# note: a growth factor of 1.15 implies doubling the total in 5 days
+today_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)], 2), nsmall = 2)
+valueBox(today_growth, color = ifelse(today_growth=="NA", "#808080", ifelse(today_growth < 1.15, "#33cc33", "#FF3300")))
+```
+
+### Total COVID-19 tests performed
+
+```{r}
+# data source: https://ddc.moph.go.th/viralpneumonia/eng/index.php
+# in png file, need manual update
+total_test <- 8777
+valueBox(total_test, color = "#36454F")
+```
+
+Row
+-----------------------------------------------------------------------
+
+### Yesterday New Cases
+
+```{r}
+yesterday_new <- format(round(full_thailand$new_cases[nrow(full_thailand)-1], 2), nsmall = 0)
+valueBox(yesterday_new, color = "#9fbfdf")
+```
+
+### Today New Cases
+
+```{r}
+today_new <- format(round(full_thailand$new_cases[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(today_new, icon = "fa-pencil", color = "#336699")
+```
+
+### Total Cases
+
+```{r}
+today_total <- format(round(full_thailand$total_cases[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(today_total, color = "#36454F")
+```
+
+Row
+-----------------------------------------------------------------------
+### New Cases Over Time
+
+```{r}
+thai_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=new_cases), stat = "identity", size=2, fill="steelblue", color = "white", alpha = 0.8) + labs(title = "New Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(thai_new_bar)
+```
+
+### Total Cases Over Time
+
+```{r}
+thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=total_cases), stat = "identity", size=1, fill="steelblue", color = "white", alpha = 0.8) + labs(title = "Total Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(thai_total_bar)
+```
+
