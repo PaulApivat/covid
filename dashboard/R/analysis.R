@@ -163,6 +163,8 @@ ddc_who_data <- ddc_who_data %>%
 + arrange(date) %>% 
 + mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
 
+# Write to csv
+write.csv(ddc_who_data, "/Users/paulapivat/Desktop/covid/dashboard/ddc_who_data.csv")
 
 
 
