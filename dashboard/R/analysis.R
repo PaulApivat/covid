@@ -212,4 +212,5 @@ ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Factor = Change
 ddc_who_data$Growth_Factor = ifelse(ddc_who_data$Growth_Factor==Inf, NA, ddc_who_data$Growth_Factor)
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
 
-
+# Write to csv to desktop
+write.csv(ddc_who_data, "/Users/paulapivat/Desktop/ddc_who_data.csv")
