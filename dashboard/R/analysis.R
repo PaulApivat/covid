@@ -186,11 +186,30 @@ library(rsconnect)
 # either Republish or Other Destination in RStudio
 
 
+###########------- Data Entry -------#########
+
+# need to delete Changes, Growth_Factor and Growth_Rate, then enter again
+ddc_who_data$Growth_Factor <- NULL
+ddc_who_data$Growth_Rate <- NULL
+ddc_who_data$Changes <- NULL
+
+# then enter new data
+ddc_who_data[61,] <- c('2020-03-21', 'Thailand', 89, 0, 411, 1)
+
+# possible that entry method of new rows causes coercion to "chr" type
+# need to try specifying data type while adding new rows
+# change all numbers to numeric (as in thailand_who_data)
+# run str(ddc_who_data) to check
+ddc_who_data$new_cases <- as.numeric(ddc_who_data$new_cases)
+ddc_who_data$new_deaths <- as.numeric(ddc_who_data$new_deaths)
+ddc_who_data$total_cases <- as.numeric(ddc_who_data$total_cases)
+ddc_who_data$total_deaths <- as.numeric(ddc_who_data$total_deaths)
 
 
-
-
-
-
+# Re-create Changes, Growth_Factor, Growth_Rate
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Changes = total_cases - lag(total_cases, default = first(total_cases)))
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Factor = Changes / lag(Changes, default = first(Changes)))
+ddc_who_data$Growth_Factor = ifelse(ddc_who_data$Growth_Factor==Inf, NA, ddc_who_data$Growth_Factor)
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
 
 
