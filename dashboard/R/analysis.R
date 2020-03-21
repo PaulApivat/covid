@@ -214,3 +214,6 @@ ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate = ((total_
 
 # Write to csv to desktop
 write.csv(ddc_who_data, "/Users/paulapivat/Desktop/ddc_who_data.csv")
+
+# place ddc_who_data.csv file in same folder as sample.Rmd (replace previous one)
+# Republish
