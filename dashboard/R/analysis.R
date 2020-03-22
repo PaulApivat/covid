@@ -250,3 +250,10 @@ standard_data$pui <- c(38, 46, 53, 60, 84, 102, 136, 158, 202, 280, 344,
 3252, 3519, 3680, 3895, 4023, 4234, 4366, 4518, 4682, 4848, 5232, 5496, 5713, 5713, 6545, 7045,
 7045, 8157, 8729, 9670, 10343)
 
+# correlation between new cases and new tests per day
+library(moderndive)
+
+# 0.352
+get_correlation(data = ddc_who_data, formula = Changes_PUI ~ Changes, na.rm = TRUE)
+
+# side-by-side bar chart
