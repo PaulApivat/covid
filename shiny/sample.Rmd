@@ -1,6 +1,6 @@
 ---
 title: "Thailand: COVID-19 Growth Dashboard"
-date: "last updated: `r format(Sys.time()-86400, '%d %B, %Y')`"
+date: "last updated: `r format(Sys.time(), '%d %B, %Y')`"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -32,15 +32,15 @@ library(tidyverse)
 # total cases
 full_thailand <- df_full %>% filter(location=="Thailand")
 # add new columns
-full_thailand[,"Changes"] <- NA
-full_thailand[,"Growth_Factor"] <- NA
+#full_thailand[,"Changes"] <- NA
+#full_thailand[,"Growth_Factor"] <- NA
 
 # calculate Changes (same as daily new_cases)
 full_thailand <- full_thailand %>%
         arrange(date) %>%
         mutate(Changes = total_cases - lag(total_cases, default = first(total_cases)))
 
-# calculate Growth Factor
+# calculate Growth Factor (cases)
 full_thailand <- full_thailand %>%
         arrange(date) %>%
         mutate(Growth_Factor = Changes / lag(Changes, default = first(Changes)))
@@ -48,22 +48,33 @@ full_thailand <- full_thailand %>%
 # convert Inf to NA - in Growth Factor column
 full_thailand$Growth_Factor = ifelse(full_thailand$Growth_Factor==Inf, NA, full_thailand$Growth_Factor)
 
-# calculate Growth Rate
+# calculate Growth Rate (cases)
 full_thailand <- full_thailand %>% 
         arrange(date) %>% 
         mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
 
+# calculate Changes_PUI (patients under investigation; daily new tests)
+full_thailand <- full_thailand %>% 
+        arrange(date) %>% 
+        mutate(Changes_PUI = pui - lag(pui, default = first(pui)))
+
+# calculate Growth Factor (tests)
+full_thailand <- full_thailand %>% 
+        arrange(date) %>% 
+        mutate(Growth_Factor_PUI = Changes_PUI / lag(Changes_PUI, default = first(Changes_PUI)))
+
+# convert Inf to NA - in Growth_Factor_PUI column
+full_thailand$Growth_Factor_PUI = ifelse(full_thailand$Growth_Factor_PUI==Inf, NA, full_thailand$Growth_Factor_PUI)
+
 ```
 
-
-### Growth Rate (%) from yesterday
-
+### Growth Factor (cases) Yesterday
 ```{r}
-yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
-valueBox(yesterday_growth_rate, color = "#333399")
+yesterday_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)-1], 2), nsmall = 2)
+valueBox(yesterday_growth, color = ifelse(yesterday_growth=="NA", "#808080", ifelse(yesterday_growth < 1.15, "#33cc33", "#FF3300")))
 ```
 
-### Growth Factor
+### Growth Factor (cases) Today
 
 ```{r}
 # note: a growth factor of 1.15 implies doubling the total in 5 days
@@ -71,37 +82,61 @@ today_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)], 2
 valueBox(today_growth, color = ifelse(today_growth=="NA", "#808080", ifelse(today_growth < 1.15, "#33cc33", "#FF3300")))
 ```
 
-### Total COVID-19 tests performed
+### Growth Rate (of total cases) from Yesterday (%)
 
 ```{r}
-# data source: https://ddc.moph.go.th/viralpneumonia/eng/index.php
-# in png file, need manual update
-total_test <- 8777
-valueBox(total_test, color = "#36454F")
+yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(yesterday_growth_rate, color = "#36454F")
 ```
+
 
 Row
 -----------------------------------------------------------------------
 
-### Yesterday New Cases
+### ยอดผู้ติดเชื้อเพิ่มเมื่อวาน // New Cases Yesterday
 
 ```{r}
 yesterday_new <- format(round(full_thailand$new_cases[nrow(full_thailand)-1], 2), nsmall = 0)
 valueBox(yesterday_new, color = "#9fbfdf")
 ```
 
-### Today New Cases
+### ยอดผู้ติดเชื้อเพิ่มวันนี้ // New Cases Today
 
 ```{r}
 today_new <- format(round(full_thailand$new_cases[nrow(full_thailand)], 2), nsmall = 0)
 valueBox(today_new, icon = "fa-pencil", color = "#336699")
 ```
 
-### Total Cases
+### ยอดผู้ติดเชื้อสะสม  // Total Cases
 
 ```{r}
 today_total <- format(round(full_thailand$total_cases[nrow(full_thailand)], 2), nsmall = 0)
 valueBox(today_total, color = "#36454F")
+```
+
+Row
+-----------------------------------------------------------------------
+### ความสัมพันธ์ ระหว่างจำนวคนที่ได้รับการตรวจ กับ ผู้ติดเชื้อ   // Correlation between Total Tests & Total Confirmed Cases
+```{r}
+library(moderndive)
+test_case_corr <- get_correlation(data = full_thailand, formula = pui ~ total_cases, na.rm = TRUE)
+valueBox(format(round(test_case_corr,2), nsmall = 2), color = "#006666")
+```
+
+### จำนวนคนที่ได้รับการตรวจวันนี้   // New Tests Today
+```{r}
+today_new_pui <- format(round(full_thailand$Changes_PUI[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(today_new_pui, color = "#993366")
+```
+
+
+### จำนวนคนที่ได้รับการตรวจสะสม //  Total Tests (Patients Under Investigation) 
+
+```{r}
+# data source: https://ddc.moph.go.th/viralpneumonia/eng/index.php
+# in png file, need manual update
+total_test <- full_thailand$pui[nrow(full_thailand)]
+valueBox(total_test, color = "#36454F")
 ```
 
 Row
@@ -122,3 +157,19 @@ thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=tot
 renderPlot(thai_total_bar)
 ```
 
+Row
+----------------------------------------------------------------------
+### New Tests Over Time
+```{r}
+test_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=Changes_PUI), stat = "identity", size=2, fill="#006666", color = "white", alpha = 0.8) + labs(title = "New Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(test_new_bar)
+```
+
+### Total Tests Over Time
+
+```{r}
+test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#006666", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(test_total_bar)
+```
