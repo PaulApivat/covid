@@ -94,6 +94,7 @@ who_data            # WHO March 17th
 thailand_who_data   # WHO March 17th 
 
 ddc_who_data        # custom dataset
+standard_data       # data frame used exclusively for data entry (since March 22)
 
 ## World Health Organization, WHO) ##
 who_data <- read_csv("/Users/paulapivat/Desktop/covid/dashboard/who_full_data.csv")
@@ -188,22 +189,19 @@ library(rsconnect)
 
 ###########------- Daily Data Entry -------#########
 
-# need to delete Changes, Growth_Factor and Growth_Rate, then enter again
-ddc_who_data$Growth_Factor <- NULL
-ddc_who_data$Growth_Rate <- NULL
-ddc_who_data$Changes <- NULL
+## Protocol Update: March 22nd
+# use standard_data exclusively for data entry
+# when ready to publish, copy to ddc_who_data, 
+# then re-create: Changes, Growth_Factor, Growth_Rate, 
+# then re-create: Changes_PUI, Growth_Factor_PUI, Growth_Rate_PUI
+
 
 # then enter new data
+# use list to prevent changing data types
+# change to standard_data
 ddc_who_data[61,] <- c('2020-03-21', 'Thailand', 89, 0, 411, 1)
+standard_data[62,] <- list('2020-03-22', 'Thailand', 188, 0, 599, 1, 10378)
 
-# possible that entry method of new rows causes coercion to "chr" type
-# need to try specifying data type while adding new rows
-# change all numbers to numeric (as in thailand_who_data)
-# run str(ddc_who_data) to check
-ddc_who_data$new_cases <- as.numeric(ddc_who_data$new_cases)
-ddc_who_data$new_deaths <- as.numeric(ddc_who_data$new_deaths)
-ddc_who_data$total_cases <- as.numeric(ddc_who_data$total_cases)
-ddc_who_data$total_deaths <- as.numeric(ddc_who_data$total_deaths)
 
 
 # Re-create Changes, Growth_Factor, Growth_Rate
@@ -211,6 +209,12 @@ ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Changes = total_cases 
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Factor = Changes / lag(Changes, default = first(Changes)))
 ddc_who_data$Growth_Factor = ifelse(ddc_who_data$Growth_Factor==Inf, NA, ddc_who_data$Growth_Factor)
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
+
+# Re-create Changes_PUI, Growth_Factor_PUI, Growth_Rate_PUI
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Changes_PUI = pui - lag(pui, default = first(pui)))
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Factor_PUI = Changes_PUI / lag(Changes_PUI, default = first(Changes_PUI)))
+ddc_who_data$Growth_Factor_PUI = ifelse(ddc_who_data$Growth_Factor_PUI==Inf, NA, ddc_who_data$Growth_Factor_PUI)
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate_PUI = ((pui - lag(pui, default = first(pui))) / lag(pui, default = first(pui)))*100)
 
 # Write to csv to desktop
 write.csv(ddc_who_data, "/Users/paulapivat/Desktop/ddc_who_data.csv")
@@ -244,4 +248,5 @@ standard_data$pui <- c(38, 46, 53, 60, 84, 102, 136, 158, 202, 280, 344,
 382, 485, 492, 549, 595, 615, 654, 679, 679, 702, 799, 823, 777, 804, 821, 837, 872, 957, 1052,
 1151, 1252, 1355, 1453, 1580, 1798, 2064, 2437, 2798, 2953,
 3252, 3519, 3680, 3895, 4023, 4234, 4366, 4518, 4682, 4848, 5232, 5496, 5713, 5713, 6545, 7045,
-7045, 8157, 8729, NA, 10343)
+7045, 8157, 8729, 9670, 10343)
+
