@@ -186,7 +186,7 @@ library(rsconnect)
 # either Republish or Other Destination in RStudio
 
 
-###########------- Data Entry -------#########
+###########------- Daily Data Entry -------#########
 
 # need to delete Changes, Growth_Factor and Growth_Rate, then enter again
 ddc_who_data$Growth_Factor <- NULL
@@ -217,3 +217,31 @@ write.csv(ddc_who_data, "/Users/paulapivat/Desktop/ddc_who_data.csv")
 
 # place ddc_who_data.csv file in same folder as sample.Rmd (replace previous one)
 # Republish
+
+###### ---- New Data: Patients Under Investigation (Testing) ---- ######
+
+# create standard data set used only for data entry (no manipulations)
+standard_data <- ddc_who_data
+standard_data$Changes <- NULL
+standard_data$Growth_Factor <- NULL
+standard_data$Growth_Rate <- NULL
+
+# create new column "PUI" (patients under investigation, aka tests performed)
+standard_data[,"pui"] <- NA
+
+# data source: Situation Reports, Thai DDC https://ddc.moph.go.th/viralpneumonia/eng/situation.php
+# jan 21 - 31
+standard_data$pui <- c(38, 46, 53, 60, 84, 102, 136, 158, 202, 280, 344)
+
+# feb 1 - 29 (Feb 13*, 14*, 15*, )
+standard_data$pui <- c(38, 46, 53, 60, 84, 102, 136, 158, 202, 280, 344, 
+382, 485, 492, 549, 595, 615, 654, 679, 679, 702, 799, 823, 777, 804, 821, 837, 872, 957, 1052,
+1151, 1252, 1355, 1453, 1580, 1798, 2064, 2437, 2798, 2953)
+
+# mar 1 - 21 (Mar 14*, Mar 16*, Mar 20?, Mar 21)
+
+standard_data$pui <- c(38, 46, 53, 60, 84, 102, 136, 158, 202, 280, 344, 
+382, 485, 492, 549, 595, 615, 654, 679, 679, 702, 799, 823, 777, 804, 821, 837, 872, 957, 1052,
+1151, 1252, 1355, 1453, 1580, 1798, 2064, 2437, 2798, 2953,
+3252, 3519, 3680, 3895, 4023, 4234, 4366, 4518, 4682, 4848, 5232, 5496, 5713, 5713, 6545, 7045,
+7045, 8157, 8729, NA, 10343)
