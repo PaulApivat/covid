@@ -123,10 +123,10 @@ test_case_corr <- get_correlation(data = full_thailand, formula = pui ~ total_ca
 valueBox(format(round(test_case_corr,2), nsmall = 2), color = "#006666")
 ```
 
-### จำนวนคนที่ได้รับการตรวจวันนี้   // New Tests Today
+### Tests Per One Million People
 ```{r}
-today_new_pui <- format(round(full_thailand$Changes_PUI[nrow(full_thailand)], 2), nsmall = 0)
-valueBox(today_new_pui, color = "#993366")
+test_per_million <- format(round(full_thailand$pui[nrow(full_thailand)]/69.75, 2), nsmall = 0)
+valueBox(test_per_million, color = "#993366")
 ```
 
 
