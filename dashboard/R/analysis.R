@@ -210,6 +210,7 @@ library(rsconnect)
 ddc_who_data[61,] <- c('2020-03-21', 'Thailand', 89, 0, 411, 1)
 standard_data[62,] <- list('2020-03-22', 'Thailand', 188, 0, 599, 1, 10378)
 standard_data[63,] <- list('2020-03-23', 'Thailand', 122, 0, 721, 1, 10955)
+standard_data[64,] <- list('2020-03-24', 'Thailand', 106, 3, 827, 4, 11807)
 
 
 # Re-create Changes, Growth_Factor, Growth_Rate
@@ -225,8 +226,7 @@ ddc_who_data$Growth_Factor_PUI = ifelse(ddc_who_data$Growth_Factor_PUI==Inf, NA,
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate_PUI = ((pui - lag(pui, default = first(pui))) / lag(pui, default = first(pui)))*100)
 
 # testpercase
-ddc_who_data <- ddc_who_data %>%
-mutate(testpercase = ddc_who_data$pui/ddc_who_data$total_cases)
+ddc_who_data <- ddc_who_data %>% mutate(testpercase = ddc_who_data$pui/ddc_who_data$total_cases)
 
 
 # Write to csv to desktop
