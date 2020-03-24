@@ -116,17 +116,16 @@ valueBox(today_total, color = "#36454F")
 
 Row
 -----------------------------------------------------------------------
-### ความสัมพันธ์ ระหว่างจำนวคนที่ได้รับการตรวจ กับ ผู้ติดเชื้อ   // Correlation between Total Tests & Total Confirmed Cases
+### Tests Per Confirmed Case
 ```{r}
-library(moderndive)
-test_case_corr <- get_correlation(data = full_thailand, formula = pui ~ total_cases, na.rm = TRUE)
-valueBox(format(round(test_case_corr,2), nsmall = 2), color = "#006666")
+test_per_case <- format(round(full_thailand$testpercase[nrow(full_thailand)], 2), nsmall = 2)
+valueBox(test_per_case, color = "#53868B")
 ```
 
 ### Tests Per One Million People
 ```{r}
 test_per_million <- format(round(full_thailand$pui[nrow(full_thailand)]/69.75, 2), nsmall = 0)
-valueBox(test_per_million, color = "#993366")
+valueBox(test_per_million, color = "#53868B")
 ```
 
 
@@ -144,7 +143,7 @@ Row
 ### New Cases Over Time
 
 ```{r}
-thai_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=new_cases), stat = "identity", size=2, fill="steelblue", color = "white", alpha = 0.8) + labs(title = "New Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+thai_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=new_cases), stat = "identity", size=2, fill="#336699", color = "white", alpha = 1.0) + labs(title = "New Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
 renderPlot(thai_new_bar)
 ```
@@ -152,24 +151,24 @@ renderPlot(thai_new_bar)
 ### Total Cases Over Time
 
 ```{r}
-thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=total_cases), stat = "identity", size=1, fill="steelblue", color = "white", alpha = 0.8) + labs(title = "Total Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=total_cases), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
 renderPlot(thai_total_bar)
 ```
 
 Row
 ----------------------------------------------------------------------
-### New Tests Over Time
+### Tests Per Cases Over Time
 ```{r}
-test_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=Changes_PUI), stat = "identity", size=2, fill="#006666", color = "white", alpha = 0.8) + labs(title = "New Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+test_per_case <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=testpercase), stat = "identity", size=2, fill="#53868B", color = "white", alpha = 1.0) + labs(title = "Tests Per Case", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
-renderPlot(test_new_bar)
+renderPlot(test_per_case)
 ```
 
 ### Total Tests Over Time
 
 ```{r}
-test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#006666", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
 renderPlot(test_total_bar)
 ```
