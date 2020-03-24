@@ -41,6 +41,8 @@ thailand_full_data <- thailand_full_data %>%
 + mutate(Growth_Rate = ((total_cases - lag(total_cases, default = first(total_cases))) / lag(total_cases, default = first(total_cases)))*100)
 
 ##### --- FLEXDASHBOARD, refer to sample.Rmd -------#######
+## NOTE: Not everything here will stay on the dashboard
+## The dashboard changes as new and better information is available
 
 # Growth Rate (%) from yesterday
 yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
@@ -85,6 +87,12 @@ thai_total_bar <- ggplot(data = full_thailand, aes(x=date))
 + labs(title = "Total Cases", subtitle = "Jan 21 - present") 
 + theme_classic() 
 + theme(axis.text.x = element_blank())
+
+# Ratio Tests per positive case over time
+test_per_case <- ggplot(data = ddc_who_data, mapping = aes(x = date, y = testpercase)) 
++ geom_bar(stat = "identity", size=2, fill = "#006666", color = "white", alpha = 0.8) 
++ theme_classic() 
++ labs(title="Ratio Test Per Positive Case", subtitle = "Jan 21 - present", y = "Test Per Case")
 
 
 #### Data Frames Created ####
@@ -215,6 +223,11 @@ ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Changes_PUI = pui - la
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Factor_PUI = Changes_PUI / lag(Changes_PUI, default = first(Changes_PUI)))
 ddc_who_data$Growth_Factor_PUI = ifelse(ddc_who_data$Growth_Factor_PUI==Inf, NA, ddc_who_data$Growth_Factor_PUI)
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate_PUI = ((pui - lag(pui, default = first(pui))) / lag(pui, default = first(pui)))*100)
+
+# testpercase
+ddc_who_data <- ddc_who_data %>%
+mutate(testpercase = ddc_who_data$pui/ddc_who_data$total_cases)
+
 
 # Write to csv to desktop
 write.csv(ddc_who_data, "/Users/paulapivat/Desktop/ddc_who_data.csv")
