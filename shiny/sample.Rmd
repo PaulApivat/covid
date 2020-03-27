@@ -1,6 +1,6 @@
 ---
 title: "Thailand: COVID-19 Growth Dashboard"
-date: "Testing Data Outdated as of: `r format(Sys.time(), '%d %B, %Y')`"
+date: "last updated: `r format(Sys.time(), '%d %B, %Y')`"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
