@@ -282,5 +282,40 @@ get_correlation(data = ddc_who_data, formula = Changes_PUI ~ Changes, na.rm = TR
 
 ####### LOGARITHMIC Y-AXIS ###########
 
-ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) + geom_point() + scale_y_continuous(trans = 'log10') + scale_x_date(date_labels = '%d, %b', date_breaks = '1 day') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+## thai total cases log
+thai_total_cases_log <- ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) 
++ geom_point(color = "green") 
++ scale_y_continuous(trans = 'log10') 
++ scale_x_date(date_labels = '%d, %b', date_breaks = '1 day') 
+# make plot background black
++ theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.background = element_rect(fill = 'black'), panel.grid.major = element_line(colour = 'black'),panel.grid.minor = element_line(colour = 'black')) 
++ labs(x = "Date", y = "Total Cases (Log10)", title = "Total Cases in Thailand", subtitle = "Jan 21 - Apr 04")
+
+# thai total case log (black panel)
+ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) 
++ geom_point(color = "green") 
++ scale_y_continuous(trans = 'log10') 
++ scale_x_date(date_labels = '%d, %b', date_breaks = '1 day') 
++ theme(axis.text.x = element_text(angle = 90, hjust = 1), 
+    axis.text.y = element_text(colour = 'whitesmoke'), 
+    panel.background = element_rect(fill = 'black'), 
+    panel.grid.major = element_line(colour = 'black'), 
+    panel.grid.minor = element_line(colour = 'black'), 
+    plot.background = element_rect(fill = 'black'), 
+    plot.title = element_text(color = 'green'), 
+    plot.subtitle = element_text(color = 'light grey')) 
++ labs(x = "Date", y = "Total Cases (Log10)", title = "Total Cases in Thailand", subtitle = "Jan 21 - Apr 04")
+
+# Y-axis (total cases) 
+ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) 
++ geom_point() 
+# log transformation
++ scale_y_continuous(trans = 'log10') 
+# date, month (18, Jan) in 1 day increments
++ scale_x_date(date_labels = '%d, %b', date_breaks = '1 day') 
+# rotate date 90 degree
++ theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+# extend both y and x axis
++ expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-06-21")))
+
 
