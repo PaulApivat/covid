@@ -319,3 +319,18 @@ ggplot(data = standard_data, mapping = aes(x=date, y=total_cases))
 + expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-06-21")))
 
 
+thai_total_cases_log_extend <- ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) 
++ geom_point(color = "green") + scale_y_continuous(trans = 'log10') 
++ scale_x_date(date_labels = '%d, %b', date_breaks = '2 day') 
++ theme(axis.text.x = element_text(angle = 90, hjust = 1), 
+    axis.text.y = element_text(colour = 'whitesmoke'), 
+    panel.background = element_rect(fill = 'black'), 
+    panel.grid.major = element_line(colour = 'black'), 
+    panel.grid.minor = element_line(colour = 'black'), 
+    plot.background = element_rect(fill = 'black'), 
+    plot.title = element_text(color = 'green'), 
+    plot.subtitle = element_text(color = 'light grey')) 
++ labs(x = "Date", y = "Total Cases (Log10)", title = "Total Cases in Thailand", subtitle = "Jan 21 - Apr 04") 
++ expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-04-30")))
+
+thai_total_cases_log_extend
