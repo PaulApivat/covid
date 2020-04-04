@@ -221,7 +221,7 @@ standard_data[71,] <- list('2020-03-31', 'Thailand', 127, 1, 1651, 10, 18776)
 standard_data[72,] <- list('2020-04-01', 'Thailand', 120, 2, 1771, 12, 20157)
 standard_data[73,] <- list('2020-04-02', 'Thailand', 104, 3, 1875, 15, 20157)
 standard_data[74,] <- list('2020-04-03', 'Thailand', 103, 4, 1978, 19, 22513)
-
+standard_data[75,] <- list('2020-04-04', 'Thailand', 89, 1, 2067, 20, 23719)
 
 
 # Re-create Changes, Growth_Factor, Growth_Rate
@@ -280,4 +280,7 @@ library(moderndive)
 # 0.352
 get_correlation(data = ddc_who_data, formula = Changes_PUI ~ Changes, na.rm = TRUE)
 
-# side-by-side bar chart
+####### LOGARITHMIC Y-AXIS ###########
+
+ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) + geom_point() + scale_y_continuous(trans = 'log10') + scale_x_date(date_labels = '%d, %b', date_breaks = '1 day') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
