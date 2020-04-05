@@ -66,15 +66,15 @@ full_thailand <- full_thailand %>%
 # convert Inf to NA - in Growth_Factor_PUI column
 full_thailand$Growth_Factor_PUI = ifelse(full_thailand$Growth_Factor_PUI==Inf, NA, full_thailand$Growth_Factor_PUI)
 
+# calculate Growth Factor (Death)
+full_thailand <- full_thailand %>%
+        arrange(date) %>%
+        mutate(Growth_Factor_Death = new_deaths / lag(new_deaths, default = first(new_deaths)))
+
 ```
 
-### Growth Factor (cases) Yesterday
-```{r}
-yesterday_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)-1], 2), nsmall = 2)
-valueBox(yesterday_growth, color = ifelse(yesterday_growth=="NA", "#808080", ifelse(yesterday_growth < 1.15, "#33cc33", "#FF3300")))
-```
 
-### Growth Factor (cases) Today
+### Growth Factor (Cases) Today
 
 ```{r}
 # note: a growth factor of 1.15 implies doubling the total in 5 days
@@ -82,23 +82,27 @@ today_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)], 2
 valueBox(today_growth, color = ifelse(today_growth=="NA", "#808080", ifelse(today_growth < 1.15, "#33cc33", "#FF3300")))
 ```
 
-### Growth Rate (of total cases) from Yesterday (%)
+### Growth Factor (Tests or PUI) Today
 
 ```{r}
-yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
-valueBox(yesterday_growth_rate, color = "#36454F")
+test_growth <- format(round(full_thailand$Growth_Factor_PUI[nrow(full_thailand)], 2), nsmall = 2)
+valueBox(test_growth, color = ifelse(test_growth=="NA", "#808080", ifelse(test_growth < 1.15, "orange", "#33cc33")))
+```
+
+### Growth Factor (Death) Today
+
+```{r}
+death_growth <- format(round(full_thailand$Growth_Factor_Death[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(death_growth, color = ifelse(death_growth=="NA", "#808080", ifelse(death_growth < 1.15, "#33cc33", "#FF3300")))
+
+#yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
+#valueBox(yesterday_growth_rate, color = "#36454F")
 ```
 
 
 Row
 -----------------------------------------------------------------------
 
-### ยอดผู้ติดเชื้อเพิ่มเมื่อวาน // New Cases Yesterday
-
-```{r}
-yesterday_new <- format(round(full_thailand$new_cases[nrow(full_thailand)-1], 2), nsmall = 0)
-valueBox(yesterday_new, color = "#9fbfdf")
-```
 
 ### ยอดผู้ติดเชื้อเพิ่มวันนี้ // New Cases Today
 
@@ -107,25 +111,26 @@ today_new <- format(round(full_thailand$new_cases[nrow(full_thailand)], 2), nsma
 valueBox(today_new, icon = "fa-pencil", color = "#336699")
 ```
 
-### ยอดผู้ติดเชื้อสะสม  // Total Cases
+### New Tests (PUI) Today
+```{r}
+test_new <- format(round(full_thailand$Changes_PUI[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(test_new, color = "#336699")
+```
+
+### New Deaths Today
 
 ```{r}
-today_total <- format(round(full_thailand$total_cases[nrow(full_thailand)], 2), nsmall = 0)
-valueBox(today_total, color = "#36454F")
+death_new <- format(round(full_thailand$new_deaths[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(death_new, color = "#336699")
 ```
 
 Row
 -----------------------------------------------------------------------
-### Tests Per Confirmed Case
-```{r}
-test_per_case <- format(round(full_thailand$testpercase[nrow(full_thailand)], 2), nsmall = 2)
-valueBox(test_per_case, color = "#53868B")
-```
 
-### Tests Per One Million People
+### Total Cases
 ```{r}
-test_per_million <- format(round(full_thailand$pui[nrow(full_thailand)]/69.75, 2), nsmall = 0)
-valueBox(test_per_million, color = "#53868B")
+total_case <- format(round(full_thailand$total_cases[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(total_case, color = "#36454F")
 ```
 
 
@@ -136,6 +141,13 @@ valueBox(test_per_million, color = "#53868B")
 # in png file, need manual update
 total_test <- full_thailand$pui[nrow(full_thailand)]
 valueBox(total_test, color = "#36454F")
+```
+
+### Total Deaths
+
+```{r}
+total_death <- format(round(full_thailand$total_deaths[nrow(full_thailand)], 2), nsmall = 0)
+valueBox(total_death, color = "#36454F")
 ```
 
 Row
