@@ -285,6 +285,22 @@ library(moderndive)
 
 # 0.352
 get_correlation(data = ddc_who_data, formula = Changes_PUI ~ Changes, na.rm = TRUE)
+ 
+
+#### SIDE-BY-SIDE BAR PLOT (new cases & new tests) #####
+library(reshape2)
+
+# subset data frame with only columns of interest
+ddc_who_data2 <- ddc_who_data %>%
++ select(date, new_cases, Changes_PUI)
+
+# reshape - melt
+ddc_who_data2_melt <- melt(ddc_who_data2, id.vars = 'date')
+
+# ggplot
+ggplot(ddc_who_data2_melt, aes(x=date, y=value, fill=variable)) 
++ geom_bar(stat = 'identity', position = 'dodge')
+
 
 ####### LOGARITHMIC Y-AXIS ###########
 
