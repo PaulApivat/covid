@@ -344,3 +344,22 @@ thai_total_cases_log_extend <- ggplot(data = standard_data, mapping = aes(x=date
 + expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-04-30")))
 
 thai_total_cases_log_extend
+
+
+######## DASHBOARD sample.Rmd ############
+
+# NOTE:  Taken out due to new info
+
+### Tests Per Confirmed Case
+```{r}
+test_per_case <- format(round(full_thailand$testpercase[nrow(full_thailand)], 2), nsmall = 2)
+valueBox(test_per_case, color = "#53868B")
+```
+
+### Tests Per One Million People
+```{r}
+test_per_million <- format(round(full_thailand$pui[nrow(full_thailand)]/69.75, 2), nsmall = 0)
+valueBox(test_per_million, color = "#53868B")
+```
+
+
