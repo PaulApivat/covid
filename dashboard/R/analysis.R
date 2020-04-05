@@ -240,6 +240,11 @@ ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Rate_PUI = ((pu
 # testpercase
 ddc_who_data <- ddc_who_data %>% mutate(testpercase = ddc_who_data$pui/ddc_who_data$total_cases)
 
+# Re-create Growth_Factor_Death,
+ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Growth_Factor_Death = new_deaths / lag(new_deaths, default = first(new_deaths)))
+ddc_who_data$Growth_Factor_Death = ifelse(ddc_who_data$Growth_Factor_Death==Inf, NA, ddc_who_data$Growth_Factor_Death)
+
+
 
 # Write to csv to desktop
 write.csv(ddc_who_data, "/Users/paulapivat/Desktop/ddc_who_data.csv")
@@ -282,6 +287,10 @@ library(moderndive)
 get_correlation(data = ddc_who_data, formula = Changes_PUI ~ Changes, na.rm = TRUE)
 
 ####### LOGARITHMIC Y-AXIS ###########
+
+# Note: Transform date 'factor' to 'date' object; 
+standard_data$date <- as.Date(standard_data$date)
+
 
 ## thai total cases log
 thai_total_cases_log <- ggplot(data = standard_data, mapping = aes(x=date, y=total_cases)) 
