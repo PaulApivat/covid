@@ -4,7 +4,7 @@ date: "last updated: `r format(Sys.time(), '%d %B, %Y')`"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
-    vertical_layout: fill
+    vertical_layout: scroll
 runtime: shiny
 ---
 
@@ -82,11 +82,10 @@ today_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)], 2
 valueBox(today_growth, color = ifelse(today_growth=="NA", "#808080", ifelse(today_growth < 1.15, "#33cc33", "#FF3300")))
 ```
 
-### Growth Factor (Tests or PUI) Today
-
+### Tests Per Confirmed Case
 ```{r}
-test_growth <- format(round(full_thailand$Growth_Factor_PUI[nrow(full_thailand)], 2), nsmall = 2)
-valueBox(test_growth, color = ifelse(test_growth=="NA", "#808080", ifelse(test_growth < 1.15, "orange", "#33cc33")))
+test_per_case <- format(round(full_thailand$testpercase[nrow(full_thailand)], 2), nsmall = 2)
+valueBox(test_per_case, color = "#53868B")
 ```
 
 ### Growth Factor (Death) Today
@@ -111,7 +110,7 @@ today_new <- format(round(full_thailand$new_cases[nrow(full_thailand)], 2), nsma
 valueBox(today_new, icon = "fa-pencil", color = "#336699")
 ```
 
-### New Tests (PUI) Today
+### Change in Total PUI from Yesterday
 ```{r}
 test_new <- format(round(full_thailand$Changes_PUI[nrow(full_thailand)], 2), nsmall = 0)
 valueBox(test_new, color = "#336699")
@@ -152,20 +151,36 @@ valueBox(total_death, color = "#36454F")
 
 Row
 -----------------------------------------------------------------------
-### New Cases Over Time
+### New Cases & Tests Over Time
 
 ```{r}
-thai_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=new_cases), stat = "identity", size=2, fill="#336699", color = "white", alpha = 1.0) + labs(title = "New Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+library(reshape2)
+# subset data frame with only column of interests
+full_thailand2 <- full_thailand %>%
+  select(date, new_cases, Changes_PUI)
 
-renderPlot(thai_new_bar)
+# reshape - melt
+full_thailand2_melt <- melt(full_thailand2, id.vars = 'date')
+
+# plot
+thai_new_case_test <- ggplot(full_thailand2_melt, aes(x=date, y=value, fill=variable)) + geom_bar(stat = 'identity', position = 'dodge') + scale_fill_manual(values =  c("red", "black"), labels = c("New Cases", "New Tests")) + theme_classic() + labs(title = "New Cases & New Tests", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests") + theme(axis.text.x = element_blank())
+
+renderPlot(thai_new_case_test)
 ```
 
-### Total Cases Over Time
+### Total Cases & Tests Over Time
 
 ```{r}
-thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=total_cases), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+library(reshape2)
+full_thailand3 <- full_thailand %>%
+  select(date, total_cases, pui)
+full_thailand3_melt <- melt(full_thailand3, id.vars = 'date')
 
-renderPlot(thai_total_bar)
+thai_total_case_test <- ggplot(full_thailand3_melt, aes(x=date, y=value, fill=variable)) + geom_bar(stat = 'identity', position = 'dodge') + scale_fill_manual(values =  c("orange", "black"), labels = c("Total Cases", "Total Tests")) + theme_classic() + labs(title = "Total Cases & Total Tests", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests") + theme(axis.text.x = element_blank())
+
+#thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=total_cases), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(thai_total_case_test)
 ```
 
 Row
@@ -177,10 +192,15 @@ test_per_case <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=test
 renderPlot(test_per_case)
 ```
 
-### Total Tests Over Time
+### Total Cases Log10 Scale
 
 ```{r}
-test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
-renderPlot(test_total_bar)
+full_thailand$date <- as.Date(full_thailand$date)
+
+total_case_log <- ggplot(data = full_thailand, mapping = aes(x=date, y=total_cases)) + geom_point(color = "green") + scale_y_continuous(trans = 'log10') + scale_x_date(date_labels = '%d, %b', date_breaks = '2 day') + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y = element_text(colour = 'whitesmoke'), panel.background = element_rect(fill = 'black'), panel.grid.major = element_line(colour = 'black'), panel.grid.minor = element_line(colour = 'black'), plot.background = element_rect(fill = 'black'), plot.title = element_text(color = 'green'), plot.subtitle = element_text(color = 'light grey')) + labs(x = "Date", y = "Total Cases (Log10)", title = "Total Cases in Thailand", subtitle = "Jan 21 - Apr 30") + expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-04-30")))
+
+#test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(total_case_log)
 ```
