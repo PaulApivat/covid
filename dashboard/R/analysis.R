@@ -299,18 +299,35 @@ get_correlation(data = ddc_who_data, formula = Changes_PUI ~ Changes, na.rm = TR
  
 
 #### SIDE-BY-SIDE BAR PLOT (new cases & new tests) #####
+##### also Total Cases & Total Tests #####
+
 library(reshape2)
 
+# new cases & new tests
 # subset data frame with only columns of interest
 ddc_who_data2 <- ddc_who_data %>%
 + select(date, new_cases, Changes_PUI)
-
 # reshape - melt
 ddc_who_data2_melt <- melt(ddc_who_data2, id.vars = 'date')
-
 # ggplot
 ggplot(ddc_who_data2_melt, aes(x=date, y=value, fill=variable)) 
-+ geom_bar(stat = 'identity', position = 'dodge')
++ geom_bar(stat = 'identity', position = 'dodge') 
++ scale_fill_manual(values =  c("red", "black"), labels = c("New Cases", "New Tests")) 
++ theme_classic() 
++ labs(title = "New Cases & New Tests", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests")
+
+# total cases & total tests
+ddc_who_data3 <- ddc_who_data %>%
+select(date, total_cases, pui)
+# reshape - melt
+ddc_who_data3_melt <- melt(ddc_who_data3, id.vars = 'date')
+# ggplot
+ggplot(ddc_who_data3_melt, aes(x=date, y=value, fill=variable)) 
++ geom_bar(stat = 'identity', position = 'dodge') 
++ scale_fill_manual(values =  c("orange", "black"), labels = c("Total Cases", "Total Tests")) 
++ theme_classic() 
++ labs(title = "Total Cases & Total Tests", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests")
+
 
 
 ####### LOGARITHMIC Y-AXIS ###########
@@ -389,4 +406,19 @@ test_per_million <- format(round(full_thailand$pui[nrow(full_thailand)]/69.75, 2
 valueBox(test_per_million, color = "#53868B")
 ```
 
+### New Cases Over Time
+
+```{r}
+thai_new_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=new_cases), stat = "identity", size=2, fill="#336699", color = "white", alpha = 1.0) + labs(title = "New Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(thai_new_bar)
+```
+
+### Total Tests Over Time
+
+```{r}
+test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+
+renderPlot(test_total_bar)
+```
 
