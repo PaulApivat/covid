@@ -1,0 +1,208 @@
+---
+title: "Hospital Resource Planning Dashboard: COVID-19"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total COVID-19 Patients
+
+```{r}
+total_patients <- 36
+valueBox(total_patients, color = '#343d46')
+#space gray 
+```
+
+### Total Beds Occupied (%)
+```{r}
+total_beds_occupied <- 74
+gauge(total_beds_occupied, min = 0, max = 100, symbol = '%', gaugeSectors(success = c(0,30), warning = c(31,75), danger = c(76,100)))
+#valueBox(total_beds_occupied, color = ifelse(total_beds_occupied > 50, 'orange', 'green'))
+```
+
+
+
+### Ventilators
+```{r}
+ventilators <- 'Ventilators'
+valueBox(ventilators, color = 'green', icon = 'ion-android-favorite-outline')
+```
+
+### PPE
+```{r}
+ppe <- 'PPE'
+valueBox(ppe, color = 'green', icon = 'ion-ios-medkit')
+```
+
+### N95
+```{r}
+n95 <- 'N95 Mask'
+valueBox(n95, color = 'green', icon = 'ion-ios-contact')
+```
+
+### Goggles
+```{r}
+goggles <- 'Goggles'
+valueBox(goggles, color = 'red', icon = 'ion-eye')
+```
+
+### Gloves
+```{r}
+gloves <- 'Gloves'
+valueBox(gloves, color = 'orange', icon = 'ion-android-hand')
+```
+
+
+Row {data-width=175}
+-------------------------------------
+### ER Patients
+```{r}
+er_patients <- '2 ER'
+valueBox(er_patients, color = '#4f5b66')
+# space gray (darkest)
+```
+
+### SDU Patients
+```{r}
+sdu_patients <- '20 SDU'
+valueBox(sdu_patients, color = '#a7adba')
+# space gray (light)
+```
+
+### Average D/C Time
+```{r}
+avg_dc_time <- '1 hr 48 m'
+valueBox(avg_dc_time, color = '#343d46')
+# space gray
+```
+
+
+### ER Beds
+    
+```{r}
+er_beds <- 46
+valueBox(er_beds, color = 'orange', icon = 'ion-nuclear')
+
+```
+ 
+### SDU Beds
+    
+```{r}
+sdu_beds <- 63
+valueBox(sdu_beds, color = 'red', icon = 'ion-android-done')
+``` 
+
+### ER Nurses
+```{r}
+er_nurses <- 68
+valueBox(er_nurses, color = 'green', icon = 'ion-ios-people')
+``` 
+
+### SDU Nurses
+```{r}
+sdu_nurses <- 18
+valueBox(sdu_nurses, color = 'red', icon = 'ion-ios-people')
+``` 
+
+Row {data-width=175}
+-------------------------------------
+### ICU Patients
+```{r}
+icu_patients <- '4 ICU'
+valueBox(icu_patients, color = '#65737e')
+# space gray dark
+```
+
+### WARD Patients
+```{r}
+ward_patients <- '10 WARD'
+valueBox(ward_patients, color = '#c0c5ce')
+# space gray lightest
+```
+
+
+### Potential D/C
+```{r}
+potential_dc <- 50
+valueBox(potential_dc, color = "#343d46", icon = 'ion-ios-checkmark-outline')
+# space gray
+```
+
+### ICU Beds
+    
+```{r}
+icu_beds <- 50
+valueBox(icu_beds, color = 'green', icon = 'ion-android-warning')
+```
+    
+### WARD Beds
+
+```{r}
+ward_beds <- 97
+valueBox(ward_beds, color = 'orange', icon = 'ion-android-done-all')
+```
+
+### ICU Nurses
+    
+```{r}
+icu_nurses <- 32
+valueBox(icu_nurses, color = 'orange', icon = 'ion-ios-people')
+```
+    
+### WARD Nurses
+
+```{r}
+ward_nurses <- 23
+valueBox(ward_nurses, color = 'red', icon = 'ion-ios-people')
+```
+
+Column {data-width=250}
+-----------------------------------------------------------------------
+### Avg Door to Doctor
+```{r}
+avg_door_doc <- 83
+gauge(avg_door_doc, min = 0, max = 100, symbol = ' min', gaugeSectors(success = c(0,30), warning = c(31,75), danger = c(76,100)))
+```
+
+### Avg ER to Floor
+```{r}
+avg_er_floor <- 45
+gauge(avg_er_floor, min = 0, max = 100, symbol = ' min', gaugeSectors(success = c(0,30), warning = c(31,75), danger = c(76,100)))
+```
+
+### Bed Transfer to ICU
+
+```{r}
+trans_icu <- '0 hr 29 m'
+valueBox(trans_icu, color = "green", icon = 'ion-android-warning')
+```
+
+### Bed Transfer to SDU
+
+```{r}
+trans_sdu <- '0 hr 35 m'
+valueBox(trans_sdu, color = 'green', icon = 'ion-android-done')
+```
+
+### Bed Transfer to WARD
+
+```{r}
+trans_ward <- '2 hr 05 m'
+valueBox(trans_ward, color = 'red', icon = 'ion-android-done-all')
+```
+
+### Time D/C Order to Actual D/C
+
+```{r}
+trans_dc <- '1 hr 01 m'
+valueBox(trans_dc, color = 'orange', icon = 'ion-ios-checkmark-outline')
+```
