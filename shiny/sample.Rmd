@@ -1,6 +1,6 @@
 ---
 title: "Thailand: COVID-19 Growth Dashboard"
-date: "last updated: `r format(Sys.time(), '%d %B, %Y')`"
+date: "last updated: `r format(Sys.time(), '%d %B, %Y')`, note: Testing (PUI) data subject to 48hr lag"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
