@@ -224,6 +224,7 @@ standard_data[74,] <- list('2020-04-03', 'Thailand', 103, 4, 1978, 19, 22513)
 standard_data[75,] <- list('2020-04-04', 'Thailand', 89, 1, 2067, 20, 23719)
 standard_data[76,] <- list('2020-04-05', 'Thailand', 102, 3, 2169, 23, 25071)
 standard_data[77,] <- list('2020-04-06', 'Thailand', 51, 3, 2220, 26, 25857)
+standard_data[78,] <- list('2020-04-07', 'Thailand', 38, 1, 2258, 27, 25943)
 
 
 # Re-create Changes, Growth_Factor, Growth_Rate
