@@ -227,8 +227,11 @@ standard_data[77,] <- list('2020-04-06', 'Thailand', 51, 3, 2220, 26, 25857)
 standard_data[78,] <- list('2020-04-07', 'Thailand', 38, 1, 2258, 27, 27049)
 standard_data[79,] <- list('2020-04-08', 'Thailand', 111, 3, 2369, 30, 27129)
 standard_data[80,] <- list('2020-04-09', 'Thailand', 54, 2, 2423, 32, 28804)
-standard_data[81,] <- list('2020-04-10', 'Thailand', 50, 1, 2473, 33, 30602)
+standard_data[81,] <- list('2020-04-10', 'Thailand', 50, 1, 2473, 33, 31984)
 standard_data[82,] <- list('2020-04-11', 'Thailand', 45, 2, 2518, 35, 32067)
+standard_data[83,] <- list('2020-04-12', 'Thailand', 33, 3, 2551, 38, 33338)
+
+
 
 # Re-create Changes, Growth_Factor, Growth_Rate
 ddc_who_data <- ddc_who_data %>% arrange(date) %>% mutate(Changes = total_cases - lag(total_cases, default = first(total_cases)))
