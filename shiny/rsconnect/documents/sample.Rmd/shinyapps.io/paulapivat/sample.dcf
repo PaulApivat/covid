@@ -1,0 +1,12 @@
+name: sample
+title: sample
+username:
+account: paulapivat
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2107661
+bundleId: 3006615
+url: https://paulapivat.shinyapps.io/sample/
+when: 1586782135.11833
+asMultiple: FALSE
+asStatic: FALSE
