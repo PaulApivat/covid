@@ -91,7 +91,13 @@ ui <- fluidPage(
                                        )
                                )),
                fluidRow(column(12, "Nurses Section",
-                               fixedRow(column(6, "Nurse1"), column(6, "Nurse2"))
+                               fixedRow(column(6, "Nurse1", verbatimTextOutput("num_er_nurses"), tags$head(tags$style(HTML("#num_er_nurses {background-color: green}", "#num_er_nurses {color: white}", "#num_er_nurses {font-size: 36px}"))),
+                                                            verbatimTextOutput("num_sdu_nurses"), tags$head(tags$style(HTML("#num_sdu_nurses {background-color: red}", "#num_sdu_nurses {color: white}", "#num_sdu_nurses {font-size: 36px}")))
+                                               ), 
+                                        column(6, "Nurse2", verbatimTextOutput("num_icu_nurses"), tags$head(tags$style(HTML("#num_icu_nurses {background-color: orange}", "#num_icu_nurses {color: white}", "#num_icu_nurses {font-size: 36px}"))),
+                                                            verbatimTextOutput("num_ward_nurses"), tags$head(tags$style(HTML("#num_ward_nurses {background-color: red}", "#num_ward_nurses {color: white}", "#num_ward_nurses {font-size: 36px}"))),
+                                               )
+                                        )
                                )),
                ),
         column(4, h4("Column3"),
@@ -130,7 +136,12 @@ server <- function(input, output) {
   output$num_sdu_beds <- renderText({ input$num_sdu_beds })
   output$num_icu_beds <- renderText({ input$num_icu_beds })
   output$num_ward_beds <- renderText({ input$num_ward_beds })
-
+  
+  output$num_er_nurses <- renderText({ input$num_er_nurses })
+  output$num_sdu_nurses <- renderText({ input$num_sdu_nurses })
+  output$num_icu_nurses <- renderText({ input$num_icu_nurses })
+  output$num_ward_nurses <- renderText({ input$num_ward_nurses })
+  
 }
 
 # Run the app ----
