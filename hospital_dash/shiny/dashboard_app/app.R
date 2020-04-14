@@ -26,7 +26,23 @@ ui <- fluidPage(
                  numericInput("num", "Ventilators", value = 20),
                  )
         ),
-        
+        fluidRow(
+          column(6, h1("Beds"),
+                 numericInput("num", "ER Beds", value = 46), 
+                 numericInput("num", "ICU Beds", value = 50),
+                 numericInput("num", "SDU Beds", value = 63),
+                 numericInput("num", "WARD Beds", value = 97),
+                 ),
+          column(6, h1("Nurses"),
+                 numericInput("num", "ER Nurses", value = 68), 
+                 numericInput("num", "ICU Nurses", value = 32),
+                 numericInput("num", "SDU Nurses", value = 18),
+                 numericInput("num", "WARD Nurses", value = 23),
+                 )
+        ),
+        fluidRow(
+          column(12, h1("Time"))
+        )
       ),
     
     
