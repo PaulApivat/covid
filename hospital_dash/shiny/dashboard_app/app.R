@@ -85,7 +85,9 @@ ui <- fluidPage(
                               fixedRow(column(6, "Bed1", verbatimTextOutput("num_er_beds"), tags$head(tags$style(HTML("#num_er_beds {background-color: orange}", "#num_er_beds {color: white}", "#num_er_beds {font-size: 36px}"))),
                                                          verbatimTextOutput("num_sdu_beds"), tags$head(tags$style(HTML("#num_sdu_beds {background-color: red}", "#num_sdu_beds {color: white}", "#num_sdu_beds {font-size: 36px}")))
                                               ), 
-                                       column(6, "Bed2")
+                                       column(6, "Bed2", verbatimTextOutput("num_icu_beds"), tags$head(tags$style(HTML("#num_icu_beds {background-color: green}", "#num_icu_beds {color: white}", "#num_icu_beds {font-size: 36px}"))),
+                                                          verbatimTextOutput("num_ward_beds"), tags$head(tags$style(HTML("#num_ward_beds {background-color: green}", "#num_ward_beds {color: white}", "#num_ward_beds {font-size: 36px}")))
+                                              )
                                        )
                                )),
                fluidRow(column(12, "Nurses Section",
@@ -126,6 +128,8 @@ server <- function(input, output) {
   
   output$num_er_beds <- renderText({ input$num_er_beds })
   output$num_sdu_beds <- renderText({ input$num_sdu_beds })
+  output$num_icu_beds <- renderText({ input$num_icu_beds })
+  output$num_ward_beds <- renderText({ input$num_ward_beds })
 
 }
 
