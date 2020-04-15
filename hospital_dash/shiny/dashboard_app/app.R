@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyTime)
 
 # Define UI  ----
 ui <- fluidPage(
@@ -41,7 +42,15 @@ ui <- fluidPage(
                  )
         ),
         fluidRow(
-          column(12, h1("Time"))
+          column(12, h1("Time"),
+                 # Use multiples of 5 minutes
+                 timeInput("time5", "Average Door to Doctor", minute.steps = 5),
+                 timeInput("time5", "Average ER to Floor", minute.steps = 5),
+                 timeInput("time5", "Bed Transfer to ICU", minute.steps = 5),
+                 timeInput("time5", "Bed Transfer to SDU", minute.steps = 5),
+                 timeInput("time5", "Bed Transfer to WARD", minute.steps = 5),
+                 timeInput("time5", "D/C order to actual D/C", minute.steps = 5),
+                 )
         )
       ),
     
@@ -101,7 +110,8 @@ ui <- fluidPage(
                                )),
                ),
         column(4, h4("Column3"),
-               fluidRow(column(12, "Avg Door to")),
+               fluidRow(column(12, "Avg Door to Doctor")),
+               fluidRow(column(12, "Avg ER to Floor")),
                fluidRow(column(12, "Beds Transfer to ICU")),
                fluidRow(column(12, "Beds Transfer to SDU")),
                fluidRow(column(12, "Beds Transfer to WARD")),
