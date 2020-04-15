@@ -35,7 +35,7 @@ ui <- fluidPage(
                  numericInput("num_dc_patients", "D/C", value = 0),
                  ),
           column(6, h4("Supplies"),
-                 numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = 74),
+                 numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = 74, min = 0, step = 1),
                  numericInput("num_n95", "N95 Masks", value = 30, min = 0, step = 1),
                  numericInput("num_goggles", "Goggles", value = 25),
                  numericInput("num_gloves", "Gloves", value = 65),
@@ -82,18 +82,19 @@ ui <- fluidPage(
                  column(12, h2("Patients"),
                         fixedRow(
                             column(4, "TOTAL", verbatimTextOutput("num_total_patients"), tags$head(tags$style(HTML("#num_total_patients {font-size: 36px}")))), 
-                            column(4, "DEPARTMENT", verbatimTextOutput("num_er_patients"), tags$head(tags$style(HTML("#num_er_patients {background-color: black}", "#num_er_patients {color: white}", "#num_er_patients {font-size: 24px}"))),
-                                              verbatimTextOutput("num_icu_patients"), tags$head(tags$style(HTML("#num_icu_patients {background-color: #505050}", "#num_icu_patients {color: white}", "#num_icu_patients {font-size: 24px}"))),
-                                              verbatimTextOutput("num_sdu_patients"), tags$head(tags$style(HTML("#num_sdu_patients {background-color: #808080}", "#num_sdu_patients {color: white}", "#num_sdu_patients {font-size: 24px}"))),
-                                              verbatimTextOutput("num_ward_patients"), tags$head(tags$style(HTML("#num_ward_patients {background-color: #D3D3D3}", "#num_ward_patients {color: white}", "#num_ward_patients {font-size: 24px}"))),
-                                              verbatimTextOutput("num_dc_patients"), tags$head(tags$style(HTML("#num_dc_patients {font-size: 24px}")))),
+                            column(4, "DEPARTMENT", 
+                                             "ER" ,verbatimTextOutput("num_er_patients"), tags$head(tags$style(HTML("#num_er_patients {background-color: black}", "#num_er_patients {color: white}", "#num_er_patients {font-size: 24px}"))),
+                                             "ICU",verbatimTextOutput("num_icu_patients"), tags$head(tags$style(HTML("#num_icu_patients {background-color: #505050}", "#num_icu_patients {color: white}", "#num_icu_patients {font-size: 24px}"))),
+                                             "SDU",verbatimTextOutput("num_sdu_patients"), tags$head(tags$style(HTML("#num_sdu_patients {background-color: #808080}", "#num_sdu_patients {color: white}", "#num_sdu_patients {font-size: 24px}"))),
+                                             "WARD",verbatimTextOutput("num_ward_patients"), tags$head(tags$style(HTML("#num_ward_patients {background-color: #D3D3D3}", "#num_ward_patients {color: white}", "#num_ward_patients {font-size: 24px}"))),
+                                             "D/C",verbatimTextOutput("num_dc_patients"), tags$head(tags$style(HTML("#num_dc_patients {font-size: 24px}")))),
                             column(4, "STATUS")
                                 )
                        )
                  ),
                
                fluidRow(column(12, h2("Beds Occupied (%)"), verbatimTextOutput("num_total_beds_occupied"), 
-                               tags$head(tags$style(HTML("#num_total_beds_occupied {background-color: orange}", "#num_total_beds_occupied {color: black}", "#num_total_beds_occupied {font-size: 36px}"))))),
+                               tags$head(tags$style(HTML("#num_total_beds_occupied {background-color: grey}", "#num_total_beds_occupied {color: white}", "#num_total_beds_occupied {font-size: 36px}"))))),
                
                fluidRow(
                  column(12, h2("Supplies"),
@@ -176,6 +177,19 @@ server <- function(input, output, session) {
   output$bed_to_sdu <- renderText({ input$bed_to_sdu })
   output$bed_to_ward <- renderText({ input$bed_to_ward })
   output$dc_order_actual <- renderText({ input$dc_order_actual })
+  
+  ####### conditional rendering: BEDS OCCUPIED ########
+  
+  observeEvent(input$num_total_beds_occupied, {
+    x <- input$num_total_beds_occupied
+    if (x > 74){
+      js$backgroundCol("num_total_beds_occupied", "red")
+    } else if (x <= 74 && x > 64) {
+      js$backgroundCol("num_total_beds_occupied", "orange")
+    } else {
+      js$backgroundCol("num_total_beds_occupied", "green")
+    }
+  })
   
   ####### conditional rendering: SUPPLIES ########
   
