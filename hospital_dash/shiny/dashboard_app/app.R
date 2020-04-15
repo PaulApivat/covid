@@ -36,10 +36,10 @@ ui <- fluidPage(
                  ),
           column(6, h4("Supplies"),
                  numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = 74),
-                 numericInput("num_n95", "N95 Masks", value = 30),
+                 numericInput("num_n95", "N95 Masks", value = 30, min = 0, step = 1),
                  numericInput("num_goggles", "Goggles", value = 25),
                  numericInput("num_gloves", "Gloves", value = 65),
-                 numericInput("num_ppe", "PPE", value = 55),
+                 numericInput("num_ppe", "PPE", value = 55, min = 0, step = 1),
                  numericInput("num_vent", "Ventilators", value = 20),
                  )
         ),
@@ -82,11 +82,11 @@ ui <- fluidPage(
                  column(12, h2("Patients"),
                         fixedRow(
                             column(4, "TOTAL", verbatimTextOutput("num_total_patients"), tags$head(tags$style(HTML("#num_total_patients {font-size: 36px}")))), 
-                            column(4, "DEPARTMENT", verbatimTextOutput("num_er_patients"), tags$head(tags$style(HTML("#num_er_patients {background-color: black}", "#num_er_patients {color: white}"))),
-                                              verbatimTextOutput("num_icu_patients"), tags$head(tags$style(HTML("#num_icu_patients {background-color: #505050}", "#num_icu_patients {color: white}"))),
-                                              verbatimTextOutput("num_sdu_patients"), tags$head(tags$style(HTML("#num_sdu_patients {background-color: #808080}", "#num_sdu_patients {color: white}"))),
-                                              verbatimTextOutput("num_ward_patients"), tags$head(tags$style(HTML("#num_ward_patients {background-color: #D3D3D3}", "#num_ward_patients {color: white}"))),
-                                              verbatimTextOutput("num_dc_patients")),
+                            column(4, "DEPARTMENT", verbatimTextOutput("num_er_patients"), tags$head(tags$style(HTML("#num_er_patients {background-color: black}", "#num_er_patients {color: white}", "#num_er_patients {font-size: 24px}"))),
+                                              verbatimTextOutput("num_icu_patients"), tags$head(tags$style(HTML("#num_icu_patients {background-color: #505050}", "#num_icu_patients {color: white}", "#num_icu_patients {font-size: 24px}"))),
+                                              verbatimTextOutput("num_sdu_patients"), tags$head(tags$style(HTML("#num_sdu_patients {background-color: #808080}", "#num_sdu_patients {color: white}", "#num_sdu_patients {font-size: 24px}"))),
+                                              verbatimTextOutput("num_ward_patients"), tags$head(tags$style(HTML("#num_ward_patients {background-color: #D3D3D3}", "#num_ward_patients {color: white}", "#num_ward_patients {font-size: 24px}"))),
+                                              verbatimTextOutput("num_dc_patients"), tags$head(tags$style(HTML("#num_dc_patients {font-size: 24px}")))),
                             column(4, "STATUS")
                                 )
                        )
@@ -97,11 +97,11 @@ ui <- fluidPage(
                
                fluidRow(
                  column(12, h2("Supplies"),
-                        fixedRow(column(4, "N95 MASK", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: green}", "#num_n95 {color: white}", "#num_n95 {font-size: 30px}"))), 
-                                            "PPE"     ,  verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: green}", "#num_ppe {color: white}", "#num_ppe {font-size: 30px}")))), 
-                                 column(4, "GOGGLES", verbatimTextOutput("num_goggles"), tags$head(tags$style(HTML("#num_goggles {background-color: red}", "#num_goggles {color: white}", "#num_goggles {font-size: 30px}"))),
-                                          "VENTILATORS", verbatimTextOutput("num_vent"), tags$head(tags$style(HTML("#num_vent {background-color: green}", "#num_vent {color: white}", "#num_vent {font-size: 30px}")))), 
-                                 column(4, "GLOVES", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: orange}", "#num_gloves {color: white}", "#num_gloves {font-size: 30px}"))))
+                        fixedRow(column(4, "N95 MASK", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: grey}", "#num_n95 {color: white}", "#num_n95 {font-size: 30px}"))), 
+                                            "PPE"     ,  verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: grey}", "#num_ppe {color: white}", "#num_ppe {font-size: 30px}")))), 
+                                 column(4, "GOGGLES", verbatimTextOutput("num_goggles"), tags$head(tags$style(HTML("#num_goggles {background-color: grey}", "#num_goggles {color: white}", "#num_goggles {font-size: 30px}"))),
+                                          "VENTILATORS", verbatimTextOutput("num_vent"), tags$head(tags$style(HTML("#num_vent {background-color: grey}", "#num_vent {color: white}", "#num_vent {font-size: 30px}")))), 
+                                 column(4, "GLOVES", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: grey}", "#num_gloves {color: white}", "#num_gloves {font-size: 30px}"))))
                                  )
                         )
                  )
@@ -177,7 +177,65 @@ server <- function(input, output, session) {
   output$bed_to_ward <- renderText({ input$bed_to_ward })
   output$dc_order_actual <- renderText({ input$dc_order_actual })
   
-  ## conditional rendering: BEDS ##
+  ####### conditional rendering: SUPPLIES ########
+  
+  observeEvent(input$num_n95, {
+    x <- input$num_n95
+    if (x < 30){
+      js$backgroundCol("num_n95", "red")
+    } else if (x >= 30 && x < 40) {
+      js$backgroundCol("num_n95", "orange")
+    } else {
+      js$backgroundCol("num_n95", "green")
+    }
+  })
+  
+  observeEvent(input$num_ppe, {
+    x <- input$num_ppe
+    if (x < 55){
+      js$backgroundCol("num_ppe", "red")
+    } else if (x >= 55 && x < 65) {
+      js$backgroundCol("num_ppe", "orange")
+    } else {
+      js$backgroundCol("num_ppe", "green")
+    }
+  })
+  
+  observeEvent(input$num_goggles, {
+    x <- input$num_goggles
+    if (x < 25){
+      js$backgroundCol("num_goggles", "red")
+    } else if (x >= 25 && x < 35) {
+      js$backgroundCol("num_goggles", "orange")
+    } else {
+      js$backgroundCol("num_goggles", "green")
+    }
+  })
+  
+  observeEvent(input$num_vent, {
+    x <- input$num_vent
+    if (x < 20){
+      js$backgroundCol("num_vent", "red")
+    } else if (x >= 20 && x < 30) {
+      js$backgroundCol("num_vent", "orange")
+    } else {
+      js$backgroundCol("num_vent", "green")
+    }
+  })
+  
+  observeEvent(input$num_gloves, {
+    x <- input$num_gloves
+    if (x < 65){
+      js$backgroundCol("num_gloves", "red")
+    } else if (x >= 65 && x < 75) {
+      js$backgroundCol("num_gloves", "orange")
+    } else {
+      js$backgroundCol("num_gloves", "green")
+    }
+  })
+  
+  
+  ####### conditional rendering: BEDS ########
   
   observeEvent(input$num_er_beds, {
     x <- input$num_er_beds
@@ -223,7 +281,7 @@ server <- function(input, output, session) {
     }
   })
   
-  ## conditional rendering: Nurses ##
+  ######## conditional rendering: Nurses ########
   
   observeEvent(input$num_er_nurses, {
     x <- input$num_er_nurses
