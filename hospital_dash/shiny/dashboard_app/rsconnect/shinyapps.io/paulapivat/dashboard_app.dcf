@@ -1,0 +1,12 @@
+name: dashboard_app
+title: dashboard_app
+username:
+account: paulapivat
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2122629
+bundleId: 3017614
+url: https://paulapivat.shinyapps.io/dashboard_app/
+when: 1586965301.0858
+asMultiple: FALSE
+asStatic: FALSE
