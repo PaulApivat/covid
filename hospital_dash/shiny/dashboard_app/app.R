@@ -49,15 +49,15 @@ ui <- fluidPage(
         fluidRow(
           column(6, h1("Beds"),
                  numericInput("num_er_beds", "ER Beds", value = 46, min = 0, step = 1), 
-                 numericInput("num_icu_beds", "ICU Beds", value = 50),
-                 numericInput("num_sdu_beds", "SDU Beds", value = 63),
-                 numericInput("num_ward_beds", "WARD Beds", value = 97),
+                 numericInput("num_icu_beds", "ICU Beds", value = 50, min = 0, step = 1),
+                 numericInput("num_sdu_beds", "SDU Beds", value = 63, min = 0, step = 1),
+                 numericInput("num_ward_beds", "WARD Beds", value = 97, min = 0, step = 1),
                  ),
           column(6, h1("Nurses"),
-                 numericInput("num_er_nurses", "ER Nurses", value = 68), 
-                 numericInput("num_icu_nurses", "ICU Nurses", value = 32),
-                 numericInput("num_sdu_nurses", "SDU Nurses", value = 18),
-                 numericInput("num_ward_nurses", "WARD Nurses", value = 23),
+                 numericInput("num_er_nurses", "ER Nurses", value = 68, min = 0, step = 1), 
+                 numericInput("num_icu_nurses", "ICU Nurses", value = 32, min = 0, step = 1),
+                 numericInput("num_sdu_nurses", "SDU Nurses", value = 18, min = 0, step = 1),
+                 numericInput("num_ward_nurses", "WARD Nurses", value = 23, min = 0, step = 1),
                  )
         ),
         fluidRow(
@@ -109,20 +109,20 @@ ui <- fluidPage(
                ),
         column(4, h4("Column2"),
                fluidRow(column(12, "Beds Section",
-                              fixedRow(column(6, "Bed1", verbatimTextOutput("num_er_beds"), tags$head(tags$style(HTML("#num_er_beds {background-color: white}", "#num_er_beds {color: black}", "#num_er_beds {font-size: 36px}"))),
-                                                         verbatimTextOutput("num_sdu_beds"), tags$head(tags$style(HTML("#num_sdu_beds {background-color: red}", "#num_sdu_beds {color: white}", "#num_sdu_beds {font-size: 36px}")))
+                              fixedRow(column(6, "Bed1", verbatimTextOutput("num_er_beds"), tags$head(tags$style(HTML("#num_er_beds {background-color: grey}", "#num_er_beds {color: white}", "#num_er_beds {font-size: 36px}"))),
+                                                         verbatimTextOutput("num_sdu_beds"), tags$head(tags$style(HTML("#num_sdu_beds {background-color: grey}", "#num_sdu_beds {color: white}", "#num_sdu_beds {font-size: 36px}")))
                                               ), 
-                                       column(6, "Bed2", verbatimTextOutput("num_icu_beds"), tags$head(tags$style(HTML("#num_icu_beds {background-color: green}", "#num_icu_beds {color: white}", "#num_icu_beds {font-size: 36px}"))),
-                                                          verbatimTextOutput("num_ward_beds"), tags$head(tags$style(HTML("#num_ward_beds {background-color: green}", "#num_ward_beds {color: white}", "#num_ward_beds {font-size: 36px}")))
+                                       column(6, "Bed2", verbatimTextOutput("num_icu_beds"), tags$head(tags$style(HTML("#num_icu_beds {background-color: grey}", "#num_icu_beds {color: white}", "#num_icu_beds {font-size: 36px}"))),
+                                                          verbatimTextOutput("num_ward_beds"), tags$head(tags$style(HTML("#num_ward_beds {background-color: grey}", "#num_ward_beds {color: white}", "#num_ward_beds {font-size: 36px}")))
                                               )
                                        )
                                )),
                fluidRow(column(12, "Nurses Section",
-                               fixedRow(column(6, "Nurse1", verbatimTextOutput("num_er_nurses"), tags$head(tags$style(HTML("#num_er_nurses {background-color: green}", "#num_er_nurses {color: white}", "#num_er_nurses {font-size: 36px}"))),
-                                                            verbatimTextOutput("num_sdu_nurses"), tags$head(tags$style(HTML("#num_sdu_nurses {background-color: red}", "#num_sdu_nurses {color: white}", "#num_sdu_nurses {font-size: 36px}")))
+                               fixedRow(column(6, "Nurse1", verbatimTextOutput("num_er_nurses"), tags$head(tags$style(HTML("#num_er_nurses {background-color: grey}", "#num_er_nurses {color: white}", "#num_er_nurses {font-size: 36px}"))),
+                                                            verbatimTextOutput("num_sdu_nurses"), tags$head(tags$style(HTML("#num_sdu_nurses {background-color: grey}", "#num_sdu_nurses {color: white}", "#num_sdu_nurses {font-size: 36px}")))
                                                ), 
-                                        column(6, "Nurse2", verbatimTextOutput("num_icu_nurses"), tags$head(tags$style(HTML("#num_icu_nurses {background-color: orange}", "#num_icu_nurses {color: white}", "#num_icu_nurses {font-size: 36px}"))),
-                                                            verbatimTextOutput("num_ward_nurses"), tags$head(tags$style(HTML("#num_ward_nurses {background-color: red}", "#num_ward_nurses {color: white}", "#num_ward_nurses {font-size: 36px}"))),
+                                        column(6, "Nurse2", verbatimTextOutput("num_icu_nurses"), tags$head(tags$style(HTML("#num_icu_nurses {background-color: grey}", "#num_icu_nurses {color: white}", "#num_icu_nurses {font-size: 36px}"))),
+                                                            verbatimTextOutput("num_ward_nurses"), tags$head(tags$style(HTML("#num_ward_nurses {background-color: grey}", "#num_ward_nurses {color: white}", "#num_ward_nurses {font-size: 36px}"))),
                                                )
                                         )
                                )),
@@ -177,6 +177,8 @@ server <- function(input, output, session) {
   output$bed_to_ward <- renderText({ input$bed_to_ward })
   output$dc_order_actual <- renderText({ input$dc_order_actual })
   
+  ## conditional rendering: BEDS ##
+  
   observeEvent(input$num_er_beds, {
     x <- input$num_er_beds
     if (x < 46){
@@ -187,6 +189,86 @@ server <- function(input, output, session) {
       js$backgroundCol("num_er_beds", "green")
     }
   })
+  
+  observeEvent(input$num_sdu_beds, {
+    x <- input$num_sdu_beds
+    if (x < 63){
+      js$backgroundCol("num_sdu_beds", "red")
+    } else if (x >= 63 && x < 80) {
+      js$backgroundCol("num_sdu_beds", "orange")
+    } else {
+      js$backgroundCol("num_sdu_beds", "green")
+    }
+  })
+  
+  observeEvent(input$num_icu_beds, {
+    x <- input$num_icu_beds
+    if (x < 50){
+      js$backgroundCol("num_icu_beds", "red")
+    } else if (x >= 50 && x < 60) {
+      js$backgroundCol("num_icu_beds", "orange")
+    } else {
+      js$backgroundCol("num_icu_beds", "green")
+    }
+  })
+  
+  observeEvent(input$num_ward_beds, {
+    x <- input$num_ward_beds
+    if (x < 97){
+      js$backgroundCol("num_ward_beds", "red")
+    } else if (x >= 97 && x < 107) {
+      js$backgroundCol("num_ward_beds", "orange")
+    } else {
+      js$backgroundCol("num_ward_beds", "green")
+    }
+  })
+  
+  ## conditional rendering: Nurses ##
+  
+  observeEvent(input$num_er_nurses, {
+    x <- input$num_er_nurses
+    if (x < 68){
+      js$backgroundCol("num_er_nurses", "red")
+    } else if (x >= 68 && x < 80) {
+      js$backgroundCol("num_er_nurses", "orange")
+    } else {
+      js$backgroundCol("num_er_nurses", "green")
+    }
+  })
+  
+  observeEvent(input$num_icu_nurses, {
+    x <- input$num_icu_nurses
+    if (x < 32){
+      js$backgroundCol("num_icu_nurses", "red")
+    } else if (x >= 32 && x < 40) {
+      js$backgroundCol("num_icu_nurses", "orange")
+    } else {
+      js$backgroundCol("num_icu_nurses", "green")
+    }
+  })
+  
+  observeEvent(input$num_sdu_nurses, {
+    x <- input$num_sdu_nurses
+    if (x < 18){
+      js$backgroundCol("num_sdu_nurses", "red")
+    } else if (x >= 18 && x < 30) {
+      js$backgroundCol("num_sdu_nurses", "orange")
+    } else {
+      js$backgroundCol("num_sdu_nurses", "green")
+    }
+  })
+  
+  observeEvent(input$num_ward_nurses, {
+    x <- input$num_ward_nurses
+    if (x < 23){
+      js$backgroundCol("num_ward_nurses", "red")
+    } else if (x >= 23 && x < 33) {
+      js$backgroundCol("num_ward_nurses", "orange")
+    } else {
+      js$backgroundCol("num_ward_nurses", "green")
+    }
+  })
+  
   
 }
 
