@@ -43,13 +43,12 @@ ui <- fluidPage(
         ),
         fluidRow(
           column(12, h1("Time"),
-                 # Use multiples of 5 minutes
-                 timeInput("time5", "Average Door to Doctor", minute.steps = 5),
-                 timeInput("time5", "Average ER to Floor", minute.steps = 5),
-                 timeInput("time5", "Bed Transfer to ICU", minute.steps = 5),
-                 timeInput("time5", "Bed Transfer to SDU", minute.steps = 5),
-                 timeInput("time5", "Bed Transfer to WARD", minute.steps = 5),
-                 timeInput("time5", "D/C order to actual D/C", minute.steps = 5),
+                 textInput("avg_door_doc", "Average Door to Doctor", value = "83 mins"),
+                 textInput("avg_er_floor", "Average ER to Floor", value = "45 mins"),
+                 textInput("bed_to_icu", "Bed Transfer to ICU", value = "0 hr 29 mins"),
+                 textInput("bed_to_sdu", "Bed Transfer to SDU", value = "0 hr 35 mins"),
+                 textInput("bed_to_ward", "Bed Transfer to WARD", value = "2 hr 05 mins"),
+                 textInput("dc_order_actual", "D/C order to actual D/C", value = "1 hr 01 mins"),
                  )
         )
       ),
@@ -110,12 +109,12 @@ ui <- fluidPage(
                                )),
                ),
         column(4, h4("Column3"),
-               fluidRow(column(12, "Avg Door to Doctor")),
-               fluidRow(column(12, "Avg ER to Floor")),
-               fluidRow(column(12, "Beds Transfer to ICU")),
-               fluidRow(column(12, "Beds Transfer to SDU")),
-               fluidRow(column(12, "Beds Transfer to WARD")),
-               fluidRow(column(12, "Beds Time D/C Order to Actual D/C")),
+               fluidRow(column(12, "Avg Door to Doctor", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}"))))),
+               fluidRow(column(12, "Avg ER to Floor", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}"))))),
+               fluidRow(column(12, "Beds Transfer to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}"))))),
+               fluidRow(column(12, "Beds Transfer to SDU", verbatimTextOutput("bed_to_sdu"), tags$head(tags$style(HTML("#bed_to_sdu {background-color: green}", "#bed_to_sdu {color: white}", "#bed_to_sdu {font-size: 28px}"))))),
+               fluidRow(column(12, "Beds Transfer to WARD", verbatimTextOutput("bed_to_ward"), tags$head(tags$style(HTML("#bed_to_ward {background-color: red}", "#bed_to_ward {color: white}", "#bed_to_ward {font-size: 28px}"))))),
+               fluidRow(column(12, "Beds Time D/C Order to Actual D/C", verbatimTextOutput("dc_order_actual"), tags$head(tags$style(HTML("#dc_order_actual {background-color: orange}", "#dc_order_actual {color: white}", "#dc_order_actual {font-size: 28px}"))))),
                )
       )
       #plotOutput("distPlot")
@@ -151,6 +150,13 @@ server <- function(input, output) {
   output$num_sdu_nurses <- renderText({ input$num_sdu_nurses })
   output$num_icu_nurses <- renderText({ input$num_icu_nurses })
   output$num_ward_nurses <- renderText({ input$num_ward_nurses })
+  
+  output$avg_door_doc <- renderText({ input$avg_door_doc })
+  output$avg_er_floor <- renderText({ input$avg_er_floor })
+  output$bed_to_icu <- renderText({ input$bed_to_icu })
+  output$bed_to_sdu <- renderText({ input$bed_to_sdu })
+  output$bed_to_ward <- renderText({ input$bed_to_ward })
+  output$dc_order_actual <- renderText({ input$dc_order_actual })
   
 }
 
