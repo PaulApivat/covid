@@ -97,11 +97,11 @@ ui <- fluidPage(
                
                fluidRow(
                  column(12, "Supplies",
-                        fixedRow(column(4, "Supplies1", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: green}", "#num_n95 {color: white}"))), 
-                                                        verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: green}", "#num_ppe {color: white}")))), 
-                                 column(4, "Supplies2", verbatimTextOutput("num_goggles"), tags$head(tags$style(HTML("#num_goggles {background-color: red}", "#num_goggles {color: white}"))),
-                                                        verbatimTextOutput("num_vent"), tags$head(tags$style(HTML("#num_vent {background-color: green}", "#num_vent {color: white}")))), 
-                                 column(4, "Supplies3", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: orange}", "#num_gloves {color: white}"))))
+                        fixedRow(column(4, "Supplies1", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: green}", "#num_n95 {color: white}", "#num_n95 {font-size: 30px}"))), 
+                                                        verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: green}", "#num_ppe {color: white}", "#num_ppe {font-size: 30px}")))), 
+                                 column(4, "Supplies2", verbatimTextOutput("num_goggles"), tags$head(tags$style(HTML("#num_goggles {background-color: red}", "#num_goggles {color: white}", "#num_goggles {font-size: 30px}"))),
+                                                        verbatimTextOutput("num_vent"), tags$head(tags$style(HTML("#num_vent {background-color: green}", "#num_vent {color: white}", "#num_vent {font-size: 30px}")))), 
+                                 column(4, "Supplies3", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: orange}", "#num_gloves {color: white}", "#num_gloves {font-size: 30px}"))))
                                  )
                         )
                  )
