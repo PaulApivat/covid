@@ -4,6 +4,7 @@
 
 library(shiny)
 
+
 # Define UI  ----
 ui <- fluidPage(
     titlePanel("Title Panel"),
@@ -29,4 +30,14 @@ server <- function(input, output) {
 # Run the app ----
 
 shinyApp(ui = ui, server = server)
+
+
+##### ----------- Structure--------####
+# structure, layout, basic colors,
+# shinyTime input
+install.packages("shinyTime")
+library(shinyTime)
+# then, conditional colors
+library(shinyjs)
+library(V8)
 
