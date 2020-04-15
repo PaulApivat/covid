@@ -1,13 +1,29 @@
 library(shiny)
 library(shinyTime)
+library(shinyjs)
+library(V8)
+
+jsCode <- '
+shinyjs.backgroundCol = function(params) {
+var defaultParams = {
+id : null,
+col : "red"
+};
+params = shinyjs.getParams(params, defaultParams);
+var el = $("#" + params.id);
+el.css("background-color", params.col);
+}'
+
 
 # Define UI  ----
 ui <- fluidPage(
+    
   
     titlePanel("Hospital Resource Management: COVID19"),
     
     sidebarLayout(position = "right",
       sidebarPanel(
+        
         
         fluidRow(
           column(6, h1("Patients"), 
@@ -27,9 +43,12 @@ ui <- fluidPage(
                  numericInput("num_vent", "Ventilators", value = 20),
                  )
         ),
+        useShinyjs(), # include shinyjs
+        extendShinyjs(text = jsCode),
+        
         fluidRow(
           column(6, h1("Beds"),
-                 numericInput("num_er_beds", "ER Beds", value = 46), 
+                 numericInput("num_er_beds", "ER Beds", value = 46, min = 0, step = 1), 
                  numericInput("num_icu_beds", "ICU Beds", value = 50),
                  numericInput("num_sdu_beds", "SDU Beds", value = 63),
                  numericInput("num_ward_beds", "WARD Beds", value = 97),
@@ -90,7 +109,7 @@ ui <- fluidPage(
                ),
         column(4, h4("Column2"),
                fluidRow(column(12, "Beds Section",
-                              fixedRow(column(6, "Bed1", verbatimTextOutput("num_er_beds"), tags$head(tags$style(HTML("#num_er_beds {background-color: orange}", "#num_er_beds {color: white}", "#num_er_beds {font-size: 36px}"))),
+                              fixedRow(column(6, "Bed1", verbatimTextOutput("num_er_beds"), tags$head(tags$style(HTML("#num_er_beds {background-color: white}", "#num_er_beds {color: black}", "#num_er_beds {font-size: 36px}"))),
                                                          verbatimTextOutput("num_sdu_beds"), tags$head(tags$style(HTML("#num_sdu_beds {background-color: red}", "#num_sdu_beds {color: white}", "#num_sdu_beds {font-size: 36px}")))
                                               ), 
                                        column(6, "Bed2", verbatimTextOutput("num_icu_beds"), tags$head(tags$style(HTML("#num_icu_beds {background-color: green}", "#num_icu_beds {color: white}", "#num_icu_beds {font-size: 36px}"))),
@@ -124,7 +143,7 @@ ui <- fluidPage(
 )
 
 # Define server logic  ----
-server <- function(input, output) {
+server <- function(input, output, session) {
 
   output$num_total_patients <- renderText({ input$num_total_patients })
   output$num_er_patients <- renderText({ input$num_er_patients })
@@ -157,6 +176,17 @@ server <- function(input, output) {
   output$bed_to_sdu <- renderText({ input$bed_to_sdu })
   output$bed_to_ward <- renderText({ input$bed_to_ward })
   output$dc_order_actual <- renderText({ input$dc_order_actual })
+  
+  observeEvent(input$num_er_beds, {
+    x <- input$num_er_beds
+    if (x < 46){
+      js$backgroundCol("num_er_beds", "red")
+    } else if (x >= 46 && x < 70) {
+      js$backgroundCol("num_er_beds", "orange")
+    } else {
+      js$backgroundCol("num_er_beds", "green")
+    }
+  })
   
 }
 
