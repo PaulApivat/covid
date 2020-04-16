@@ -66,12 +66,12 @@ ui <- fluidPage(
         ),
         fluidRow(
           column(12, h4("Time"),
-                 textInput("avg_door_doc", "Average Door to Doctor", value = "83 mins"), 
-                 textInput("avg_er_floor", "Average ER to Floor", value = "45 mins"),
-                 textInput("bed_to_icu", "Bed Transfer to ICU", value = "0 hr 29 mins"),
-                 textInput("bed_to_sdu", "Bed Transfer to SDU", value = "0 hr 35 mins"),
-                 textInput("bed_to_ward", "Bed Transfer to WARD", value = "2 hr 05 mins"),
-                 textInput("dc_order_actual", "D/C order to actual D/C", value = "1 hr 01 mins"),
+                 numericInput("avg_door_doc", "Average Door to Doctor", value = 83), 
+                 numericInput("avg_er_floor", "Average ER to Floor", value = 45),
+                 numericInput("bed_to_icu", "Bed Transfer to ICU", value = 29),
+                 numericInput("bed_to_sdu", "Bed Transfer to SDU", value = 35),
+                 numericInput("bed_to_ward", "Bed Transfer to WARD", value = 125),
+                 numericInput("dc_order_actual", "D/C order to actual D/C", value = 61),
                  )
         ),
         fluidRow(
@@ -144,22 +144,22 @@ ui <- fluidPage(
         
         column(4, h2("Time"),#h3("Column3"), 
                
-               fluidRow(column(8, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}")))), 
+               fluidRow(column(8, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: gray}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message"), tags$head(tags$style(HTML("#message {background-color: white}", "#message {color: black}", "#message {font-size: 28px}"))) )),
                
-               fluidRow(column(8, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}")))), 
+               fluidRow(column(8, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: gray}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message1"), tags$head(tags$style(HTML("#message1 {background-color: white}", "#message1 {color: black}", "#message1 {font-size: 28px}"))) )),
                
-               fluidRow(column(8, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}")))), 
+               fluidRow(column(8, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: gray}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message2"), tags$head(tags$style(HTML("#message2 {background-color: white}", "#message2 {color: black}", "#message2 {font-size: 28px}"))) )),
                
-               fluidRow(column(8, "BED TRANSFER to SDU", verbatimTextOutput("bed_to_sdu"), tags$head(tags$style(HTML("#bed_to_sdu {background-color: green}", "#bed_to_sdu {color: white}", "#bed_to_sdu {font-size: 28px}")))), 
+               fluidRow(column(8, "BED TRANSFER to SDU", verbatimTextOutput("bed_to_sdu"), tags$head(tags$style(HTML("#bed_to_sdu {background-color: gray}", "#bed_to_sdu {color: white}", "#bed_to_sdu {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message3"), tags$head(tags$style(HTML("#message3 {background-color: white}", "#message3 {color: black}", "#message3 {font-size: 28px}"))) )),
                
-               fluidRow(column(8, "BED TRANSFER to WARD", verbatimTextOutput("bed_to_ward"), tags$head(tags$style(HTML("#bed_to_ward {background-color: red}", "#bed_to_ward {color: white}", "#bed_to_ward {font-size: 28px}")))), 
+               fluidRow(column(8, "BED TRANSFER to WARD", verbatimTextOutput("bed_to_ward"), tags$head(tags$style(HTML("#bed_to_ward {background-color: gray}", "#bed_to_ward {color: white}", "#bed_to_ward {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message4"), tags$head(tags$style(HTML("#message4 {background-color: white}", "#message4 {color: black}", "#message4 {font-size: 28px}"))) )),
                
-               fluidRow(column(8, "D/C ORDER to ACTUAL D/C", verbatimTextOutput("dc_order_actual"), tags$head(tags$style(HTML("#dc_order_actual {background-color: orange}", "#dc_order_actual {color: white}", "#dc_order_actual {font-size: 28px}")))), 
+               fluidRow(column(8, "D/C ORDER to ACTUAL D/C", verbatimTextOutput("dc_order_actual"), tags$head(tags$style(HTML("#dc_order_actual {background-color: gray}", "#dc_order_actual {color: white}", "#dc_order_actual {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message5"), tags$head(tags$style(HTML("#message5 {background-color: white}", "#message5 {color: black}", "#message5 {font-size: 28px}"))) )),
                
                #fluidRow(column(12, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}"))))),
@@ -223,7 +223,8 @@ server <- function(input, output, session) {
   output$bed_to_ward <- renderText({ input$bed_to_ward })
   output$dc_order_actual <- renderText({ input$dc_order_actual })
   
-  ####### Add Minutes #######
+  ####### Add Time - Mins #######
+  
   output$message <- renderText({ input$message })
   output$message1 <- renderText({ input$message1 })
   output$message2 <- renderText({ input$message2 })
@@ -393,6 +394,75 @@ server <- function(input, output, session) {
       js$backgroundCol("num_ward_nurses", "green")
     }
   })
+  
+  ####### conditional rendering: TIME ########
+  
+  observeEvent(input$avg_door_doc, {
+    x <- input$avg_door_doc
+    if (x > 83){
+      js$backgroundCol("avg_door_doc", "red")
+    } else if (x <= 83 && x > 73) {
+      js$backgroundCol("avg_door_doc", "orange")
+    } else {
+      js$backgroundCol("avg_door_doc", "green")
+    }
+  })
+  
+  observeEvent(input$avg_er_floor, {
+    x <- input$avg_er_floor
+    if (x > 45){
+      js$backgroundCol("avg_er_floor", "red")
+    } else if (x <= 45 && x > 35) {
+      js$backgroundCol("avg_er_floor", "orange")
+    } else {
+      js$backgroundCol("avg_er_floor", "green")
+    }
+  })
+  
+  observeEvent(input$bed_to_icu, {
+    x <- input$bed_to_icu
+    if (x > 29){
+      js$backgroundCol("bed_to_icu", "red")
+    } else if (x <= 29 && x > 19) {
+      js$backgroundCol("bed_to_icu", "orange")
+    } else {
+      js$backgroundCol("bed_to_icu", "green")
+    }
+  })
+  
+  observeEvent(input$bed_to_sdu, {
+    x <- input$bed_to_sdu
+    if (x > 35){
+      js$backgroundCol("bed_to_sdu", "red")
+    } else if (x <= 35 && x > 25) {
+      js$backgroundCol("bed_to_sdu", "orange")
+    } else {
+      js$backgroundCol("bed_to_sdu", "green")
+    }
+  })
+  
+  observeEvent(input$bed_to_ward, {
+    x <- input$bed_to_ward
+    if (x > 125){
+      js$backgroundCol("bed_to_ward", "red")
+    } else if (x <= 125 && x > 115) {
+      js$backgroundCol("bed_to_ward", "orange")
+    } else {
+      js$backgroundCol("bed_to_ward", "green")
+    }
+  })
+  
+  observeEvent(input$dc_order_actual, {
+    x <- input$dc_order_actual
+    if (x > 61){
+      js$backgroundCol("dc_order_actual", "red")
+    } else if (x <= 61 && x > 51) {
+      js$backgroundCol("dc_order_actual", "orange")
+    } else {
+      js$backgroundCol("dc_order_actual", "green")
+    }
+  })
+  
   
   
 }
