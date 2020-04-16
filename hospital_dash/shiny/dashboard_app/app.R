@@ -78,7 +78,9 @@ ui <- fluidPage(
           column(2, textInput("message", "Mins", value = "mins")),
           column(2, textInput("message1", "Mins", value = "mins")),
           column(2, textInput("message2", "Mins", value = "mins")),
-                 
+          column(2, textInput("message3", "Mins", value = "mins")),
+          column(2, textInput("message4", "Mins", value = "mins")),
+          column(2, textInput("message5", "Mins", value = "mins")),
                  
         )
       )), #--sidebarPanel() --div(id = "Sidebar")
@@ -151,6 +153,15 @@ ui <- fluidPage(
                fluidRow(column(8, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}")))), 
                         column(4, "TIME", verbatimTextOutput("message2"), tags$head(tags$style(HTML("#message2 {background-color: white}", "#message2 {color: black}", "#message2 {font-size: 28px}"))) )),
                
+               fluidRow(column(8, "BED TRANSFER to SDU", verbatimTextOutput("bed_to_sdu"), tags$head(tags$style(HTML("#bed_to_sdu {background-color: green}", "#bed_to_sdu {color: white}", "#bed_to_sdu {font-size: 28px}")))), 
+                        column(4, "TIME", verbatimTextOutput("message3"), tags$head(tags$style(HTML("#message3 {background-color: white}", "#message3 {color: black}", "#message3 {font-size: 28px}"))) )),
+               
+               fluidRow(column(8, "BED TRANSFER to WARD", verbatimTextOutput("bed_to_ward"), tags$head(tags$style(HTML("#bed_to_ward {background-color: red}", "#bed_to_ward {color: white}", "#bed_to_ward {font-size: 28px}")))), 
+                        column(4, "TIME", verbatimTextOutput("message4"), tags$head(tags$style(HTML("#message4 {background-color: white}", "#message4 {color: black}", "#message4 {font-size: 28px}"))) )),
+               
+               fluidRow(column(8, "D/C ORDER to ACTUAL D/C", verbatimTextOutput("dc_order_actual"), tags$head(tags$style(HTML("#dc_order_actual {background-color: orange}", "#dc_order_actual {color: white}", "#dc_order_actual {font-size: 28px}")))), 
+                        column(4, "TIME", verbatimTextOutput("message5"), tags$head(tags$style(HTML("#message5 {background-color: white}", "#message5 {color: black}", "#message5 {font-size: 28px}"))) )),
+               
                #fluidRow(column(12, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}"))))),
                #fluidRow(column(12, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}"))))),
                #fluidRow(column(12, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}"))))),
@@ -216,6 +227,9 @@ server <- function(input, output, session) {
   output$message <- renderText({ input$message })
   output$message1 <- renderText({ input$message1 })
   output$message2 <- renderText({ input$message2 })
+  output$message3 <- renderText({ input$message3 })
+  output$message4 <- renderText({ input$message4 })
+  output$message5 <- renderText({ input$message5 })
   
   ####### conditional rendering: BEDS OCCUPIED ########
   
