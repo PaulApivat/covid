@@ -5,8 +5,8 @@ account: paulapivat
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2107661
-bundleId: 3006615
+bundleId: 3020251
 url: https://paulapivat.shinyapps.io/sample/
-when: 1586782135.11833
+when: 1587006905.8781
 asMultiple: FALSE
 asStatic: FALSE
