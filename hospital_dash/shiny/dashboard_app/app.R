@@ -25,7 +25,7 @@ ui <- fluidPage(
     
     sidebarLayout(position = "right", 
     
-    
+      # wrap sidebarPanel in a div to reference id="Sidebar" for toggling
       div( id ="Sidebar",
       
       sidebarPanel(
@@ -66,18 +66,25 @@ ui <- fluidPage(
         ),
         fluidRow(
           column(12, h4("Time"),
-                 textInput("avg_door_doc", "Average Door to Doctor", value = "83 mins"),
+                 textInput("avg_door_doc", "Average Door to Doctor", value = "83 mins"), 
                  textInput("avg_er_floor", "Average ER to Floor", value = "45 mins"),
                  textInput("bed_to_icu", "Bed Transfer to ICU", value = "0 hr 29 mins"),
                  textInput("bed_to_sdu", "Bed Transfer to SDU", value = "0 hr 35 mins"),
                  textInput("bed_to_ward", "Bed Transfer to WARD", value = "2 hr 05 mins"),
                  textInput("dc_order_actual", "D/C order to actual D/C", value = "1 hr 01 mins"),
                  )
+        ),
+        fluidRow(
+          column(2, textInput("message", "Mins", value = "mins")),
+          column(2, textInput("message1", "Mins", value = "mins")),
+          column(2, textInput("message2", "Mins", value = "mins")),
+                 
+                 
         )
       )), #--sidebarPanel() --div(id = "Sidebar")
     
     
-    mainPanel(actionButton("toggleSidebar", "Toggle sidebar"),
+    mainPanel(actionButton("toggleSidebar", "Hide sidebar"),
       #"Main Panel",
       fluidRow(
         column(4, #h3("Column1"),
@@ -134,13 +141,25 @@ ui <- fluidPage(
                ),
         
         column(4, h2("Time"),#h3("Column3"), 
-               fluidRow(column(12, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}"))))),
-               fluidRow(column(12, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}"))))),
-               fluidRow(column(12, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}"))))),
-               fluidRow(column(12, "BED TRANSFER to SDU", verbatimTextOutput("bed_to_sdu"), tags$head(tags$style(HTML("#bed_to_sdu {background-color: green}", "#bed_to_sdu {color: white}", "#bed_to_sdu {font-size: 28px}"))))),
-               fluidRow(column(12, "BED TRANSFER to WARD", verbatimTextOutput("bed_to_ward"), tags$head(tags$style(HTML("#bed_to_ward {background-color: red}", "#bed_to_ward {color: white}", "#bed_to_ward {font-size: 28px}"))))),
-               fluidRow(column(12, "D/C ORDER to ACTUAL D/C", verbatimTextOutput("dc_order_actual"), tags$head(tags$style(HTML("#dc_order_actual {background-color: orange}", "#dc_order_actual {color: white}", "#dc_order_actual {font-size: 28px}"))))),
-               )
+               
+               fluidRow(column(8, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}")))), 
+                        column(4, "TIME", verbatimTextOutput("message"), tags$head(tags$style(HTML("#message {background-color: white}", "#message {color: black}", "#message {font-size: 28px}"))) )),
+               
+               fluidRow(column(8, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}")))), 
+                        column(4, "TIME", verbatimTextOutput("message1"), tags$head(tags$style(HTML("#message1 {background-color: white}", "#message1 {color: black}", "#message1 {font-size: 28px}"))) )),
+               
+               fluidRow(column(8, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}")))), 
+                        column(4, "TIME", verbatimTextOutput("message2"), tags$head(tags$style(HTML("#message2 {background-color: white}", "#message2 {color: black}", "#message2 {font-size: 28px}"))) )),
+               
+               #fluidRow(column(12, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}"))))),
+               #fluidRow(column(12, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}"))))),
+               #fluidRow(column(12, "BED TRANSFER to ICU", verbatimTextOutput("bed_to_icu"), tags$head(tags$style(HTML("#bed_to_icu {background-color: green}", "#bed_to_icu {color: white}", "#bed_to_icu {font-size: 28px}"))))),
+               #fluidRow(column(12, "BED TRANSFER to SDU", verbatimTextOutput("bed_to_sdu"), tags$head(tags$style(HTML("#bed_to_sdu {background-color: green}", "#bed_to_sdu {color: white}", "#bed_to_sdu {font-size: 28px}"))))),
+               #fluidRow(column(12, "BED TRANSFER to WARD", verbatimTextOutput("bed_to_ward"), tags$head(tags$style(HTML("#bed_to_ward {background-color: red}", "#bed_to_ward {color: white}", "#bed_to_ward {font-size: 28px}"))))),
+               #fluidRow(column(12, "D/C ORDER to ACTUAL D/C", verbatimTextOutput("dc_order_actual"), tags$head(tags$style(HTML("#dc_order_actual {background-color: orange}", "#dc_order_actual {color: white}", "#dc_order_actual {font-size: 28px}"))))),
+               ),
+        
+        
       )
       #plotOutput("distPlot")
     ) # -- mainPanel()
@@ -153,9 +172,13 @@ ui <- fluidPage(
 # Define server logic  ----
 server <- function(input, output, session) {
 
+  ####### toggling sidebarPanel to hide ########
+  
   observeEvent(input$toggleSidebar, {
     shinyjs::toggle(id = "Sidebar")
   })
+  
+  #### ---------------------------------- ####
   
   output$num_total_patients <- renderText({ input$num_total_patients })
   output$num_er_patients <- renderText({ input$num_er_patients })
@@ -188,6 +211,11 @@ server <- function(input, output, session) {
   output$bed_to_sdu <- renderText({ input$bed_to_sdu })
   output$bed_to_ward <- renderText({ input$bed_to_ward })
   output$dc_order_actual <- renderText({ input$dc_order_actual })
+  
+  ####### Add Minutes #######
+  output$message <- renderText({ input$message })
+  output$message1 <- renderText({ input$message1 })
+  output$message2 <- renderText({ input$message2 })
   
   ####### conditional rendering: BEDS OCCUPIED ########
   
