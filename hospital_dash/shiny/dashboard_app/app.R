@@ -17,14 +17,16 @@ el.css("background-color", params.col);
 
 # Define UI  ----
 ui <- fluidPage(
-    
   
     titlePanel("Hospital Resource Management: COVID19"),
     
-    sidebarLayout(position = "right",
+    useShinyjs(), # include shinyjs
+    extendShinyjs(text = jsCode),
+    
+    sidebarLayout(position = "right", 
+    
+    
       sidebarPanel(
-        
-        
         fluidRow(
           column(6, h4("Patients"), 
                  numericInput("num_total_patients", "Number of Total Patients", value = 36), 
@@ -43,8 +45,8 @@ ui <- fluidPage(
                  numericInput("num_vent", "Ventilators", value = 20),
                  )
         ),
-        useShinyjs(), # include shinyjs
-        extendShinyjs(text = jsCode),
+        #useShinyjs(), # include shinyjs
+        #extendShinyjs(text = jsCode),
         
         fluidRow(
           column(6, h4("Beds"),
@@ -70,7 +72,7 @@ ui <- fluidPage(
                  textInput("dc_order_actual", "D/C order to actual D/C", value = "1 hr 01 mins"),
                  )
         )
-      ),
+      ), #--sidebarPanel()
     
     
     mainPanel(
@@ -138,14 +140,20 @@ ui <- fluidPage(
                )
       )
       #plotOutput("distPlot")
-      
-    )
-  )
-)
+    ) # -- mainPanel()
+    
+ 
+  
+  ) # -- sidebarLayout()
+) # -- fluidPage()
 
 # Define server logic  ----
 server <- function(input, output, session) {
 
+  observeEvent(input$toggleSidebar, {
+    shinyjs::toggle(id = "Sidebar")
+  })
+  
   output$num_total_patients <- renderText({ input$num_total_patients })
   output$num_er_patients <- renderText({ input$num_er_patients })
   output$num_icu_patients <- renderText({ input$num_icu_patients })
