@@ -18,7 +18,7 @@ el.css("background-color", params.col);
 # Define UI  ----
 ui <- fluidPage(
   
-    titlePanel("Hospital Resource Management: COVID19"),
+    titlePanel("Hospital Resource Management: COVID19"), 
     
     useShinyjs(), # include shinyjs
     extendShinyjs(text = jsCode),
@@ -26,6 +26,8 @@ ui <- fluidPage(
     sidebarLayout(position = "right", 
     
     
+      div( id ="Sidebar",
+      
       sidebarPanel(
         fluidRow(
           column(6, h4("Patients"), 
@@ -72,10 +74,10 @@ ui <- fluidPage(
                  textInput("dc_order_actual", "D/C order to actual D/C", value = "1 hr 01 mins"),
                  )
         )
-      ), #--sidebarPanel()
+      )), #--sidebarPanel() --div(id = "Sidebar")
     
     
-    mainPanel(
+    mainPanel(actionButton("toggleSidebar", "Toggle sidebar"),
       #"Main Panel",
       fluidRow(
         column(4, #h3("Column1"),
@@ -130,6 +132,7 @@ ui <- fluidPage(
                                         )
                                )),
                ),
+        
         column(4, h2("Time"),#h3("Column3"), 
                fluidRow(column(12, "AVG DOOR to DOCTOR", verbatimTextOutput("avg_door_doc"), tags$head(tags$style(HTML("#avg_door_doc {background-color: orange}", "#avg_door_doc {color: white}", "#avg_door_doc {font-size: 28px}"))))),
                fluidRow(column(12, "AVG ER to FLOOR", verbatimTextOutput("avg_er_floor"), tags$head(tags$style(HTML("#avg_er_floor {background-color: orange}", "#avg_er_floor {color: white}", "#avg_er_floor {font-size: 28px}"))))),

@@ -3,7 +3,7 @@ library(shinyjs)
 
 ui <- fluidPage(
   useShinyjs(),
-  navbarPage("",
+  #navbarPage("",
              sidebarLayout(position = "right",
                       div( id ="Sidebar",sidebarPanel(
                       )),
@@ -12,7 +12,7 @@ ui <- fluidPage(
                       mainPanel(actionButton("toggleSidebar", "Toggle sidebar")
                       )
              )
-  )
+  #)
 )
 
 server <-function(input, output, session) {
