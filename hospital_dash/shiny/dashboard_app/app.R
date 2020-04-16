@@ -14,6 +14,7 @@ var el = $("#" + params.id);
 el.css("background-color", params.col);
 }'
 
+num_total_patients <- 37
 
 # Define UI  ----
 ui <- fluidPage(
@@ -31,7 +32,7 @@ ui <- fluidPage(
       sidebarPanel(
         fluidRow(
           column(6, h4("Patients"), 
-                 numericInput("num_total_patients", "Number of Total Patients", value = 36), 
+                 numericInput("num_total_patients", "Number of Total Patients", value = num_total_patients), 
                  numericInput("num_er_patients", "ER Patients", value = 2),
                  numericInput("num_icu_patients", "ICU Patients", value = 4),
                  numericInput("num_sdu_patients", "SDU Patients", value = 20),
