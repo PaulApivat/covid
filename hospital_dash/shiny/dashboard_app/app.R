@@ -37,6 +37,8 @@ ui <- fluidPage(
                  numericInput("num_sdu_patients", "SDU Patients", value = 20),
                  numericInput("num_ward_patients", "WARD Patients", value = 10),
                  numericInput("num_dc_patients", "D/C", value = 0),
+                 numericInput("potential_dc", "Potential D/C", value = 50),
+                 numericInput("avg_dc_time", "Average D/C Time", value = 108)
                  ),
           column(6, h4("Supplies"),
                  numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = 74, min = 0, step = 1),
@@ -94,14 +96,18 @@ ui <- fluidPage(
                fluidRow(
                  column(12, h2("Patients"),
                         fixedRow(
-                            column(4, "TOTAL", verbatimTextOutput("num_total_patients"), tags$head(tags$style(HTML("#num_total_patients {font-size: 36px}")))), 
+                            column(4, "TOTAL", 
+                                        "PATIENTS",verbatimTextOutput("num_total_patients"), tags$head(tags$style(HTML("#num_total_patients {font-size: 36px}")))), 
                             column(4, "DEPARTMENT", 
                                              "ER" ,verbatimTextOutput("num_er_patients"), tags$head(tags$style(HTML("#num_er_patients {background-color: black}", "#num_er_patients {color: white}", "#num_er_patients {font-size: 24px}"))),
                                              "ICU",verbatimTextOutput("num_icu_patients"), tags$head(tags$style(HTML("#num_icu_patients {background-color: #505050}", "#num_icu_patients {color: white}", "#num_icu_patients {font-size: 24px}"))),
                                              "SDU",verbatimTextOutput("num_sdu_patients"), tags$head(tags$style(HTML("#num_sdu_patients {background-color: #808080}", "#num_sdu_patients {color: white}", "#num_sdu_patients {font-size: 24px}"))),
                                              "WARD",verbatimTextOutput("num_ward_patients"), tags$head(tags$style(HTML("#num_ward_patients {background-color: #D3D3D3}", "#num_ward_patients {color: white}", "#num_ward_patients {font-size: 24px}"))),
                                              "D/C",verbatimTextOutput("num_dc_patients"), tags$head(tags$style(HTML("#num_dc_patients {font-size: 24px}")))),
-                            column(4, "STATUS")
+                            column(4, "STATUS",
+                                            "POTENTIAL D/C", verbatimTextOutput("potential_dc"), tags$head(tags$style(HTML("#potential_dc {font-size: 36px}"))),
+                                            "AVG D/C TIME", verbatimTextOutput("avg_dc_time"), tags$head(tags$style(HTML("#avg_dc_time {background-color: gray}", "#avg_dc_time {color: white}", "#avg_dc_time {font-size: 36px}")))
+                                   )
                                 )
                        )
                  ),
@@ -197,6 +203,8 @@ server <- function(input, output, session) {
   output$num_sdu_patients <- renderText({ input$num_sdu_patients })
   output$num_ward_patients <- renderText({ input$num_ward_patients })
   output$num_dc_patients <- renderText({ input$num_dc_patients })
+  output$potential_dc <- renderText({ input$potential_dc })
+  output$avg_dc_time <- renderText({ input$avg_dc_time })
   
   output$num_total_beds_occupied <- renderText({ input$num_total_beds_occupied })
   
@@ -231,6 +239,19 @@ server <- function(input, output, session) {
   output$message3 <- renderText({ input$message3 })
   output$message4 <- renderText({ input$message4 })
   output$message5 <- renderText({ input$message5 })
+  
+  ####### conditional rendering: AVG D/C TIME ########
+  
+  observeEvent(input$avg_dc_time, {
+    x <- input$avg_dc_time
+    if (x > 108){
+      js$backgroundCol("avg_dc_time", "red")
+    } else if (x <= 108 && x > 98) {
+      js$backgroundCol("avg_dc_time", "orange")
+    } else {
+      js$backgroundCol("avg_dc_time", "green")
+    }
+  })
   
   ####### conditional rendering: BEDS OCCUPIED ########
   
