@@ -16,17 +16,23 @@ el.css("background-color", params.col);
 
 
 # arbitrary number of patients
-num_er_patients <- 6
-num_icu_patients <- 6
+num_er_patients <- 12
+num_icu_patients <- 12
 num_sdu_patients <- 6
-num_ward_patients <- 6
+num_ward_patients <- 30
 num_dc_patients <- 6
 
-# arbitrary number of total patients
+# assumption potential_dc is 1/3 of num_ward_patients
+potential_dc <- num_ward_patients/3
+
+# arbitrary avg_dc_time
+avg_dc_time <- 55
+
+# number of total patients (sum of all patients)
 # NOTE: total_patients needs to be below all dept patients (scope)
 num_total_patients <- num_er_patients + num_icu_patients + num_sdu_patients + num_ward_patients + num_dc_patients
 
-# assumptions - number of beds
+# assumptions - number of beds (mid-size hospital)
 num_er_beds <- 20
 num_icu_beds <- 20
 num_sdu_beds <- 20
@@ -36,7 +42,7 @@ num_ward_beds <- 40
 # NOTE: total_beds needs to be below all dept beds (scope)
 num_total_beds_occupied <- num_er_beds + num_icu_beds + num_sdu_beds + num_ward_beds
 
-# assumption - ratio 2 nurse : 3 beds
+# assumption - ratio 2 nurse : 3 beds (society for critical care; pandemic response)
 num_er_nurses <- floor(num_er_beds*(2/3))
 num_icu_nurses <- floor(num_icu_beds*(2/3))
 num_sdu_nurses <- floor(num_sdu_beds*(2/3))
@@ -64,8 +70,8 @@ ui <- fluidPage(
                  numericInput("num_sdu_patients", "SDU Patients", value = num_sdu_patients),
                  numericInput("num_ward_patients", "WARD Patients", value = num_ward_patients),
                  numericInput("num_dc_patients", "D/C", value = num_dc_patients),
-                 numericInput("potential_dc", "Potential D/C", value = 50),
-                 numericInput("avg_dc_time", "Average D/C Time", value = 108)
+                 numericInput("potential_dc", "Potential D/C", value = potential_dc),
+                 numericInput("avg_dc_time", "Average D/C Time", value = avg_dc_time)
                  ),
           column(6, h4("Supplies"),
                  numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = num_total_beds_occupied, min = 0, step = 1),
@@ -271,9 +277,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$avg_dc_time, {
     x <- input$avg_dc_time
-    if (x > 108){
+    if (x > 70){
       js$backgroundCol("avg_dc_time", "red")
-    } else if (x <= 108 && x > 98) {
+    } else if (x <= 70 && x > 60) {
       js$backgroundCol("avg_dc_time", "orange")
     } else {
       js$backgroundCol("avg_dc_time", "green")
@@ -401,9 +407,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_er_nurses, {
     x <- input$num_er_nurses
-    if (x < 68){
+    if (x <= num_er_patients/2){
       js$backgroundCol("num_er_nurses", "red")
-    } else if (x >= 68 && x < 80) {
+    } else if (x > (num_er_patients/2) && x < num_er_nurses) {
       js$backgroundCol("num_er_nurses", "orange")
     } else {
       js$backgroundCol("num_er_nurses", "green")
@@ -412,9 +418,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_icu_nurses, {
     x <- input$num_icu_nurses
-    if (x < 32){
+    if (x <= num_icu_patients/2){
       js$backgroundCol("num_icu_nurses", "red")
-    } else if (x >= 32 && x < 40) {
+    } else if (x > (num_icu_patients/2) && x < num_icu_nurses) {
       js$backgroundCol("num_icu_nurses", "orange")
     } else {
       js$backgroundCol("num_icu_nurses", "green")
@@ -423,9 +429,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_sdu_nurses, {
     x <- input$num_sdu_nurses
-    if (x < 18){
+    if (x <= num_sdu_patients/2){
       js$backgroundCol("num_sdu_nurses", "red")
-    } else if (x >= 18 && x < 30) {
+    } else if (x > (num_sdu_patients/2) && x < num_sdu_nurses) {
       js$backgroundCol("num_sdu_nurses", "orange")
     } else {
       js$backgroundCol("num_sdu_nurses", "green")
@@ -434,9 +440,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_ward_nurses, {
     x <- input$num_ward_nurses
-    if (x < 23){
+    if (x <= num_ward_patients/2){
       js$backgroundCol("num_ward_nurses", "red")
-    } else if (x >= 23 && x < 33) {
+    } else if (x > (num_ward_patients/2) && x < num_ward_nurses) {
       js$backgroundCol("num_ward_nurses", "orange")
     } else {
       js$backgroundCol("num_ward_nurses", "green")
