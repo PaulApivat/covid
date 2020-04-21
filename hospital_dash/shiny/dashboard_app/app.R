@@ -14,14 +14,17 @@ var el = $("#" + params.id);
 el.css("background-color", params.col);
 }'
 
-# arbitrary number of patients
-num_total_patients <- 36
 
-num_er_patients <- 5
-num_icu_patients <- 5
-num_sdu_patients <- 5
-num_ward_patients <- 5
-num_dc_patients <- 5
+# arbitrary number of patients
+num_er_patients <- 6
+num_icu_patients <- 6
+num_sdu_patients <- 6
+num_ward_patients <- 6
+num_dc_patients <- 6
+
+# arbitrary number of total patients
+# NOTE: total_patients needs to be below all dept patients (scope)
+num_total_patients <- num_er_patients + num_icu_patients + num_sdu_patients + num_ward_patients + num_dc_patients
 
 # assumptions - number of beds
 num_er_beds <- 20
@@ -30,11 +33,14 @@ num_sdu_beds <- 20
 num_ward_beds <- 40
 
 # all beds add up to total_occupied
+# NOTE: total_beds needs to be below all dept beds (scope)
 num_total_beds_occupied <- num_er_beds + num_icu_beds + num_sdu_beds + num_ward_beds
 
 # assumption - ratio 2 nurse : 3 beds
 num_er_nurses <- floor(num_er_beds*(2/3))
-
+num_icu_nurses <- floor(num_icu_beds*(2/3))
+num_sdu_nurses <- floor(num_sdu_beds*(2/3))
+num_ward_nurses <- floor(num_ward_beds*(2/3))
 
 # Define UI  ----
 ui <- fluidPage(
@@ -82,9 +88,9 @@ ui <- fluidPage(
                  ),
           column(6, h4("Nurses"),
                  numericInput("num_er_nurses", "ER Nurses", value = num_er_nurses, min = 0, step = 1), 
-                 numericInput("num_icu_nurses", "ICU Nurses", value = 32, min = 0, step = 1),
-                 numericInput("num_sdu_nurses", "SDU Nurses", value = 18, min = 0, step = 1),
-                 numericInput("num_ward_nurses", "WARD Nurses", value = 23, min = 0, step = 1),
+                 numericInput("num_icu_nurses", "ICU Nurses", value = num_icu_nurses, min = 0, step = 1),
+                 numericInput("num_sdu_nurses", "SDU Nurses", value = num_sdu_nurses, min = 0, step = 1),
+                 numericInput("num_ward_nurses", "WARD Nurses", value = num_ward_nurses, min = 0, step = 1),
                  )
         ),
         fluidRow(
