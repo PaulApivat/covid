@@ -69,12 +69,12 @@ ui <- fluidPage(
         ),
         fluidRow(
           column(12, h4("Time"),
-                 numericInput("avg_door_doc", "Average Door to Doctor", value = 83), 
-                 numericInput("avg_er_floor", "Average ER to Floor", value = 45),
-                 numericInput("bed_to_icu", "Bed Transfer to ICU", value = 29),
-                 numericInput("bed_to_sdu", "Bed Transfer to SDU", value = 35),
-                 numericInput("bed_to_ward", "Bed Transfer to WARD", value = 125),
-                 numericInput("dc_order_actual", "D/C order to actual D/C", value = 61),
+                 numericInput("avg_door_doc", "Average Door to Doctor", value = 60), 
+                 numericInput("avg_er_floor", "Average ER to Floor", value = 30),
+                 numericInput("bed_to_icu", "Bed Transfer to ICU", value = 30),
+                 numericInput("bed_to_sdu", "Bed Transfer to SDU", value = 30),
+                 numericInput("bed_to_ward", "Bed Transfer to WARD", value = 45),
+                 numericInput("dc_order_actual", "D/C order to actual D/C", value = 60),
                  )
         ),
         fluidRow(
@@ -421,9 +421,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$avg_door_doc, {
     x <- input$avg_door_doc
-    if (x > 83){
+    if (x > 70){
       js$backgroundCol("avg_door_doc", "red")
-    } else if (x <= 83 && x > 73) {
+    } else if (x <= 70 && x > 60) {
       js$backgroundCol("avg_door_doc", "orange")
     } else {
       js$backgroundCol("avg_door_doc", "green")
@@ -432,9 +432,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$avg_er_floor, {
     x <- input$avg_er_floor
-    if (x > 45){
+    if (x > 40){
       js$backgroundCol("avg_er_floor", "red")
-    } else if (x <= 45 && x > 35) {
+    } else if (x <= 40 && x > 30) {
       js$backgroundCol("avg_er_floor", "orange")
     } else {
       js$backgroundCol("avg_er_floor", "green")
@@ -443,9 +443,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$bed_to_icu, {
     x <- input$bed_to_icu
-    if (x > 29){
+    if (x > 40){
       js$backgroundCol("bed_to_icu", "red")
-    } else if (x <= 29 && x > 19) {
+    } else if (x <= 40 && x > 30) {
       js$backgroundCol("bed_to_icu", "orange")
     } else {
       js$backgroundCol("bed_to_icu", "green")
@@ -454,9 +454,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$bed_to_sdu, {
     x <- input$bed_to_sdu
-    if (x > 35){
+    if (x > 40){
       js$backgroundCol("bed_to_sdu", "red")
-    } else if (x <= 35 && x > 25) {
+    } else if (x <= 40 && x > 30) {
       js$backgroundCol("bed_to_sdu", "orange")
     } else {
       js$backgroundCol("bed_to_sdu", "green")
@@ -465,9 +465,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$bed_to_ward, {
     x <- input$bed_to_ward
-    if (x > 125){
+    if (x > 55){
       js$backgroundCol("bed_to_ward", "red")
-    } else if (x <= 125 && x > 115) {
+    } else if (x <= 55 && x > 45) {
       js$backgroundCol("bed_to_ward", "orange")
     } else {
       js$backgroundCol("bed_to_ward", "green")
@@ -476,9 +476,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$dc_order_actual, {
     x <- input$dc_order_actual
-    if (x > 61){
+    if (x > 70){
       js$backgroundCol("dc_order_actual", "red")
-    } else if (x <= 61 && x > 51) {
+    } else if (x <= 70 && x > 60) {
       js$backgroundCol("dc_order_actual", "orange")
     } else {
       js$backgroundCol("dc_order_actual", "green")
