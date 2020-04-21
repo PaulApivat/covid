@@ -14,7 +14,27 @@ var el = $("#" + params.id);
 el.css("background-color", params.col);
 }'
 
-num_total_patients <- 37
+# arbitrary number of patients
+num_total_patients <- 36
+
+num_er_patients <- 5
+num_icu_patients <- 5
+num_sdu_patients <- 5
+num_ward_patients <- 5
+num_dc_patients <- 5
+
+# assumptions - number of beds
+num_er_beds <- 20
+num_icu_beds <- 20
+num_sdu_beds <- 20
+num_ward_beds <- 40
+
+# all beds add up to total_occupied
+num_total_beds_occupied <- num_er_beds + num_icu_beds + num_sdu_beds + num_ward_beds
+
+# assumption - ratio 2 nurse : 3 beds
+num_er_nurses <- floor(num_er_beds*(2/3))
+
 
 # Define UI  ----
 ui <- fluidPage(
@@ -33,16 +53,16 @@ ui <- fluidPage(
         fluidRow(
           column(6, h4("Patients"), 
                  numericInput("num_total_patients", "Number of Total Patients", value = num_total_patients), 
-                 numericInput("num_er_patients", "ER Patients", value = 2),
-                 numericInput("num_icu_patients", "ICU Patients", value = 4),
-                 numericInput("num_sdu_patients", "SDU Patients", value = 20),
-                 numericInput("num_ward_patients", "WARD Patients", value = 10),
-                 numericInput("num_dc_patients", "D/C", value = 0),
+                 numericInput("num_er_patients", "ER Patients", value = num_er_patients),
+                 numericInput("num_icu_patients", "ICU Patients", value = num_icu_patients),
+                 numericInput("num_sdu_patients", "SDU Patients", value = num_sdu_patients),
+                 numericInput("num_ward_patients", "WARD Patients", value = num_ward_patients),
+                 numericInput("num_dc_patients", "D/C", value = num_dc_patients),
                  numericInput("potential_dc", "Potential D/C", value = 50),
                  numericInput("avg_dc_time", "Average D/C Time", value = 108)
                  ),
           column(6, h4("Supplies"),
-                 numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = 74, min = 0, step = 1),
+                 numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = num_total_beds_occupied, min = 0, step = 1),
                  numericInput("num_n95", "N95 Masks", value = 30, min = 0, step = 1),
                  numericInput("num_goggles", "Goggles", value = 25),
                  numericInput("num_gloves", "Gloves", value = 65),
@@ -55,13 +75,13 @@ ui <- fluidPage(
         
         fluidRow(
           column(6, h4("Beds"),
-                 numericInput("num_er_beds", "ER Beds", value = 20, min = 0, step = 1), 
-                 numericInput("num_icu_beds", "ICU Beds", value = 20, min = 0, step = 1),
-                 numericInput("num_sdu_beds", "SDU Beds", value = 20, min = 0, step = 1),
-                 numericInput("num_ward_beds", "WARD Beds", value = 40, min = 0, step = 1),
+                 numericInput("num_er_beds", "ER Beds", value = num_er_beds, min = 0, step = 1), 
+                 numericInput("num_icu_beds", "ICU Beds", value = num_icu_beds, min = 0, step = 1),
+                 numericInput("num_sdu_beds", "SDU Beds", value = num_sdu_beds, min = 0, step = 1),
+                 numericInput("num_ward_beds", "WARD Beds", value = num_ward_beds, min = 0, step = 1),
                  ),
           column(6, h4("Nurses"),
-                 numericInput("num_er_nurses", "ER Nurses", value = 68, min = 0, step = 1), 
+                 numericInput("num_er_nurses", "ER Nurses", value = num_er_nurses, min = 0, step = 1), 
                  numericInput("num_icu_nurses", "ICU Nurses", value = 32, min = 0, step = 1),
                  numericInput("num_sdu_nurses", "SDU Nurses", value = 18, min = 0, step = 1),
                  numericInput("num_ward_nurses", "WARD Nurses", value = 23, min = 0, step = 1),
@@ -258,9 +278,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_total_beds_occupied, {
     x <- input$num_total_beds_occupied
-    if (x > 74){
+    if (x < 75){
       js$backgroundCol("num_total_beds_occupied", "red")
-    } else if (x <= 74 && x > 64) {
+    } else if (x >= 75 && x < 100) {
       js$backgroundCol("num_total_beds_occupied", "orange")
     } else {
       js$backgroundCol("num_total_beds_occupied", "green")
