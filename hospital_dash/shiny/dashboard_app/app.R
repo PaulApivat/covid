@@ -55,10 +55,10 @@ ui <- fluidPage(
         
         fluidRow(
           column(6, h4("Beds"),
-                 numericInput("num_er_beds", "ER Beds", value = 46, min = 0, step = 1), 
-                 numericInput("num_icu_beds", "ICU Beds", value = 50, min = 0, step = 1),
-                 numericInput("num_sdu_beds", "SDU Beds", value = 63, min = 0, step = 1),
-                 numericInput("num_ward_beds", "WARD Beds", value = 97, min = 0, step = 1),
+                 numericInput("num_er_beds", "ER Beds", value = 20, min = 0, step = 1), 
+                 numericInput("num_icu_beds", "ICU Beds", value = 20, min = 0, step = 1),
+                 numericInput("num_sdu_beds", "SDU Beds", value = 20, min = 0, step = 1),
+                 numericInput("num_ward_beds", "WARD Beds", value = 40, min = 0, step = 1),
                  ),
           column(6, h4("Nurses"),
                  numericInput("num_er_nurses", "ER Nurses", value = 68, min = 0, step = 1), 
@@ -329,9 +329,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_er_beds, {
     x <- input$num_er_beds
-    if (x < 46){
+    if (x < 15){
       js$backgroundCol("num_er_beds", "red")
-    } else if (x >= 46 && x < 70) {
+    } else if (x >= 15 && x < 20) {
       js$backgroundCol("num_er_beds", "orange")
     } else {
       js$backgroundCol("num_er_beds", "green")
@@ -340,9 +340,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_sdu_beds, {
     x <- input$num_sdu_beds
-    if (x < 63){
+    if (x < 15){
       js$backgroundCol("num_sdu_beds", "red")
-    } else if (x >= 63 && x < 80) {
+    } else if (x >= 15 && x < 20) {
       js$backgroundCol("num_sdu_beds", "orange")
     } else {
       js$backgroundCol("num_sdu_beds", "green")
@@ -351,9 +351,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_icu_beds, {
     x <- input$num_icu_beds
-    if (x < 50){
+    if (x < 15){
       js$backgroundCol("num_icu_beds", "red")
-    } else if (x >= 50 && x < 60) {
+    } else if (x >= 15 && x < 20) {
       js$backgroundCol("num_icu_beds", "orange")
     } else {
       js$backgroundCol("num_icu_beds", "green")
@@ -362,9 +362,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_ward_beds, {
     x <- input$num_ward_beds
-    if (x < 97){
+    if (x < 30){
       js$backgroundCol("num_ward_beds", "red")
-    } else if (x >= 97 && x < 107) {
+    } else if (x >= 30 && x < 40) {
       js$backgroundCol("num_ward_beds", "orange")
     } else {
       js$backgroundCol("num_ward_beds", "green")
