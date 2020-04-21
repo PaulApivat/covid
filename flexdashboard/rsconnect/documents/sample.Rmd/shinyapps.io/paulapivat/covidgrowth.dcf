@@ -5,8 +5,8 @@ account: paulapivat
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1970835
-bundleId: 3034421
+bundleId: 3043071
 url: https://paulapivat.shinyapps.io/covidgrowth/
-when: 1587301301.23642
+when: 1587456593.71017
 asMultiple: FALSE
 asStatic: FALSE
