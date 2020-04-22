@@ -453,9 +453,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$avg_door_doc, {
     x <- input$avg_door_doc
-    if (x > 70){
+    if (x >= 90){
       js$backgroundCol("avg_door_doc", "red")
-    } else if (x <= 70 && x > 60) {
+    } else if (x < 90 && x > 60) {
       js$backgroundCol("avg_door_doc", "orange")
     } else {
       js$backgroundCol("avg_door_doc", "green")
@@ -464,9 +464,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$avg_er_floor, {
     x <- input$avg_er_floor
-    if (x > 40){
+    if (x >= 60){
       js$backgroundCol("avg_er_floor", "red")
-    } else if (x <= 40 && x > 30) {
+    } else if (x < 60 && x > 30) {
       js$backgroundCol("avg_er_floor", "orange")
     } else {
       js$backgroundCol("avg_er_floor", "green")
@@ -475,9 +475,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$bed_to_icu, {
     x <- input$bed_to_icu
-    if (x > 40){
+    if (x >= 60){
       js$backgroundCol("bed_to_icu", "red")
-    } else if (x <= 40 && x > 30) {
+    } else if (x < 60 && x > 30) {
       js$backgroundCol("bed_to_icu", "orange")
     } else {
       js$backgroundCol("bed_to_icu", "green")
@@ -486,9 +486,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$bed_to_sdu, {
     x <- input$bed_to_sdu
-    if (x > 40){
+    if (x >= 60){
       js$backgroundCol("bed_to_sdu", "red")
-    } else if (x <= 40 && x > 30) {
+    } else if (x < 60 && x > 30) {
       js$backgroundCol("bed_to_sdu", "orange")
     } else {
       js$backgroundCol("bed_to_sdu", "green")
@@ -497,9 +497,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$bed_to_ward, {
     x <- input$bed_to_ward
-    if (x > 55){
+    if (x >= 75){
       js$backgroundCol("bed_to_ward", "red")
-    } else if (x <= 55 && x > 45) {
+    } else if (x < 75 && x > 45) {
       js$backgroundCol("bed_to_ward", "orange")
     } else {
       js$backgroundCol("bed_to_ward", "green")
@@ -508,9 +508,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$dc_order_actual, {
     x <- input$dc_order_actual
-    if (x > 70){
+    if (x >= 90){
       js$backgroundCol("dc_order_actual", "red")
-    } else if (x <= 70 && x > 60) {
+    } else if (x < 90 && x > 60) {
       js$backgroundCol("dc_order_actual", "orange")
     } else {
       js$backgroundCol("dc_order_actual", "green")
