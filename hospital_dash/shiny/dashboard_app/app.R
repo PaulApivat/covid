@@ -48,6 +48,9 @@ num_icu_nurses <- floor(num_icu_beds*(2/3))
 num_sdu_nurses <- floor(num_sdu_beds*(2/3))
 num_ward_nurses <- floor(num_ward_beds*(2/3))
 
+# twitter share
+url <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard&url=https://paulapivat.shinyapps.io/dashboard_app/"
+
 # Define UI  ----
 ui <- fluidPage(
   
@@ -116,7 +119,6 @@ ui <- fluidPage(
           column(2, textInput("message3", "Mins", value = "mins")),
           column(2, textInput("message4", "Mins", value = "mins")),
           column(2, textInput("message5", "Mins", value = "mins")),
-                 
         )
       )), #--sidebarPanel() --div(id = "Sidebar")
     
@@ -210,12 +212,14 @@ ui <- fluidPage(
                ),
         
         
-      )
-      #plotOutput("distPlot")
-    ) # -- mainPanel()
+      ),
+      # FOOTER & Twitter Share button
+      hr(),
+      tags$a(href=url, "Tweet", class="twitter-share-button"),
+      includeScript("http://platform.twitter.com/widgets.js"),
+      print("@paulapivat"),
+    ), # -- mainPanel()
     
- 
-  
   ) # -- sidebarLayout()
 ) # -- fluidPage()
 
