@@ -48,6 +48,17 @@ num_icu_nurses <- floor(num_icu_beds*(2/3))
 num_sdu_nurses <- floor(num_sdu_beds*(2/3))
 num_ward_nurses <- floor(num_ward_beds*(2/3))
 
+# assumption - supplies should be stocked for 8-week outbreak according to CDC's Hospital Prepareness Checklist: Covid19
+# source: https://www.cdc.gov/coronavirus/2019-ncov/hcp/hcp-hospital-checklist.html
+# calculus: 50 admitted patients per day; need 6X supplies per day; need 60 days supplies stock
+# ideal supply = 18,000 
+
+num_n95 <- 18000
+num_face_shields <- 18000
+num_gloves <- 18000
+num_ppe <- 18000
+num_vent <- 24
+
 # twitter share
 url <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard&url=https://paulapivat.shinyapps.io/dashboard_app/"
 
@@ -78,11 +89,11 @@ ui <- fluidPage(
                  ),
           column(6, h4("Supplies"),
                  numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = num_total_beds_occupied, min = 0, step = 1),
-                 numericInput("num_n95", "N95 Masks", value = 30, min = 0, step = 1),
-                 numericInput("num_face_shields", "Face Shields", value = 25),
-                 numericInput("num_gloves", "Gloves", value = 65),
-                 numericInput("num_ppe", "PPE", value = 55, min = 0, step = 1),
-                 numericInput("num_vent", "Ventilators", value = 20),
+                 numericInput("num_n95", "N95 Masks", value = num_n95, min = 0, step = 10),
+                 numericInput("num_face_shields", "Face Shields", value = num_face_shields, min = 0, step = 10),
+                 numericInput("num_gloves", "Gloves", value = num_gloves, min = 0, step = 10),
+                 numericInput("num_ppe", "PPE", value = num_ppe, min = 0, step = 10),
+                 numericInput("num_vent", "Ventilators", value = num_vent, min = 0, step = 1),
                  )
         ),
         #useShinyjs(), # include shinyjs
@@ -152,11 +163,11 @@ ui <- fluidPage(
                
                fluidRow(
                  column(12, h2("Supplies"),
-                        fixedRow(column(4, "N95 MASK", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: grey}", "#num_n95 {color: white}", "#num_n95 {font-size: 30px}"))), 
-                                            "PPE"     ,  verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: grey}", "#num_ppe {color: white}", "#num_ppe {font-size: 30px}")))), 
-                                 column(4, "FaceShields", verbatimTextOutput("num_face_shields"), tags$head(tags$style(HTML("#num_face_shields {background-color: grey}", "#num_face_shields {color: white}", "#num_face_shields {font-size: 30px}"))),
+                        fixedRow(column(4, "N95 MASK", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: grey}", "#num_n95 {color: white}", "#num_n95 {font-size: 20px}"))), 
+                                            "PPE"     ,  verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: grey}", "#num_ppe {color: white}", "#num_ppe {font-size: 20px}")))), 
+                                 column(4, "FaceShields", verbatimTextOutput("num_face_shields"), tags$head(tags$style(HTML("#num_face_shields {background-color: grey}", "#num_face_shields {color: white}", "#num_face_shields {font-size: 20px}"))),
                                           "VENTILATORS", verbatimTextOutput("num_vent"), tags$head(tags$style(HTML("#num_vent {background-color: grey}", "#num_vent {color: white}", "#num_vent {font-size: 30px}")))), 
-                                 column(4, "GLOVES", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: grey}", "#num_gloves {color: white}", "#num_gloves {font-size: 30px}"))))
+                                 column(4, "GLOVES", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: grey}", "#num_gloves {color: white}", "#num_gloves {font-size: 20px}"))))
                                  )
                         )
                  )
@@ -304,12 +315,13 @@ server <- function(input, output, session) {
   })
   
   ####### conditional rendering: SUPPLIES ########
+  # assumption: 50*6*60=18,000 ; num_n95 <- 18000
   
   observeEvent(input$num_n95, {
     x <- input$num_n95
-    if (x < 30){
+    if (x <= ((num_n95)*0.6)){
       js$backgroundCol("num_n95", "red")
-    } else if (x >= 30 && x < 40) {
+    } else if (x > ((num_n95)*0.6) && x < num_n95) {
       js$backgroundCol("num_n95", "orange")
     } else {
       js$backgroundCol("num_n95", "green")
@@ -318,9 +330,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_ppe, {
     x <- input$num_ppe
-    if (x < 55){
+    if (x <= ((num_ppe)*0.6)){
       js$backgroundCol("num_ppe", "red")
-    } else if (x >= 55 && x < 65) {
+    } else if (x > ((num_ppe)*0.6) && x < num_ppe) {
       js$backgroundCol("num_ppe", "orange")
     } else {
       js$backgroundCol("num_ppe", "green")
@@ -329,9 +341,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_face_shields, {
     x <- input$num_face_shields
-    if (x < 25){
+    if (x <= ((num_face_shields)*0.6)){
       js$backgroundCol("num_face_shields", "red")
-    } else if (x >= 25 && x < 35) {
+    } else if (x >= ((num_face_shields)*0.6) && x < num_face_shields) {
       js$backgroundCol("num_face_shields", "orange")
     } else {
       js$backgroundCol("num_face_shields", "green")
@@ -340,9 +352,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_vent, {
     x <- input$num_vent
-    if (x < 20){
+    if (x <= ((num_vent)*0.6)){
       js$backgroundCol("num_vent", "red")
-    } else if (x >= 20 && x < 30) {
+    } else if (x > ((num_vent)*0.6) && x < num_vent) {
       js$backgroundCol("num_vent", "orange")
     } else {
       js$backgroundCol("num_vent", "green")
@@ -351,9 +363,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_gloves, {
     x <- input$num_gloves
-    if (x < 65){
+    if (x <= ((num_gloves)*0.6)){
       js$backgroundCol("num_gloves", "red")
-    } else if (x >= 65 && x < 75) {
+    } else if (x > ((num_gloves)*0.6) && x < num_gloves) {
       js$backgroundCol("num_gloves", "orange")
     } else {
       js$backgroundCol("num_gloves", "green")
