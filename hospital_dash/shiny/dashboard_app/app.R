@@ -20,7 +20,7 @@ num_er_patients <- 12
 num_icu_patients <- 12
 num_sdu_patients <- 15
 num_ward_patients <- 24
-num_dc_patients <- 6
+num_dc_patients <- 7
 
 # assumption potential_dc is 1/3 of num_ward_patients
 potential_dc <- num_ward_patients/3
@@ -281,9 +281,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$avg_dc_time, {
     x <- input$avg_dc_time
-    if (x > 70){
+    if (x >= 90){
       js$backgroundCol("avg_dc_time", "red")
-    } else if (x <= 70 && x > 60) {
+    } else if (x < 90 && x > 60) {
       js$backgroundCol("avg_dc_time", "orange")
     } else {
       js$backgroundCol("avg_dc_time", "green")
@@ -365,9 +365,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_er_beds, {
     x <- input$num_er_beds
-    if (x < 15){
+    if (x < num_er_patients){
       js$backgroundCol("num_er_beds", "red")
-    } else if (x >= 15 && x < 20) {
+    } else if (x >= num_er_patients && x < num_er_beds) {
       js$backgroundCol("num_er_beds", "orange")
     } else {
       js$backgroundCol("num_er_beds", "green")
@@ -376,9 +376,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_sdu_beds, {
     x <- input$num_sdu_beds
-    if (x < 15){
+    if (x < num_sdu_patients){
       js$backgroundCol("num_sdu_beds", "red")
-    } else if (x >= 15 && x < 20) {
+    } else if (x >= num_sdu_patients && x < num_sdu_beds) {
       js$backgroundCol("num_sdu_beds", "orange")
     } else {
       js$backgroundCol("num_sdu_beds", "green")
@@ -387,9 +387,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_icu_beds, {
     x <- input$num_icu_beds
-    if (x < 15){
+    if (x < num_icu_patients){
       js$backgroundCol("num_icu_beds", "red")
-    } else if (x >= 15 && x < 20) {
+    } else if (x >= num_icu_patients && x < num_icu_beds) {
       js$backgroundCol("num_icu_beds", "orange")
     } else {
       js$backgroundCol("num_icu_beds", "green")
@@ -398,9 +398,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_ward_beds, {
     x <- input$num_ward_beds
-    if (x < 30){
+    if (x < num_ward_patients){
       js$backgroundCol("num_ward_beds", "red")
-    } else if (x >= 30 && x < 40) {
+    } else if (x >= num_ward_patients && x < num_ward_beds) {
       js$backgroundCol("num_ward_beds", "orange")
     } else {
       js$backgroundCol("num_ward_beds", "green")
