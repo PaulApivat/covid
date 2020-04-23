@@ -433,9 +433,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_sdu_nurses, {
     x <- input$num_sdu_nurses
-    if (x <= num_sdu_patients/3){
+    if (x <= num_sdu_patients/2){
       js$backgroundCol("num_sdu_nurses", "red")
-    } else if (x > (num_sdu_patients/3) && x < num_sdu_nurses) {
+    } else if (x > (num_sdu_patients/2) && x < num_sdu_nurses) {
       js$backgroundCol("num_sdu_nurses", "orange")
     } else {
       js$backgroundCol("num_sdu_nurses", "green")
@@ -444,9 +444,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$num_ward_nurses, {
     x <- input$num_ward_nurses
-    if (x <= num_ward_patients/4){
+    if (x <= num_ward_patients/2){
       js$backgroundCol("num_ward_nurses", "red")
-    } else if (x > (num_ward_patients/4) && x < num_ward_nurses) {
+    } else if (x > (num_ward_patients/2) && x < num_ward_nurses) {
       js$backgroundCol("num_ward_nurses", "orange")
     } else {
       js$backgroundCol("num_ward_nurses", "green")
