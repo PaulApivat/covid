@@ -79,7 +79,7 @@ ui <- fluidPage(
           column(6, h4("Supplies"),
                  numericInput("num_total_beds_occupied", "Total Beds Occupied (%)", value = num_total_beds_occupied, min = 0, step = 1),
                  numericInput("num_n95", "N95 Masks", value = 30, min = 0, step = 1),
-                 numericInput("num_goggles", "Goggles", value = 25),
+                 numericInput("num_face_shields", "Face Shields", value = 25),
                  numericInput("num_gloves", "Gloves", value = 65),
                  numericInput("num_ppe", "PPE", value = 55, min = 0, step = 1),
                  numericInput("num_vent", "Ventilators", value = 20),
@@ -154,7 +154,7 @@ ui <- fluidPage(
                  column(12, h2("Supplies"),
                         fixedRow(column(4, "N95 MASK", verbatimTextOutput("num_n95"), tags$head(tags$style(HTML("#num_n95 {background-color: grey}", "#num_n95 {color: white}", "#num_n95 {font-size: 30px}"))), 
                                             "PPE"     ,  verbatimTextOutput("num_ppe"), tags$head(tags$style(HTML("#num_ppe {background-color: grey}", "#num_ppe {color: white}", "#num_ppe {font-size: 30px}")))), 
-                                 column(4, "GOGGLES", verbatimTextOutput("num_goggles"), tags$head(tags$style(HTML("#num_goggles {background-color: grey}", "#num_goggles {color: white}", "#num_goggles {font-size: 30px}"))),
+                                 column(4, "FaceShields", verbatimTextOutput("num_face_shields"), tags$head(tags$style(HTML("#num_face_shields {background-color: grey}", "#num_face_shields {color: white}", "#num_face_shields {font-size: 30px}"))),
                                           "VENTILATORS", verbatimTextOutput("num_vent"), tags$head(tags$style(HTML("#num_vent {background-color: grey}", "#num_vent {color: white}", "#num_vent {font-size: 30px}")))), 
                                  column(4, "GLOVES", verbatimTextOutput("num_gloves"), tags$head(tags$style(HTML("#num_gloves {background-color: grey}", "#num_gloves {color: white}", "#num_gloves {font-size: 30px}"))))
                                  )
@@ -247,7 +247,7 @@ server <- function(input, output, session) {
   
   output$num_n95 <- renderText({ input$num_n95})
   output$num_ppe <- renderText({ input$num_ppe})
-  output$num_goggles <- renderText({ input$num_goggles })
+  output$num_face_shields <- renderText({ input$num_face_shields })
   output$num_vent <- renderText({ input$num_vent })
   output$num_gloves <- renderText({ input$num_gloves })
   
@@ -327,14 +327,14 @@ server <- function(input, output, session) {
     }
   })
   
-  observeEvent(input$num_goggles, {
-    x <- input$num_goggles
+  observeEvent(input$num_face_shields, {
+    x <- input$num_face_shields
     if (x < 25){
-      js$backgroundCol("num_goggles", "red")
+      js$backgroundCol("num_face_shields", "red")
     } else if (x >= 25 && x < 35) {
-      js$backgroundCol("num_goggles", "orange")
+      js$backgroundCol("num_face_shields", "orange")
     } else {
-      js$backgroundCol("num_goggles", "green")
+      js$backgroundCol("num_face_shields", "green")
     }
   })
   
