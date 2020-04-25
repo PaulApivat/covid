@@ -238,7 +238,11 @@ standard_data[88,] <- list('2020-04-17', 'Thailand', 28, 1, 2700, 47, 38670)
 standard_data[89,] <- list('2020-04-18', 'Thailand', 33, 0, 2733, 47, 39456)
 standard_data[90,] <- list('2020-04-19', 'Thailand', 32, 0, 2765, 47, 40897)
 standard_data[91,] <- list('2020-04-20', 'Thailand', 27, 0, 2792, 47, 42257)
-standard_data[92,] <- list('2020-04-21', 'Thailand', 19, 1, 2811, 48, 42302)
+standard_data[92,] <- list('2020-04-21', 'Thailand', 19, 1, 2811, 48, 44056)
+standard_data[93,] <- list('2020-04-22', 'Thailand', 15, 1, 2826, 49, 45896)
+standard_data[94,] <- list('2020-04-23', 'Thailand', 13, 1, 2839, 50, 47786)
+standard_data[95,] <- list('2020-04-24', 'Thailand', 15, 0, 2854, 50, 49188)
+standard_data[96,] <- list('2020-04-25', 'Thailand', 53, 1, 2907, 51, 50590)
 
 
 # Re-create Changes, Growth_Factor, Growth_Rate
