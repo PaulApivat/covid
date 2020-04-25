@@ -62,16 +62,23 @@ num_vent <- 24
 # twitter share
 url <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard&url=https://paulapivat.shinyapps.io/dashboard_app/"
 
+
+if (interactive()){
+  shinyApp(
+
 # Define UI  ----
 ui <- fluidPage(
   
     titlePanel("Hospital Resource Management: COVID19"), 
     
+    #popup modal
+    actionButton("show", "Read Me First"),
+    
     useShinyjs(), # include shinyjs
     extendShinyjs(text = jsCode),
-    
+
     sidebarLayout(position = "right", 
-    
+      
       # wrap sidebarPanel in a div to reference id="Sidebar" for toggling
       div( id ="Sidebar",
       
@@ -232,7 +239,7 @@ ui <- fluidPage(
     ), # -- mainPanel()
     
   ) # -- sidebarLayout()
-) # -- fluidPage()
+), # -- ui <- fluidPage()
 
 # Define server logic  ----
 server <- function(input, output, session) {
@@ -241,6 +248,19 @@ server <- function(input, output, session) {
   
   observeEvent(input$toggleSidebar, {
     shinyjs::toggle(id = "Sidebar")
+  })
+  
+  ####### Popup Modal ##########
+  
+  observeEvent(input$show, {
+    url <- a("this post.", href="http://getwyze.com/")
+    paul <- a("@paulapivat", href="https://twitter.com/paulapivat")
+    tim <- a("Tim Decha-Umphai", href="#")
+    showModal(modalDialog(
+      title = "Project Background",
+      tagList("This tool designed to help medium sized hospitals prepare for patient surges during a Covid-19 outbreak. It's a work-in-progress and assumptions are made. For details refer to ", url, 
+              "The project is created and maintained by ", paul, "with invaluable input from ", tim)
+    ))
   })
   
   #### ---------------------------------- ####
@@ -534,9 +554,10 @@ server <- function(input, output, session) {
     }
   })
   
-  
-  
-}
+} # server()
+
+  ) # shinyApp
+} # if (interactive())
 
 # Run the app ----
 
