@@ -5,8 +5,8 @@ account: paulapivat
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2122629
-bundleId: 3053704
+bundleId: 3063189
 url: https://paulapivat.shinyapps.io/dashboard_app/
-when: 1587627332.08329
+when: 1587814821.55894
 asMultiple: FALSE
 asStatic: FALSE

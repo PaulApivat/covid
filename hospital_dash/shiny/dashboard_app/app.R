@@ -60,11 +60,10 @@ num_ppe <- 18000
 num_vent <- 24
 
 # twitter share
-url <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard&url=https://paulapivat.shinyapps.io/dashboard_app/"
+twtr <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard%20by%20@paulapivat&url=https://paulapivat.shinyapps.io/dashboard_app/"
 
 
-if (interactive()){
-  shinyApp(
+
 
 # Define UI  ----
 ui <- fluidPage(
@@ -233,13 +232,13 @@ ui <- fluidPage(
       ),
       # FOOTER & Twitter Share button
       hr(),
-      tags$a(href=url, "Tweet", class="twitter-share-button"),
+      tags$a(href=twtr, "Tweet", class="twitter-share-button"),
       includeScript("http://platform.twitter.com/widgets.js"),
       print("@paulapivat"),
     ), # -- mainPanel()
     
   ) # -- sidebarLayout()
-), # -- ui <- fluidPage()
+) # -- ui <- fluidPage()
 
 # Define server logic  ----
 server <- function(input, output, session) {
@@ -556,9 +555,11 @@ server <- function(input, output, session) {
   
 } # server()
 
-  ) # shinyApp
-} # if (interactive())
+
 
 # Run the app ----
 
 shinyApp(ui = ui, server = server)
+
+
+
