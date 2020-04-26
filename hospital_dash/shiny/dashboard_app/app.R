@@ -60,7 +60,7 @@ num_ppe <- 18000
 num_vent <- 24
 
 # twitter share
-twtr <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard%20by%20@paulapivat&url=https://paulapivat.shinyapps.io/dashboard_app/"
+twtr <- "https://twitter.com/intent/tweet?text=Check%20Out%20This%20Hospital%20Resource%20Management%20Dashboard%20by%20@paulapivat%20&url=https://paulapivat.shinyapps.io/dashboard_app/"
 
 
 
@@ -252,9 +252,9 @@ server <- function(input, output, session) {
   ####### Popup Modal ##########
   
   observeEvent(input$show, {
-    url <- a("this post.", href="http://getwyze.com/")
+    url <- a("this post.", href="http://getwyze.com/hospital-dashboard-prototype-surge-capacity-scenarios/")
     paul <- a("@paulapivat", href="https://twitter.com/paulapivat")
-    tim <- a("Tim Decha-Umphai", href="#")
+    tim <- a("Tim Decha-Umphai", href="https://www.linkedin.com/in/tim-decha-952b4b1a7/?fbclid=IwAR1ywU-mWA3m7dI9XEoqPYcqlSalzbIXKraZRIaYRy_9t2rNYpwJoWhwKno")
     showModal(modalDialog(
       title = "Project Background",
       tagList("This tool designed to help medium sized hospitals prepare for patient surges during a Covid-19 outbreak. It's a work-in-progress and assumptions are made. For details refer to ", url, 
