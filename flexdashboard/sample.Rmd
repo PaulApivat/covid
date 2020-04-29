@@ -5,6 +5,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: scroll
+  
 runtime: shiny
 ---
 
@@ -21,6 +22,7 @@ df_full <- read.csv("ddc_who_data.csv")
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+
 ```
 
 Row
@@ -82,7 +84,7 @@ today_growth <- format(round(full_thailand$Growth_Factor[nrow(full_thailand)], 2
 valueBox(today_growth, color = ifelse(today_growth=="NA", "#808080", ifelse(today_growth < 1.15, "#33cc33", "#FF3300")))
 ```
 
-### Tests Per Confirmed Case
+### Patients Under Investigation (PUI) Per Confirmed Case
 ```{r}
 test_per_case <- format(round(full_thailand$testpercase[nrow(full_thailand)], 2), nsmall = 2)
 valueBox(test_per_case, color = "#53868B")
@@ -91,11 +93,11 @@ valueBox(test_per_case, color = "#53868B")
 ### Growth Factor (Death) Today
 
 ```{r}
+
 death_growth <- format(round(full_thailand$Growth_Factor_Death[nrow(full_thailand)], 2), nsmall = 0)
 valueBox(death_growth, color = ifelse(death_growth=="NA", "#808080", ifelse(death_growth < 1.15, "#33cc33", "#FF3300")))
 
-#yesterday_growth_rate <- format(round(full_thailand$Growth_Rate[nrow(full_thailand)], 2), nsmall = 0)
-#valueBox(yesterday_growth_rate, color = "#36454F")
+
 ```
 
 
@@ -133,7 +135,7 @@ valueBox(total_case, color = "#36454F")
 ```
 
 
-### จำนวนคนที่ได้รับการตรวจสะสม //  Total Tests (Patients Under Investigation) 
+### จำนวนคนที่ได้รับการตรวจสะสม //  Total Patients Under Investigation
 
 ```{r}
 # data source: https://ddc.moph.go.th/viralpneumonia/eng/index.php
@@ -151,7 +153,7 @@ valueBox(total_death, color = "#36454F")
 
 Row
 -----------------------------------------------------------------------
-### New Cases & Tests Over Time
+### New Cases & Patients Under Investigation Over Time
 
 ```{r}
 library(reshape2)
@@ -163,12 +165,12 @@ full_thailand2 <- full_thailand %>%
 full_thailand2_melt <- melt(full_thailand2, id.vars = 'date')
 
 # plot
-thai_new_case_test <- ggplot(full_thailand2_melt, aes(x=date, y=value, fill=variable)) + geom_bar(stat = 'identity', position = 'dodge') + scale_fill_manual(values =  c("red", "black"), labels = c("New Cases", "New Tests")) + theme_classic() + labs(title = "New Cases & New Tests", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests") + theme(axis.text.x = element_blank())
+thai_new_case_test <- ggplot(full_thailand2_melt, aes(x=date, y=value, fill=variable)) + geom_bar(stat = 'identity', position = 'dodge') + scale_fill_manual(values =  c("red", "black"), labels = c("New Cases", "New Tests")) + theme_classic() + labs(title = "New Cases & New PUI", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests") + theme(axis.text.x = element_blank())
 
 renderPlot(thai_new_case_test)
 ```
 
-### Total Cases & Tests Over Time
+### Total Cases & Patients Under Investigation Over Time
 
 ```{r}
 library(reshape2)
@@ -176,7 +178,7 @@ full_thailand3 <- full_thailand %>%
   select(date, total_cases, pui)
 full_thailand3_melt <- melt(full_thailand3, id.vars = 'date')
 
-thai_total_case_test <- ggplot(full_thailand3_melt, aes(x=date, y=value, fill=variable)) + geom_bar(stat = 'identity', position = 'dodge') + scale_fill_manual(values =  c("orange", "black"), labels = c("Total Cases", "Total Tests")) + theme_classic() + labs(title = "Total Cases & Total Tests", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests") + theme(axis.text.x = element_blank())
+thai_total_case_test <- ggplot(full_thailand3_melt, aes(x=date, y=value, fill=variable)) + geom_bar(stat = 'identity', position = 'dodge') + scale_fill_manual(values =  c("orange", "black"), labels = c("Total Cases", "Total Tests")) + theme_classic() + labs(title = "Total Cases & Total PUI", subtitle = "Jan 21 - present", y = "Numbers" ,fill = "Cases & Tests") + theme(axis.text.x = element_blank())
 
 #thai_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=total_cases), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Cases", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
@@ -185,11 +187,19 @@ renderPlot(thai_total_case_test)
 
 Row
 ----------------------------------------------------------------------
-### Tests Per Cases Over Time
-```{r}
-test_per_case <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=testpercase), stat = "identity", size=2, fill="#53868B", color = "white", alpha = 1.0) + labs(title = "Tests Per Case", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
+### Featured Tweet
 
-renderPlot(test_per_case)
+```{r}
+
+library(twitterwidget)
+optspars <- list(align="center")
+twitterwidget('1249930288978735104', optspars)
+
+
+# PUI Per Cases Over Time
+#test_per_case <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=testpercase), stat = "identity", #size=2, fill="#53868B", color = "white", alpha = 1.0) + labs(title = "Tests Per Case", subtitle = "Jan 21 - #present") + theme_classic() + theme(axis.text.x = element_blank())
+
+#renderPlot(test_per_case)
 ```
 
 ### Total Cases Log10 Scale
