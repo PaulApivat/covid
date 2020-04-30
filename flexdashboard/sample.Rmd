@@ -1,11 +1,11 @@
 ---
 title: "Thailand: COVID-19 Growth Dashboard"
-date: "updated: `r format(Sys.time(), '%d %B, %Y')`, *NOTE*: Total Tests (MPH) 100,498 - April 14th (different from PUI reported by DDC)"
+date: "updated: `r format(Sys.time(), '%d %B, %Y')`, *NOTE*: Total Tests (CCSA) 178,083 - April 27th"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: scroll
-  
+    
 runtime: shiny
 ---
 
@@ -24,6 +24,9 @@ df_full <- read.csv("ddc_who_data.csv")
 library(flexdashboard)
 
 ```
+
+
+
 
 Row
 -----------------------------------------------------------------------
@@ -185,15 +188,16 @@ thai_total_case_test <- ggplot(full_thailand3_melt, aes(x=date, y=value, fill=va
 renderPlot(thai_total_case_test)
 ```
 
-Row
+Row {data-height=700}
 ----------------------------------------------------------------------
 ### Featured Tweet
 
 ```{r}
 
+
 library(twitterwidget)
 optspars <- list(align="center")
-twitterwidget('1249930288978735104', optspars)
+twitterwidget('1254649996009279488', optspars)
 
 
 # PUI Per Cases Over Time
@@ -208,7 +212,7 @@ twitterwidget('1249930288978735104', optspars)
 
 full_thailand$date <- as.Date(full_thailand$date)
 
-total_case_log <- ggplot(data = full_thailand, mapping = aes(x=date, y=total_cases)) + geom_point(color = "green") + scale_y_continuous(trans = 'log10') + scale_x_date(date_labels = '%d, %b', date_breaks = '2 day') + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y = element_text(colour = 'whitesmoke'), panel.background = element_rect(fill = 'black'), panel.grid.major = element_line(colour = 'black'), panel.grid.minor = element_line(colour = 'black'), plot.background = element_rect(fill = 'black'), plot.title = element_text(color = 'green'), plot.subtitle = element_text(color = 'light grey')) + labs(x = "Date", y = "Total Cases (Log10)", title = "Total Cases in Thailand", subtitle = "Jan 21 - Apr 30") + expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-04-30")))
+total_case_log <- ggplot(data = full_thailand, mapping = aes(x=date, y=total_cases)) + geom_point(color = "green") + scale_y_continuous(trans = 'log10') + scale_x_date(date_labels = '%d, %b', date_breaks = '2 day') + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y = element_text(colour = 'whitesmoke'), panel.background = element_rect(fill = 'black'), panel.grid.major = element_line(colour = 'black'), panel.grid.minor = element_line(colour = 'black'), plot.background = element_rect(fill = 'black'), plot.title = element_text(color = 'green'), plot.subtitle = element_text(color = 'light grey')) + labs(x = "Date", y = "Total Cases (Log10)", title = "Total Cases in Thailand", subtitle = "Jan 21 - May 15") + expand_limits(y = c(0,10000), x = as.Date(c("2020-01-21", "2020-05-15")))
 
 #test_total_bar <- ggplot(data = full_thailand, aes(x=date)) + geom_bar(aes(y=pui), stat = "identity", size=1, fill="#36454F", color = "white", alpha = 1.0) + labs(title = "Total Tests", subtitle = "Jan 21 - present") + theme_classic() + theme(axis.text.x = element_blank())
 
