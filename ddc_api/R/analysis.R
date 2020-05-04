@@ -15,6 +15,7 @@ library(tidyverse)
 # GET() request from httr package
 timeline = GET('https://covid19.th-stat.com/api/open/timeline')
 today = GET('https://covid19.th-stat.com/api/open/today')
+cases = GET('https://covid19.th-stat.com/api/open/cases')
 
 # Check for 'Status: 200' success
 # Also View(timeline), View(today) to get feel for data structure (e.g., url, content, date etc)
@@ -29,13 +30,16 @@ today = GET('https://covid19.th-stat.com/api/open/today')
 # note this is JSON in character format (still not usable)
 rawToChar(timeline$content)
 rawToChar(today$content)
+rawToChar(cases$content)
 
 # From Character Vector, convert to list data structure using fromJSON() in jsonlite library
 timeline_data = fromJSON(rawToChar(timeline$content))
 today_data = fromJSON(rawToChar(today$content))
+cases_data = fromJSON(rawToChar(cases$content))
 
-# for timeline_data, we're interested in $Data dataframe
+
+# for timeline_data, cases_data, we're interested in $Data dataframe
 View(timeline_data$Data)
-
+View(cases_data$Data)
 
 
