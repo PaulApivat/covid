@@ -49,3 +49,14 @@ View(cases_data$Data)
 View(cases_sum_data$Province)
 
 ## NOTE cases_sum_data is nested list, so conversion to data.frame requires inspection of several lists.
+View(data.frame(Reduce(rbind, cases_sum_data)))
+View(data.frame(Reduce(rbind, cases_sum_data$Province)))
+
+###### data from to do tile map #######
+cases_data$Data
+#######################################
+df <- cases_data$Data
+df2 <- timeline_data$Data
+
+
+
