@@ -277,5 +277,15 @@ library(reshape2)  # for melt() function dependency in create_new_grid()
 
 reduce_grid <- create_new_grid(x,y,province, num.iterations = 500)
 
+
+### NOTE: message Joining, by = "index"
+## reduce_grid index NOT same as grid_df index
+
 # step 3: create and save new grid
+thai_grid_map <- ggplot(data = reduce_grid, aes(x = new.col, y = new.row)) 
+  + geom_point() 
+  + geom_tile(fill='grey', color = 'black') 
+  + geom_text_repel(aes(label = unit.name), size = 2) 
+  + theme_bw()
+
 
