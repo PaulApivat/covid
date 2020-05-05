@@ -1,6 +1,9 @@
 # R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
 # RStudio Version 1.2.5042
 
+# load RData
+load(file = 'ddc_api.RData')
+
 ##### INTERACT WITH DDC API ######
 
 ## NOTE: below is simple API request; some APIs require user-info - password, username
