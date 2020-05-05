@@ -231,6 +231,7 @@ create_new_grid <- function(x,y, unit.name, num.iterations = 100){
 library(geofacet)
 library(tidyverse)
 library(ggrepel)
+library(reshape2)   # dependency for melt() in create_new_grid()
 
 # need to match province with ONE pair of longitude + latitude
 # save thai_longlat_id to thai_longlat_id_unique
@@ -271,6 +272,10 @@ ggplot(data = grid_df, aes(x=col,y=row))
 + geom_text_repel(aes(label=province)) 
 + theme_bw()
 
+## use create_new_grid() function to grid a reduced grid
+library(reshape2)  # for melt() function dependency in create_new_grid()
 
+reduce_grid <- create_new_grid(x,y,province, num.iterations = 500)
 
 # step 3: create and save new grid
+
