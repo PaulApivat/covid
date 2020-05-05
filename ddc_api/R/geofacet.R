@@ -263,5 +263,14 @@ ggplot(data = grid_df, aes(x=x,y=y))
 + geom_text_repel(aes(label=province)) 
 + theme_bw()
 
+## key is turning x-y long-lat raw coordinates into 'rank' row + col
+
+# on n x n grid
+ggplot(data = grid_df, aes(x=col,y=row)) 
++ geom_tile(fill='grey', color = 'black') 
++ geom_text_repel(aes(label=province)) 
++ theme_bw()
+
+
 
 # step 3: create and save new grid
