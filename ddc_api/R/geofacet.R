@@ -258,6 +258,10 @@ row <- rank(y)
 col <- rank(x)
 grid_df <- data.frame(x, y, row, col, index, province)
 
+# raw coordinates
+ggplot(data = grid_df, aes(x=x,y=y)) 
++ geom_text_repel(aes(label=province)) 
++ theme_bw()
 
 
 # step 3: create and save new grid
