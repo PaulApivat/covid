@@ -245,4 +245,19 @@ thai_longlat_id_unique <- thai_longlat_id_unique %>%
 thai_longlat_id_unique <- thai_longlat_id_unique %>%
   distinct(id, Region_Province, .keep_all = TRUE)
 
+# create data.frame(x, y, row, col, index, city)
+n <- 77
+x <- thai_longlat_id_unique$long      # num
+y <- thai_longlat_id_unique$lat       # num
+index <- thai_longlat_id_unique$id    # id already integer
+province <- as.character(thai_longlat_id_unique$Region_Province)  #instead of city
+
+# illustrate putting on n x n grid
+# NOTE: difference between rank(x) or rank(y) vs x or y
+row <- rank(y)
+col <- rank(x)
+grid_df <- data.frame(x, y, row, col, index, province)
+
+
+
 # step 3: create and save new grid
