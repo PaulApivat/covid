@@ -302,7 +302,18 @@ colnames(reduce_grid2)[3] <- 'name'
 reduce_grid2[,4] <- 1:77
 colnames(reduce_grid2)[4] <- 'code'
 grid_preview(reduce_grid2)
+reduce_grid2$code <- reduce_grid2$name
 
+## second try now using new.col and new.rol generated in reduce_grid
+## improvement, but Y-axis needs to be reversed
 
+reduce_grid3 <- reduce_grid %>%
+  select(new.row, new.col, unit.name, index)
 
+colnames(reduce_grid3)[1] <- 'row'
+colnames(reduce_grid3)[2] <- 'col'
+colnames(reduce_grid3)[3] <- 'name'
+colnames(reduce_grid3)[4] <- 'code' 
+
+grid_preview(reduce_grid)
 
