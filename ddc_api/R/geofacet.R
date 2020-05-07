@@ -1,6 +1,6 @@
 ## steps
 
-# load RData
+# load RData to load all global environment variables and functions created (create_new_grid())
 load(file = 'ddc_api.RData')
 
 ## geofacet library allows to create custom grid for maps
@@ -287,5 +287,22 @@ thai_grid_map <- ggplot(data = reduce_grid, aes(x = new.col, y = new.row))
   + geom_tile(fill='grey', color = 'black') 
   + geom_text_repel(aes(label = unit.name), size = 2) 
   + theme_bw()
+
+###########################################
+## Use thai_grid_map in geofacet package ##
+###########################################
+
+### try user generated grid to show in grid_preview() function of geofaceet package
+### very rough, geographically incorrect
+
+reduce_grid2 <- reduce_grid %>%
+  select(row, col, unit.name)
+
+colnames(reduce_grid2)[3] <- 'name'
+reduce_grid2[,4] <- 1:77
+colnames(reduce_grid2)[4] <- 'code'
+grid_preview(reduce_grid2)
+
+
 
 
