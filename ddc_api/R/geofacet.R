@@ -317,3 +317,8 @@ colnames(reduce_grid3)[4] <- 'code'
 
 grid_preview(reduce_grid)
 
+## next steps: make in new grid in Geo Grid Designer
+## 
+
+## NOTE this error suggests 'state' column in state_unemp is *joined* by us_state_grid1
+## Error: The values of the specified facet_geo column 'state' do not match any column of the specified grid.
