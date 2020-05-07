@@ -352,5 +352,8 @@ cat(format_csv(reduce_grid3))
 # step 3: form new dataframe row, col, name and code (use original 'id' for 'index' for 'code')
 # step 4: Use Geo Grid Designer
 
+# easiest
+# start with reduce_grid4
+# write function to 'inverse' row
 
 
