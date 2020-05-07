@@ -317,8 +317,15 @@ colnames(reduce_grid3)[4] <- 'code'
 
 grid_preview(reduce_grid)
 
-## next steps: make in new grid in Geo Grid Designer
-## 
+## Try reduce_grid3a (delete rows 52:77) to match number of rows in us_state_grid1
+## Try copying us_state_grid1$code -> reduce_grid3a$code to match 'state' in state_unemp
+reduce_grid3a <- reduce_grid3[-c(52:77),]
+reduce_grid3a$code <- us_state_grid1$code
+
+##### This works #####; note: using custom made "reduce_grid3a" works in facet_geo()
+ggplot(state_unemp, aes(year, rate)) 
+  + geom_line() 
+  + facet_geo(~state, grid = reduce_grid3a, label = 'name')
 
 ## NOTE this error suggests 'state' column in state_unemp is *joined* by us_state_grid1
 ## Error: The values of the specified facet_geo column 'state' do not match any column of the specified grid.
