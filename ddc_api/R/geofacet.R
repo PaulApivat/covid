@@ -329,3 +329,28 @@ ggplot(state_unemp, aes(year, rate))
 
 ## NOTE this error suggests 'state' column in state_unemp is *joined* by us_state_grid1
 ## Error: The values of the specified facet_geo column 'state' do not match any column of the specified grid.
+
+#### Reverse 'row' of reduce_grid3a ####
+## NOTE: this did not work
+## one more try: switch row <-> col AND reverse
+reduce_grid4 <- reduce_grid3
+
+reduce_grid4$row <- rev(reduce_grid4$row)
+reduce_grid4$col <- rev(reduce_grid4$col)
+
+cat(format_csv(reduce_grid4)) #switch row <-> col in Geo Grid Designer
+
+
+#### Create new Grid with Geo Grid Designer ####
+### Write data frame to a delimited file (Geo Grid Designer accepts this format)
+cat(format_csv(reduce_grid3))
+
+
+## SOlution: 
+# step 1: go back to thai_longlat_id_unique
+# step 2: go back to reduce_grid
+# step 3: form new dataframe row, col, name and code (use original 'id' for 'index' for 'code')
+# step 4: Use Geo Grid Designer
+
+
+
