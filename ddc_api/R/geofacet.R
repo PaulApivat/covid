@@ -359,7 +359,9 @@ ggplot(state_unemp, aes(year, rate))
 
 # note steps to update data from API
 
-# cases: age, gender, province
+# cases: age, gender, province, nationality of patient
+# NOTE: most cases in Bangkok (province), but there's also info on District 
+# ambitious case would be to create a District Grid Map of Bangkok
 cases = GET('https://covid19.th-stat.com/api/open/cases')
 cases_data = fromJSON(rawToChar(cases$content))
 df <- cases_data$Data
@@ -370,3 +372,9 @@ timeline = GET('https://covid19.th-stat.com/api/open/timeline')
 timeline_data = fromJSON(rawToChar(timeline$content))
 df2 <- timeline_data$Data
 
+# next step(s)
+# list out possible data viz within Grid (use state_unemp and other)
+# time series, etc.
+# see how df or df2 would need to be subsetted 
+# create draft of Thai province (consider Bangkok District map)
+# consider submitting reduce_grid_4 to geofacet() team
