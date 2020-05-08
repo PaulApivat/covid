@@ -248,6 +248,12 @@ standard_data[98,] <- list('2020-04-27', 'Thailand', 9, 1, 2931, 52, 55486)
 standard_data[99,] <- list('2020-04-28', 'Thailand', 7, 2, 2938, 54, 57922)
 standard_data[100,] <- list('2020-04-29', 'Thailand', 9, 0, 2947, 54, 58107)
 standard_data[101,] <- list('2020-04-30', 'Thailand', 7, 0, 2954, 54, 62198)
+standard_data[102,] <- list('2020-05-01', 'Thailand', 6, 0, 2960, 54, 70535)
+standard_data[103,] <- list('2020-05-02', 'Thailand', 6, 0, 2966, 54, 72745)
+standard_data[104,] <- list('2020-05-03', 'Thailand', 3, 0, 2969, 54, 75268)
+standard_data[105,] <- list('2020-05-04', 'Thailand', 18, 0, 2987, 54, 78768)
+standard_data[106,] <- list('2020-05-05', 'Thailand', 1, 0, 2988, 54, 82627)
+standard_data[107,] <- list('2020-05-06', 'Thailand', 1, 0, 2989, 55, 86320)
 
 
 
