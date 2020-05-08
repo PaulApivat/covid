@@ -355,3 +355,18 @@ ggplot(state_unemp, aes(year, rate))
   + geom_line() 
   + facet_geo(~state, grid = reduce_grid3a, label = 'name')
 
+############### Fill Thai Geo Grid Map with Values ################
+
+# note steps to update data from API
+
+# cases: age, gender, province
+cases = GET('https://covid19.th-stat.com/api/open/cases')
+cases_data = fromJSON(rawToChar(cases$content))
+df <- cases_data$Data
+
+# timeline: (NOT geographic) NewConfirmed, NewRecovered, NewHospitalized, NewDeaths,
+# Confirmed, Recovered, Hospitalized, Deaths
+timeline = GET('https://covid19.th-stat.com/api/open/timeline')
+timeline_data = fromJSON(rawToChar(timeline$content))
+df2 <- timeline_data$Data
+
