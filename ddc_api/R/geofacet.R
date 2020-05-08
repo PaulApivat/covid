@@ -345,7 +345,13 @@ reduce_grid4$row <- 19 - reduce_grid4$row
 # step 3: put this output in Geo Grid Designer
 cat(format_csv(reduce_grid4))
 
+# NOTE: code + state have to align 
+ggplot(state_unemp, aes(year, rate)) 
+  + geom_line() 
+  + facet_geo(~state, grid = "us_state_grid1", label = 'name')
 
-
-
+# NOTE: code + province for Thai map
+ggplot(state_unemp, aes(year, rate)) 
+  + geom_line() 
+  + facet_geo(~state, grid = reduce_grid3a, label = 'name')
 
