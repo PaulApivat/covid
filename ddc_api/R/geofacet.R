@@ -384,6 +384,9 @@ df$ConfirmDate # needs to be changed from character to date format; Posix
 df$GenderEn # needs to be changed to a factor
 
 #### NOTE: likely need to create NEW data frames
+# Note: will need to change data type of ConfirmDate FIRST before further data wrangling is possible
+# the dates below here are out of order because date is stored as "character"
+View(df %>% group_by(ConfirmDate, GenderEn) %>% tally(sort = TRUE))
 
 # create draft of Thai province (consider Bangkok District map)
 # consider submitting reduce_grid_4 to geofacet() team
