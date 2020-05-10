@@ -373,8 +373,17 @@ timeline_data = fromJSON(rawToChar(timeline$content))
 df2 <- timeline_data$Data
 
 # next step(s)
-# list out possible data viz within Grid (use state_unemp and other)
-# time series, etc.
+# list out possible data viz within Grid (use state_unemp and us_state_grid1)
+# See Also: election, india_pop, nhs_scot_dental, london_afford, sa_pop_dens, aus_pop, eu_gdp, state_ranks 
+
+# time series, barchart, gdp percapital over time, geom_col(), geom_line() etc.
+
 # see how df or df2 would need to be subsetted 
+
+df$ConfirmDate # needs to be changed from character to date format; Posix
+df$GenderEn # needs to be changed to a factor
+
+#### NOTE: likely need to create NEW data frames
+
 # create draft of Thai province (consider Bangkok District map)
 # consider submitting reduce_grid_4 to geofacet() team
