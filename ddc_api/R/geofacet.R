@@ -397,6 +397,9 @@ covidthai$ConfirmDate <- strptime(covidthai$ConfirmDate, "%Y-%m-%d %H:%M:%OS")
 # must change to POSIXct format before plotting
 covidthai$ConfirmDate <- as.POSIXct(covidthai$ConfirmDate)
 
+# high likelihood that need to convert POSIXct into Date to work with GGPLOT
+province_case2$ConfirmDate <- as.Date.POSIXct(province_case2$ConfirmDate)
+
 # check to see if POSIXct date format suitable for plotting
 View(covidthai %>% arrange(ConfirmDate))
 View(covidthai %>% arrange(desc(ConfirmDate)))
@@ -511,14 +514,18 @@ province_case$province <- ifelse(province_case$ProvinceEn=="Yasothon", 'YST', pr
 ## WARNING: Some values in the specified facet_geo column 'province' do not match the 'code' column 
 ## of the specified grid and will be removed: PNB
 
-ggplot(province_case, aes(ConfirmDate, cases)) 
-+ geom_line() 
-+ facet_geo(~ province, grid = reduce_grid5, label = 'name') 
-+ scale_x_continuous(labels = function(x) paste0("'", substr(x,3,4)))
 
 province_case2 <- province_case
-province_case2$ConfirmDate <- as.character(province_case2$ConfirmDate)   ### would have to change
-province_case2$ConfirmDate <- as.Date(as.character(province_case2$ConfirmDate), format = '%Y%m%d')
+
+# Getting Date in the Format that works with GGPLOT
+province_case2$ConfirmDate <- as.Date.POSIXct(province_case2$ConfirmDate)
+
+# First Draft
+ggplot(province_case2, aes(ConfirmDate, cases)) 
+  + geom_line() 
+  + facet_geo(~ province, grid = reduce_grid5, label = 'name') 
+  + scale_x_date(date_labels = "%b %y", date_breaks = "1 month") 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black'))
 
 
 
