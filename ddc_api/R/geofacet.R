@@ -385,6 +385,19 @@ df$GenderEn # needs to be changed to a factor
 
 #### NOTE: likely need to create NEW data frames
 # Note: will need to change data type of ConfirmDate FIRST before further data wrangling is possible
+
+# Time Formatting: Character to POSIXlt
+covidthai <- df
+covidthai$ConfirmDate <- strptime(covidthai$ConfirmDate, "%Y-%m-%d %H:%M:%OS")
+# must change to POSIXct format before plotting
+covidthai$ConfirmDate <- as.POSIXct(covidthai$ConfirmDate)
+
+# check to see if POSIXct date format suitable for plotting
+View(covidthai %>% arrange(ConfirmDate))
+View(covidthai %>% arrange(desc(ConfirmDate)))
+
+
+
 # the dates below here are out of order because date is stored as "character"
 View(df %>% group_by(ConfirmDate, GenderEn) %>% tally(sort = TRUE))
 
