@@ -396,6 +396,17 @@ covidthai$ConfirmDate <- as.POSIXct(covidthai$ConfirmDate)
 View(covidthai %>% arrange(ConfirmDate))
 View(covidthai %>% arrange(desc(ConfirmDate)))
 
+##### New Data Frame province_case ######
+
+# province_case has ConfirmDate, ProvinceEn and n (number of cases)
+covidthai %>% group_by(ConfirmDate, ProvinceEn) %>% tally(sort = TRUE) -> province_case
+# sort province_case by ConfirmDate Jan 12 - May 7
+province_case %>% arrange(ConfirmDate) -> province_case
+# (subsequent ste) sort province_case by ProvinceEn (alphabetically)
+province_case %>% arrange(ProvinceEn) -> province_case
+# NOTE the above two steps have to be done separately, sequentially
+
+
 
 
 # the dates below here are out of order because date is stored as "character"
