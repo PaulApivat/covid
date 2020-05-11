@@ -31,6 +31,7 @@ mygrid <- data.frame(
 library(geofacet)
 library(tidyverse)
 library(ggrepel)
+library(reshape2)  # dependency in create_new_grid()
 
 # step 3: create and save new grid
 
@@ -386,6 +387,10 @@ df$GenderEn # needs to be changed to a factor
 #### NOTE: likely need to create NEW data frames
 # Note: will need to change data type of ConfirmDate FIRST before further data wrangling is possible
 
+# the dates below here are out of order because date is stored as "character"
+View(df %>% group_by(ConfirmDate, GenderEn) %>% tally(sort = TRUE))
+
+
 # Time Formatting: Character to POSIXlt
 covidthai <- df
 covidthai$ConfirmDate <- strptime(covidthai$ConfirmDate, "%Y-%m-%d %H:%M:%OS")
@@ -406,11 +411,26 @@ province_case %>% arrange(ConfirmDate) -> province_case
 province_case %>% arrange(ProvinceEn) -> province_case
 # NOTE the above two steps have to be done separately, sequentially
 
+########## Thai Grid Map with COVID19 Cases #############
 
+## Using province_case and reduce_grid4
+## Emulate: state_unemp and us_state_grid2
 
+reduce_grid4 %>% arrange(name) -> reduce_grid5
 
-# the dates below here are out of order because date is stored as "character"
-View(df %>% group_by(ConfirmDate, GenderEn) %>% tally(sort = TRUE))
+## change code numbers to letters
+# Singburi & Sisaket reversed
+
+reduce_grid5$code <- c('ACR', 'ATG', 'BKK', 'BKN', 'BRM', 'CCO', 'CNT', 'CPM', 'CTI', 
+                       'CMI', 'CRI', 'CBI', 'CPN', 'KSN', 'KPT', 'KRI', 'KKN', 'KBI',
+                       'LPG', 'LPN', 'LEI', 'LRI', 'MSN', 'MKM', 'MDH', 'NYK', 'NPT', 
+                       'NPM', 'NMA', 'NSN', 'NRT', 'NAN', 'NWT', 'NBP', 'NKI', 'NBI', 
+                       'PTE', 'PTN', 'PNA', 'PLG', 'PYO', 'PBN', 'PBI', 'PCT', 'PLK', 
+                       'AYA', 'PRE', 'PKT', 'PRI', 'PKN', 'RNG', 'RBR', 'RYG', 'RET', 
+                       'SKW', 'SNK', 'SPK', 'SKN', 'SKM', 'SRI', 'STN', 'SSK', 'SBR', 
+                       'SKA', 'STI', 'SPB', 'SNI', 'SRN', 'TAK', 'TRG', 'TRT', 'UBN', 
+                       'UDN', 'UTI', 'UTD', 'YLA', 'YST')
+
 
 # create draft of Thai province (consider Bangkok District map)
 # consider submitting reduce_grid_4 to geofacet() team
