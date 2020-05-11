@@ -455,6 +455,22 @@ province_case$province <- ifelse(province_case$ProvinceEn=="Lopburi", 'LRI', pro
 province_case$province <- ifelse(province_case$ProvinceEn=="Mae Hong Son", 'MSN', province_case$province)
 province_case$province <- ifelse(province_case$ProvinceEn=="Maha Sarakham", 'MKM', province_case$province)
 province_case$province <- ifelse(province_case$ProvinceEn=="Mukdahan", 'MDH', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nakhon Nayok", 'NYK', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nakhon Pathom", 'NPT', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nakhon Ratchasima", 'NMA', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nakhon Sawan", 'NSN', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nakhon Si Thammarat", 'NRT', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Narathiwat", 'NWT', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nong Bua Lamphu", 'NBP', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nong Khai", 'NKI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Nonthaburi", 'NBI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Pathum Thani", 'PTE', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Pattani", 'PTN', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Phang Nga", 'PNA', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Phatthalung", 'PLG', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Phayao", 'PYO', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Phetchabun", 'PNB', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Phetchaburi", 'PBI', province_case$province)
 
 
 
