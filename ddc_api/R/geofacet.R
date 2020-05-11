@@ -410,10 +410,11 @@ province_case %>% arrange(ConfirmDate) -> province_case
 # (subsequent ste) sort province_case by ProvinceEn (alphabetically)
 province_case %>% arrange(ProvinceEn) -> province_case
 # NOTE the above two steps have to be done separately, sequentially
+colnames(province_case)[3] <- "cases"
 
 ########## Thai Grid Map with COVID19 Cases #############
 
-## Using province_case and reduce_grid4
+## Using province_case and reduce_grid4 / reduce_grid5
 ## Emulate: state_unemp and us_state_grid2
 
 reduce_grid4 %>% arrange(name) -> reduce_grid5
@@ -430,6 +431,33 @@ reduce_grid5$code <- c('ACR', 'ATG', 'BKK', 'BKN', 'BRM', 'CCO', 'CNT', 'CPM', '
                        'SKW', 'SNK', 'SPK', 'SKN', 'SKM', 'SRI', 'STN', 'SSK', 'SBR', 
                        'SKA', 'STI', 'SPB', 'SNI', 'SRN', 'TAK', 'TRG', 'TRT', 'UBN', 
                        'UDN', 'UTI', 'UTD', 'YLA', 'YST')
+
+# import letter codes for province_case
+# note: need to bring it back to original df for streamlined future workflows
+province_case[,"province"] <- NA
+
+province_case$province <- ifelse(province_case$ProvinceEn=="Amnat Charoen", 'ACR', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Bangkok", 'BKK', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Buriram", 'BRM', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Chachoengsao", 'CCO', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Chaiyaphum", 'CPM', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Chiang Mai", 'CMI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Chiang Rai", 'CRI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Chonburi", 'CBI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Chumphon", 'CPN', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Kalasin", 'KSN', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Kanchanaburi", 'KRI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Khon Kaen", 'KKN', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Krabi", 'KBI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Lampang", 'LPG', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Loei", 'LEI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Lopburi", 'LRI', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Mae Hong Son", 'MSN', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Maha Sarakham", 'MKM', province_case$province)
+province_case$province <- ifelse(province_case$ProvinceEn=="Mukdahan", 'MDH', province_case$province)
+
+
+
 
 
 # create draft of Thai province (consider Bangkok District map)
