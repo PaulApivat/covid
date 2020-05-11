@@ -426,7 +426,7 @@ reduce_grid5$code <- c('ACR', 'ATG', 'BKK', 'BKN', 'BRM', 'CCO', 'CNT', 'CPM', '
                        'CMI', 'CRI', 'CBI', 'CPN', 'KSN', 'KPT', 'KRI', 'KKN', 'KBI',
                        'LPG', 'LPN', 'LEI', 'LRI', 'MSN', 'MKM', 'MDH', 'NYK', 'NPT', 
                        'NPM', 'NMA', 'NSN', 'NRT', 'NAN', 'NWT', 'NBP', 'NKI', 'NBI', 
-                       'PTE', 'PTN', 'PNA', 'PLG', 'PYO', 'PBN', 'PBI', 'PCT', 'PLK', 
+                       'PTE', 'PTN', 'PNA', 'PLG', 'PYO', 'PNB', 'PBI', 'PCT', 'PLK', 
                        'AYA', 'PRE', 'PKT', 'PRI', 'PKN', 'RNG', 'RBR', 'RYG', 'RET', 
                        'SKW', 'SNK', 'SPK', 'SKN', 'SKM', 'SRI', 'STN', 'SSK', 'SBR', 
                        'SKA', 'STI', 'SPB', 'SNI', 'SRN', 'TAK', 'TRG', 'TRT', 'UBN', 
@@ -506,6 +506,19 @@ province_case$province <- ifelse(province_case$ProvinceEn=="Yala", 'YLA', provin
 province_case$province <- ifelse(province_case$ProvinceEn=="Yasothon", 'YST', province_case$province)
 
 
+## Draft of Thai Geo Grid
+## ERROR: in as.POSIXct.numeric(value) : 'origin' must be supplied
+## WARNING: Some values in the specified facet_geo column 'province' do not match the 'code' column 
+## of the specified grid and will be removed: PNB
+
+ggplot(province_case, aes(ConfirmDate, cases)) 
++ geom_line() 
++ facet_geo(~ province, grid = reduce_grid5, label = 'name') 
++ scale_x_continuous(labels = function(x) paste0("'", substr(x,3,4)))
+
+province_case2 <- province_case
+province_case2$ConfirmDate <- as.character(province_case2$ConfirmDate)   ### would have to change
+province_case2$ConfirmDate <- as.Date(as.character(province_case2$ConfirmDate), format = '%Y%m%d')
 
 
 
