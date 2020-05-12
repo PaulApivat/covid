@@ -541,7 +541,14 @@ mygrid <- data.frame(
 )
 geofacet::grid_preview(mygrid)
 
-
+mygrid2 <- data.frame(
+  row = c(1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 12, 12, 12, 13, 14, 15, 16, 17, 17, 17, 18, 19, 20, 20, 20, 21, 21),
+  col = c(3, 2, 4, 3, 1, 9, 8, 4, 3, 5, 2, 10, 9, 8, 7, 6, 5, 4, 11, 2, 8, 4, 5, 10, 5, 7, 3, 9, 8, 6, 11, 9, 4, 7, 5, 3, 10, 5, 8, 6, 10, 4, 2, 9, 7, 5, 8, 3, 6, 6, 4, 5, 8, 7, 6, 5, 7, 8, 4, 3, 8, 9, 3, 3, 3, 3, 3, 4, 5, 3, 5, 5, 7, 5, 6, 8, 7),
+  name = c("Chiang Rai", "Chiang Mai", "Nan", "Phayao", "Mae Hong Son", "Bungkan", "Nong Khai", "Phrae", "Lampang", "Uttaradit", "Lamphun", "Nakhon Phanom", "Sakon Nakhon", "Udon Thani", "Nong Bua Lam Phu", "Loei", "Phitsanulok", "Sukhothai", "Mukdahan", "Tak", "Kalasin", "Kamphaeng Phet", "Phichit", "Amnat Charoen", "Phetchabun", "Khon Kaen", "Nakhon Sawan", "Roi Et", "Maha Sarakham", "Chaiyaphum", "Ubon Ratchathani", "Si Sa Ket", "Chai Nat", "Lop Buri", "Sing Buri", "Uthai Thani", "Yasothon", "Ang Thong", "Nakhon Ratchasima", "Saraburi", "Surin", "Suphan Buri", "Kanchanaburi", "Buri Ram", "Nakhon Nayok", "Phra Nakhon Si Ayutthaya", "Prachin Buri", "Ratchaburi", "Pathum Thani", "Bangkok", "Nakhon Pathom", "Nonthaburi", "Sa Kaeo", "Chachoengsao", "Samut Prakan", "Samut Sakhon", "Chon Buri", "Chanthaburi", "Samut Songkhram", "Phetchaburi", "Rayong", "Trat", "Prachuap Khiri Khan", "Chumphon", "Ranong", "Surat Thani", "Phangnga", "Krabi", "Nakhon Si Thammarat", "Phuket", "Trang", "Phattalung", "Pattani", "Satun", "Songkhla", "Narathiwat", "Yala"),
+  code = c("CRI", "CMI", "NAN", "PYO", "MSN", "BKN", "NKI", "PRE", "LPG", "UTD", "LPN", "NPM", "SNK", "UDN", "NBP", "LEI", "PLK", "STI", "MDH", "TAK", "KSN", "KPT", "PCT", "ACR", "PNB", "KKN", "NSN", "RET", "MKM", "CPM", "UBN", "SSK", "CNT", "LRI", "SBR", "UTI", "YST", "ATG", "NMA", "SRI", "SRN", "SPB", "KRI", "BRM", "NYK", "AYA", "PRI", "RBR", "PTE", "BKK", "NPT", "NBI", "SKW", "CCO", "SPK", "SKN", "CBI", "CTI", "SKM", "PBI", "RYG", "TRT", "PKN", "CPN", "RNG", "SNI", "PNA", "KBI", "NRT", "PKT", "TRG", "PLG", "PTN", "STN", "SKA", "NWT", "YLA"),
+  stringsAsFactors = FALSE
+)
+geofacet::grid_preview(mygrid2)
 
 
 
