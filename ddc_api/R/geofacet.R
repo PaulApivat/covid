@@ -579,7 +579,7 @@ colnames(total_cases)[2] <- 'code'
 mygrid3_cases <- mygrid3 %>%
   inner_join(total_cases, by = 'code')
 
-## Second draft of Thai Grid Map with sum_cases
+## SECOND DRAFT of Thai Grid Map with sum_cases
 ## done in GGPLOT once data for Grid is available - NOT in facet_geo()
 ## Tutorial: https://www.maartenlambrechts.com/2017/10/22/tutorial-a-worldtilegrid-with-ggplot2.html
 
@@ -590,6 +590,30 @@ ggplot(mygrid3_cases, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1
 + geom_text(aes(x = col, y = row, label = code), color = '#ffffff', alpha = 0.5, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
 + scale_y_reverse() 
 + scale_fill_hue(l=10, c=1543)
+
+## need to create color 'factor' to help visualize continuous data with outlier (BKK)
+# get summary statistics, filter out BKK (outlier)
+mygrid3_cases %>% filter(code != 'BKK') %>% summary(sum_cases)
+
+# Mean   : 21.64 | Median :  6.00 | 1st Qu.:  3.00 | 3rd Qu.: 17.00
+
+## Proposed Factors 1-3 (First Quartile), 4-6 (Second Quartile), 
+## 7-17 (Third Quartile), 18 - 220 (Fourth Quartile), BKK (BKK)
+
+# 1-3 (First Quartile)
+mygrid3_cases$color <- ifelse(mygrid3_cases$sum_cases < 4, 'q1', mygrid3_cases$color)
+# 4-6 (Second Quartile)
+mygrid3_cases$color <- ifelse(mygrid3_cases$sum_cases > 3 & mygrid3_cases$sum_cases < 7, 'q2', mygrid3_cases$color)
+# 7-17 (Third Quartile)
+mygrid3_cases$color <- ifelse(mygrid3_cases$sum_cases > 6 & mygrid3_cases$sum_cases < 18, 'q3', mygrid3_cases$color)
+# 18 - 220 (Fourth Quartile)
+mygrid3_cases$color <- ifelse(mygrid3_cases$sum_cases > 17 & mygrid3_cases$sum_cases < 221, 'q4', mygrid3_cases$color)
+# BKK (Outlier)
+mygrid3_cases$color[40] <- 'bkk'
+
+mygrid3_cases$color <- as.factor(mygrid3_cases$color)
+
+##
 
 
 # create draft of Thai province (consider Bangkok District map)
