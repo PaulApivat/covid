@@ -520,6 +520,16 @@ province_case2 <- province_case
 # Getting Date in the Format that works with GGPLOT
 province_case2$ConfirmDate <- as.Date.POSIXct(province_case2$ConfirmDate)
 
+##### NOTE Differences between province_case vs province_case2
+##### province_case is closer to the original covidthai data frame
+str(province_case$ConfirmDate)   # POSIXct[1:632]
+str(province_case2$ConfirmDate)  # Date[1:632]
+str(covidthai$ConfirmDate)       # POSIXct[1:2993]
+###### NOTE: POSIXct does not work with ggplot (while Date does), why i use province_case2 ######
+###### Error: Invalid input: date_trans works with objects of class Date only #######
+
+
+
 # First Draft
 ggplot(province_case2, aes(ConfirmDate, cases)) 
   + geom_line() 
@@ -558,6 +568,12 @@ mygrid3 <- data.frame(
   stringsAsFactors = FALSE
 )
 geofacet::grid_preview(mygrid3)
+
+### Second Draft visualize grid map with total_cases
+province_case %>% group_by(ProvinceEn, province) %>% summarize(sum_cases = sum(cases)) -> total_cases
+
+colnames(total_cases)[2] <- 'code'
+
 
 
 # create draft of Thai province (consider Bangkok District map)
