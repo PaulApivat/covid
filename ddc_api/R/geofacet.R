@@ -621,7 +621,8 @@ ggplot(mygrid3_cases, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1
   + geom_text(aes(x = col, y = row, label = code), color = 'black', alpha = 0.8, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
   + scale_y_reverse() 
   + scale_fill_manual(values = c("#bd0026", '#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20'))
-
+  + theme(legend.position = 'none')
+  + labs(title = "Covid19 cases throughout Thailand", subtitle = 'January - May, 2020')
 
 # create draft of Thai province (consider Bangkok District map)
 # consider submitting reduce_grid_4 to geofacet() team
