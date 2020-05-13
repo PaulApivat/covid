@@ -572,8 +572,24 @@ geofacet::grid_preview(mygrid3)
 ### Second Draft visualize grid map with total_cases
 province_case %>% group_by(ProvinceEn, province) %>% summarize(sum_cases = sum(cases)) -> total_cases
 
+## create new data frame that contains row, cols for the grid 
+## and values to visualize
 colnames(total_cases)[2] <- 'code'
 
+mygrid3_cases <- mygrid3 %>%
+  inner_join(total_cases, by = 'code')
+
+## Second draft of Thai Grid Map with sum_cases
+## done in GGPLOT once data for Grid is available - NOT in facet_geo()
+## Tutorial: https://www.maartenlambrechts.com/2017/10/22/tutorial-a-worldtilegrid-with-ggplot2.html
+
+ggplot(mygrid3_cases, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = as.factor(sum_cases))) 
++ geom_rect(color = '#ffffff') 
++ theme_minimal() 
++ theme(panel.grid = element_blank(), axis.text = element_blank(), axis.title = element_blank()) 
++ geom_text(aes(x = col, y = row, label = code), color = '#ffffff', alpha = 0.5, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
++ scale_y_reverse() 
++ scale_fill_hue(l=10, c=1543)
 
 
 # create draft of Thai province (consider Bangkok District map)
