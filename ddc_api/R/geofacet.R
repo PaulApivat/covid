@@ -613,7 +613,14 @@ mygrid3_cases$color[40] <- 'bkk'
 
 mygrid3_cases$color <- as.factor(mygrid3_cases$color)
 
-##
+## THIRD VERSION Thai Grid Map with colors as factors
+ggplot(mygrid3_cases, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = color)) 
+  + geom_rect(color = '#ffffff') 
+  + theme_minimal() 
+  + theme(panel.grid = element_blank(), axis.text = element_blank(), axis.title = element_blank()) 
+  + geom_text(aes(x = col, y = row, label = code), color = 'black', alpha = 0.8, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
+  + scale_y_reverse() 
+  + scale_fill_manual(values = c("#bd0026", '#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20'))
 
 
 # create draft of Thai province (consider Bangkok District map)
