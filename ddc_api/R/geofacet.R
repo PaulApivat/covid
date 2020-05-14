@@ -662,6 +662,8 @@ mygrid3_gender %>%
   + facet_geo(~ code, grid = mygrid3, label = "code") 
   + theme(strip.text.x = element_text(size = 4))
 
+# NOTE: add theme(panel.margin = unit(1, 'lines')) for slightly better spacing
+
 
 # create draft of Thai province (consider Bangkok District map)
 # consider submitting reduce_grid_4 to geofacet() team
