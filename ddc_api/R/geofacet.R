@@ -624,5 +624,36 @@ ggplot(mygrid3_cases, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1
   + theme(legend.position = 'none')
   + labs(title = "Covid19 cases throughout Thailand", subtitle = 'January - May, 2020')
 
+## create column for provincial codes in covidthai
+province_case %>%
++ select(ConfirmDate, ProvinceEn, province) -> province_codes
+
+colnames(province_codes)[3] <- 'code'
+
+covidthai2 <- covidthai %>%
++ inner_join(province_codes, by = c('ProvinceEn', 'ConfirmDate'))
+
+### province_by_gender: create data frame (like total_cases) but for GenderEn
+covidthai2 %>% group_by(ProvinceEn, GenderEn, code) %>% tally(sort = TRUE) -> province_by_gender
+
+colnames(province_by_gender)[4] <- 'cases'
+
+mygrid3_gender <- province_by_gender %>%
++ inner_join(mygrid3, by = 'code')
+
+# First draft Thai Grid Map (Male) - take out BKK (outlier)
+mygrid3_gender %>% 
+  filter(GenderEn=='Male') %>% 
+  filter(code != 'BKK') %>% 
+  ggplot(aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = cases)) 
+  + geom_rect(color = '#ffffff') 
+  + theme_minimal() 
+  + theme(panel.grid = element_blank(), axis.text = element_blank(), axis.title = element_blank()) 
+  + geom_text(aes(x = col, y = row, label = code), color = '#ffffff', alpha = 0.5, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
+  + scale_y_reverse() 
+  + scale_fill_viridis_c()
+
+
+
 # create draft of Thai province (consider Bangkok District map)
 # consider submitting reduce_grid_4 to geofacet() team
