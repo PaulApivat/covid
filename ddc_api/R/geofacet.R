@@ -641,7 +641,7 @@ colnames(province_by_gender)[4] <- 'cases'
 mygrid3_gender <- province_by_gender %>%
 + inner_join(mygrid3, by = 'code')
 
-# First draft Thai Grid Map (Male) - take out BKK (outlier)
+# First draft Thai Grid Map (Male) - take out BKK (outlier) GGPLOT VERSION
 mygrid3_gender %>% 
   filter(GenderEn=='Male') %>% 
   filter(code != 'BKK') %>% 
@@ -653,6 +653,14 @@ mygrid3_gender %>%
   + scale_y_reverse() 
   + scale_fill_viridis_c()
 
+# Draft of GEOFACET VERSION
+mygrid3_gender %>% 
+  filter(code != 'BKK') %>% 
+  ggplot(aes(x=GenderEn, y=cases, fill=GenderEn)) 
+  + geom_col(position = position_dodge()) 
+  # using mygrid3 dataframe
+  + facet_geo(~ code, grid = mygrid3, label = "code") 
+  + theme(strip.text.x = element_text(size = 4))
 
 
 # create draft of Thai province (consider Bangkok District map)
