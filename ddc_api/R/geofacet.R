@@ -671,7 +671,11 @@ mygrid3_gender %>%
   + geom_col(position = position_dodge()) 
   + facet_geo(~ code, grid = mygrid3, label = "code", scales = 'free_y') 
   + theme(strip.text.x = element_text(size = 8), axis.text.y = element_text(size = 6)) 
-  + scale_y_continuous(breaks = round(seq(min(mygrid3_gender$cases), max(mygrid3_gender$cases))))
+  + scale_y_continuous( breaks = round(seq(min(mygrid3_gender$cases), max(mygrid3_gender$cases)))  )
+
+
+# Custom solution (but very slow)
+mygrid3_gender %>% filter(code != 'BKK') %>% ggplot(aes(x=GenderEn, y=cases, fill=GenderEn)) + geom_col(position = position_dodge()) + facet_geo(~ code, grid = mygrid3, label = "code", scales = 'free_y') + theme(strip.text.x = element_text(size = 6), axis.text.y = element_text(size = 6)) + scale_y_continuous(breaks = ifelse(mygrid3_gender$cases > 50, c(50,100), c(1,10)) )
 
 
 # create draft of Thai province (consider Bangkok District map)
