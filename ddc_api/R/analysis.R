@@ -84,6 +84,35 @@ cases_outlier_gender <- ggplot(data = mygrid3_gender, mapping = aes(x = reorder(
 covidthai2 %>% group_by(ProvinceEn, Nation, code) %>% tally(sort = TRUE) -> province_by_nationality
 colnames(province_by_nationality)[4] <- 'cases'
 
+mygrid3_nation <- province_by_nationality %>%
+  inner_join(mygrid3, by = 'code')
+
+# plot by Nationality (Thai = Outlier)
+# note: Thai character does not render (see ShowText below)
+ggplot(data = mygrid3_nation, mapping = aes(x=reorder(Nation, cases), y=cases)) 
+  + geom_bar(stat = 'identity') 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black'))
+
+#### ShowText
+# source: https://github.com/yixuan/showtext
+# Google Fonts: Krub by Cadson Demak 
+# source: https://fonts.google.com/specimen/Krub?query=kru
+# manually add Krub to Library/Fonts path (macOS)
+library(showtext)
+View(font_files())  # should see newly added 'Krub' family font
+font_add('Krub', 'Krub-Regular.ttf', italic = 'Krub-Italic.ttf')   #sysfonts part of showtext library
+
+# Now Thai font renders
+ggplot(data = mygrid3_nation, mapping = aes(x=reorder(Nation, cases), y=cases)) 
++ geom_bar(stat = 'identity') 
+# have x-axis text label render in 'Krub' family
++ theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', family = 'Krub'))
+# show foreign font on the plot itself 
++ annotate('text', 10, 100, family = 'Krub', size = 50, label = 'ไทย')
+
+
+
+
 
 # cases by age
 
