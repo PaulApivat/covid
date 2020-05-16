@@ -116,9 +116,22 @@ ggplot(data = mygrid3_nation, mapping = aes(x=reorder(Nation, cases), y=cases))
 mygrid3_nation[,'nation_fct'] <- NA
 mygrid3_nation$nation_fct <- ifelse(mygrid3_nation$Nation=='ไทย', 'Thai', 'Foreign')
 
+# order by ProvinceEn (re-order doesn't work)
 ggplot(data = mygrid3_nation, mapping = aes(x=reorder(ProvinceEn, cases), y=cases, fill=nation_fct)) 
   + geom_bar(stat = 'identity') 
   + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black'))
+
+# re-order works now
+mygrid3_nation %>% 
+  group_by(ProvinceEn, nation_fct) %>% 
+  # to get re-order by cases to work, need to sum_cases_province first
+  # originally, cases were by Nationality (not province) so re-order doesn't work
+  summarize(sum_cases_province = sum(cases)) %>% 
+  ggplot(aes(x=reorder(ProvinceEn, sum_cases_province), y=sum_cases_province, fill = nation_fct)) 
+  + geom_bar(stat = 'identity') 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black'))
+
+
 
 # cases by age
 
