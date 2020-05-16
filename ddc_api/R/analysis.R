@@ -68,8 +68,16 @@ df2 <- timeline_data$Data
 
 ### visualizing outliers ###
 
-# cases
+# cases (mygrid3_cases)
 cases_outlier <- ggplot(data = mygrid3_cases, mapping = aes(x = reorder(ProvinceEn, sum_cases), y = sum_cases)) 
   + geom_bar(stat = 'identity') 
   + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black')) 
   + labs(x = 'Provinces', y = 'Total Cases', title = 'Thailand: Total Covid-19 Cases Jan-May')
+
+# cases by gender (mygrid3_gender)
+cases_outlier_gender <- ggplot(data = mygrid3_gender, mapping = aes(x = reorder(ProvinceEn, cases), y=cases, fill=GenderEn)) 
+  + geom_bar(stat = 'identity') 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black')) 
+  + labs(x = 'Provinces', y = 'Cases by Gender', title = 'Thailand: Total Covid-19 Cases by Gender, Jan-May')
+
+
