@@ -61,5 +61,15 @@ cases_data$Data
 df <- cases_data$Data
 df2 <- timeline_data$Data
 
+######## EDA ########
+# note: see geofacet.R file
+# using mygrid3_gender, mygrid3_cases
+# using covidthai2 dataframe (same as df, but with provincial code)
 
+### visualizing outliers ###
 
+# cases
+cases_outlier <- ggplot(data = mygrid3_cases, mapping = aes(x = reorder(ProvinceEn, sum_cases), y = sum_cases)) 
+  + geom_bar(stat = 'identity') 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black')) 
+  + labs(x = 'Provinces', y = 'Total Cases', title = 'Thailand: Total Covid-19 Cases Jan-May')
