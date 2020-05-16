@@ -110,9 +110,15 @@ ggplot(data = mygrid3_nation, mapping = aes(x=reorder(Nation, cases), y=cases))
 # show foreign font on the plot itself 
 + annotate('text', 10, 100, family = 'Krub', size = 50, label = 'ไทย')
 
+### To show 'Thai' nationality as outlier
+# create factor of Thai & Foreign
+# disproportionately more Thai - across all province? (or mostly Bangkok)
+mygrid3_nation[,'nation_fct'] <- NA
+mygrid3_nation$nation_fct <- ifelse(mygrid3_nation$Nation=='ไทย', 'Thai', 'Foreign')
 
-
-
+ggplot(data = mygrid3_nation, mapping = aes(x=reorder(ProvinceEn, cases), y=cases, fill=nation_fct)) 
+  + geom_bar(stat = 'identity') 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black'))
 
 # cases by age
 
