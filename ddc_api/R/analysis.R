@@ -123,6 +123,7 @@ ggplot(data = mygrid3_nation, mapping = aes(x=reorder(ProvinceEn, cases), y=case
 
 # re-order works now
 mygrid3_nation %>% 
+  # if want to fill = nation_fct need to add in group_by first
   group_by(ProvinceEn, nation_fct) %>% 
   # to get re-order by cases to work, need to sum_cases_province first
   # originally, cases were by Nationality (not province) so re-order doesn't work
@@ -134,11 +135,33 @@ mygrid3_nation %>%
 
 
 # cases by age
+# select out ProvinceEn, code, Age, then figure out cases later
+covidthai2 %>%
++ select(Age, ProvinceEn, code) -> province_by_age
 
+mygrid3_age <- province_by_age %>%
++ inner_join(mygrid3, by = 'code')
+
+# summary(mygrid3_age$Age)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   0.00   27.00   37.00   38.82   49.00   97.00 
+
+mygrid3_age[,'age_fct'] <- NA
+
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 0 & mygrid3_age$Age < 11), '1-10', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 10 & mygrid3_age$Age < 21), '11-20', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 20 & mygrid3_age$Age < 31), '21-30', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 30 & mygrid3_age$Age < 41), '31-40', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 40 & mygrid3_age$Age < 51), '41-50', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 50 & mygrid3_age$Age < 61), '51-60', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 60 & mygrid3_age$Age < 71), '61-70', mygrid3_age$age_fct)
+mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 70), '70 and above', mygrid3_age$age_fct)
 
 
 
 # Districts of Bangkok
 # NOTE: mostly missing data (n = 847)
-View(covidthai2 %>% filter(ProvinceEn=='Bangkok') %>% group_by(District) %>% tally(sort = TRUE))
+View(covidthai2 %>% 
+  filter(ProvinceEn=='Bangkok') %>% 
+  group_by(District) %>% tally(sort = TRUE))
 
