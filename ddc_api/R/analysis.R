@@ -80,4 +80,17 @@ cases_outlier_gender <- ggplot(data = mygrid3_gender, mapping = aes(x = reorder(
   + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black')) 
   + labs(x = 'Provinces', y = 'Cases by Gender', title = 'Thailand: Total Covid-19 Cases by Gender, Jan-May')
 
+# cases by Nationality
+covidthai2 %>% group_by(ProvinceEn, Nation, code) %>% tally(sort = TRUE) -> province_by_nationality
+colnames(province_by_nationality)[4] <- 'cases'
+
+
+# cases by age
+
+
+
+
+# Districts of Bangkok
+# NOTE: mostly missing data (n = 847)
+View(covidthai2 %>% filter(ProvinceEn=='Bangkok') %>% group_by(District) %>% tally(sort = TRUE))
 
