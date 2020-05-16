@@ -158,6 +158,18 @@ mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 60 & mygrid3_age$Age < 71), '61
 mygrid3_age$age_fct <- ifelse((mygrid3_age$Age > 70), '70 and above', mygrid3_age$age_fct)
 
 
+mygrid3_age %>% group_by(ProvinceEn, code, age_fct, row, col) %>% tally(sort = TRUE) -> mygrid3_age_fct
+colnames(mygrid3_age_fct)[6] <- 'cases'
+
+
+### Outliers by Age (Factor)
+mygrid3_age_fct %>%
+  group_by(ProvinceEn, age_fct) %>%
+  summarize(sum_cases_province = sum(cases)) %>%
+  ggplot(aes(x=reorder(ProvinceEn, sum_cases_province), y=sum_cases_province, fill=age_fct)) 
+  + geom_bar(stat = 'identity') 
+  + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black'))
+
 
 # Districts of Bangkok
 # NOTE: mostly missing data (n = 847)
