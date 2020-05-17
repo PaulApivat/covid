@@ -684,7 +684,8 @@ mygrid3_gender %>%
   + theme(strip.text.x = element_text(size = 6), axis.text.y = element_blank())
 
 
-# GeoFacet Cases by Age (factor)
+# GeoFacet Cases by Age (factor) (grid = mygrid3)
+# NOTE: try grid = reduce_grid5 (old grid - does NOT look like Thailand)
 mygrid3_age_fct %>% 
   filter(code != 'BKK') %>% 
   ggplot(aes(x=age_fct, y=cases, fill=age_fct)) 
@@ -692,6 +693,8 @@ mygrid3_age_fct %>%
   + geom_text(aes(label=cases), position = position_dodge(0.5), size = 2.5, vjust=1.25) 
   + facet_geo(~ code, grid = mygrid3, label = 'code', scales = 'free_y') 
   + theme(strip.text.x = element_text(size = 6), axis.text.y = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', size=4))
+
+
 
 
 # create draft of Thai province (consider Bangkok District map)
