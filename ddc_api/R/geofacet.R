@@ -260,6 +260,7 @@ row <- rank(y)
 col <- rank(x)
 grid_df <- data.frame(x, y, row, col, index, province)
 
+
 # raw coordinates
 ggplot(data = grid_df, aes(x=x,y=y)) 
 + geom_text_repel(aes(label=province)) 
@@ -735,3 +736,39 @@ district_fortified <- tidy(district)
 ggplot() 
   + geom_polygon(data = district_fortified, aes(x = long, y = lat, group = group), fill="#69b3a2", color="white") 
   + theme_void()
+
+district_fortified_unique <- district_fortified %>%
++ distinct(id, .keep_all = TRUE)
+
+######### create BANGKOK DISTRICT geo facet grid
+
+# create data.frame(x, y, row, col, index, city)
+bkk_n <- 50
+bkk_x <- district_fortified_unique$long
+bkk_y <- district_fortified_unique$lat
+bkk_index <- district_fortified_unique$id
+bkk_district <- as.character(district_fortified_unique$id)
+
+# illustrate putting on n x n grid
+# NOTE: difference between rank(x) or rank(y) vs x or y
+bkk_row <- rank(bkk_y)
+bkk_col <- rank(bkk_x)
+bkk_grid_df <- data.frame(bkk_x, bkk_y, bkk_row, bkk_col, bkk_index, bkk_district)
+
+# on n x n grid
+ggplot(data = bkk_grid_df, aes(x=bkk_col,y=bkk_row)) 
+  + geom_tile(fill='grey', color = 'black') 
+  + geom_text_repel(aes(label=bkk_district)) 
+  + theme_bw()
+
+
+# reduce_grid
+bkk_reduce_grid <- create_new_grid(bkk_x, bkk_y, bkk_district, num.iterations = 500)
+
+# bkk_district_grid_map
+bkk_district_grid_map <- ggplot(data = bkk_reduce_grid, aes(x = new.col, y = new.row)) 
+  + geom_point() 
+  + geom_tile(fill='grey', color='black') 
+  + geom_text_repel(aes(label = unit.name), size = 2) 
+  + theme_classic()
+
