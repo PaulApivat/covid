@@ -772,3 +772,7 @@ bkk_district_grid_map <- ggplot(data = bkk_reduce_grid, aes(x = new.col, y = new
   + geom_text_repel(aes(label = unit.name), size = 2) 
   + theme_classic()
 
+####### PROBLEM - need to match 'id' in district_fortified_unique with actual DISTRICT NAMES
+### bkk_district <- as.character(district_fortified_unique$id) needs to be actual DISTRICT NAMES
+
+
