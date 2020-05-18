@@ -698,6 +698,7 @@ mygrid3_age_fct %>%
 # create draft of Thai province (consider Bangkok District map)
 # download who BMASubDistrict_Polygon folder into working directory
 # must contain: .shp, .shx, .dbf files
+# layer = is file name infront of .shp , .shx .dbf 
 bkk <- readOGR("./BMASubDistrict_Polygon", layer = 'BMA_ADMIN_SUB_DISTRICT')
 View(bkk)
 
