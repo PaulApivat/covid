@@ -696,7 +696,10 @@ mygrid3_age_fct %>%
 
 
 # create draft of Thai province (consider Bangkok District map)
-# download who BMASubDistrict_Polygon folder into working directory
+library(rgdal)
+library(broom) # get long and lat
+
+# download BMASubDistrict_Polygon folder (whole folder) into working directory
 # must contain: .shp, .shx, .dbf files
 # layer = is file name infront of .shp , .shx .dbf 
 bkk <- readOGR("./BMASubDistrict_Polygon", layer = 'BMA_ADMIN_SUB_DISTRICT')
@@ -704,4 +707,15 @@ View(bkk)
 
 # quick plot in base R
 plot(bkk, col="#f2f2f2", bg="skyblue", lwd=0.25, border=0 )
+
+# IMPORTANT - to get longitude and lattitude you need convert to data frame
+# using broom package
+library(broom)
+
+bkk_fortified <- tidy(bkk)
+
+# more detailed plot with ggplot()
+ggplot() 
+  + geom_polygon(data = bkk_fortified, aes(x = long, y = lat, group = group), fill="#69b3a2", color="white") 
+  + theme_void()
 
