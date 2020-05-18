@@ -694,12 +694,14 @@ mygrid3_age_fct %>%
   + facet_geo(~ code, grid = mygrid3, label = 'code', scales = 'free_y') 
   + theme(strip.text.x = element_text(size = 6), axis.text.y = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', size=4))
 
+#################################################################
 
 # create draft of Thai province (consider Bangkok District map)
 library(rgdal)
 library(broom) # get long and lat
 
 # download BMASubDistrict_Polygon folder (whole folder) into working directory
+###### 180 SUBDISTRICTS
 # must contain: .shp, .shx, .dbf files
 # layer = is file name infront of .shp , .shx .dbf 
 bkk <- readOGR("./BMASubDistrict_Polygon", layer = 'BMA_ADMIN_SUB_DISTRICT')
@@ -719,3 +721,17 @@ ggplot()
   + geom_polygon(data = bkk_fortified, aes(x = long, y = lat, group = group), fill="#69b3a2", color="white") 
   + theme_void()
 
+
+##### 50 DISTRICTS
+### Download 50 district folder
+## must contain: .shp, .shx, .dbf files
+# layer = is file name infront of .shp , .shx .dbf 
+library(rgdal)
+library(broom)
+
+district <- readOGR("./district", layer = 'district')
+district_fortified <- tidy(district)
+
+ggplot() 
+  + geom_polygon(data = district_fortified, aes(x = long, y = lat, group = group), fill="#69b3a2", color="white") 
+  + theme_void()
