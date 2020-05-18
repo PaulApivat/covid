@@ -695,7 +695,12 @@ mygrid3_age_fct %>%
   + theme(strip.text.x = element_text(size = 6), axis.text.y = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', size=4))
 
 
-
-
 # create draft of Thai province (consider Bangkok District map)
-# consider submitting reduce_grid_4 to geofacet() team
+# download who BMASubDistrict_Polygon folder into working directory
+# must contain: .shp, .shx, .dbf files
+bkk <- readOGR("./BMASubDistrict_Polygon", layer = 'BMA_ADMIN_SUB_DISTRICT')
+View(bkk)
+
+# quick plot in base R
+plot(bkk, col="#f2f2f2", bg="skyblue", lwd=0.25, border=0 )
+
