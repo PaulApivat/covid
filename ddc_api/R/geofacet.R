@@ -777,7 +777,18 @@ bkk_district_grid_map <- ggplot(data = bkk_reduce_grid, aes(x = new.col, y = new
 
 
 ## develop dataframe that matches 'id' in district_fortified with AVERAGE lat and long
+## Important because need a way to match 'id' to actual district names in this file:
+## https://commons.wikimedia.org/wiki/File:Khet_Bangkok.svg
 ## save to text_centroid
 district_fortified %>% 
   group_by(id) %>% 
   summarize(clat = mean(lat), clong = mean(long)) -> text_centroid
+
+## compare with bkk_reduce_grid
+## text_centroid aligns with unit.name in bkk_reduce_grid
+## manually add District Names next to unit.name in bkk_reduce_grid
+
+> bkk_reduce_grid[1,9] <- 'Bang Khun Thian'
+> bkk_reduce_grid[2,9] <- 'Bang Bon'
+> bkk_reduce_grid[3,9] <- 'Nong Khaem'
+> bkk_reduce_grid[4,9] <- 'Phasi Charoen'
