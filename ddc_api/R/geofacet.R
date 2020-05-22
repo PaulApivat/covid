@@ -776,3 +776,8 @@ bkk_district_grid_map <- ggplot(data = bkk_reduce_grid, aes(x = new.col, y = new
 ### bkk_district <- as.character(district_fortified_unique$id) needs to be actual DISTRICT NAMES
 
 
+## develop dataframe that matches 'id' in district_fortified with AVERAGE lat and long
+## save to text_centroid
+district_fortified %>% 
+  group_by(id) %>% 
+  summarize(clat = mean(lat), clong = mean(long)) -> text_centroid
