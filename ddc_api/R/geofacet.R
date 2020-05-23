@@ -839,3 +839,14 @@ district_fortified %>%
 > bkk_reduce_grid[49,9] <- 'Min Buri'
 > bkk_reduce_grid[50,9] <- 'Nong Chok'
 
+# Enter Abbreviated Code for each of Bangkok's 50 District
+# Code based on HASC - Hierarchical Administrative Subdivision Codes
+# District-level subdivision of Bangkok (TH.BM) are 'khet' 
+# source: http://www.statoids.com/yth.html
+
+bkk_reduce_grid[,'code'] <- NA
+
+bkk_reduce_grid$code <- c('KT', 'BO', 'NK', 'PC', 'KA', 'BN', 'TA', 'TW', 'TK',
+'RB', 'CT', 'TB', 'BY', 'KL', 'KS', 'SA', 'PP', 'PN', 'PH', 'RA', 'PA', 'DU', 'SU',
+'YA', 'ST', 'KH', 'WA', 'RT', 'PT', 'DI', 'CH', 'LS', 'NA', 'PK', 'WT', 'HU', 'KE',
+'KP', 'LP', 'DO', 'SL', 'BK', 'KY', 'SM', 'PR', 'SS', 'KW', 'LK', 'MI', 'NC')
