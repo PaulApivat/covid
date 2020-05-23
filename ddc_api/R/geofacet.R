@@ -850,3 +850,21 @@ bkk_reduce_grid$code <- c('KT', 'BO', 'NK', 'PC', 'KA', 'BN', 'TA', 'TW', 'TK',
 'RB', 'CT', 'TB', 'BY', 'KL', 'KS', 'SA', 'PP', 'PN', 'PH', 'RA', 'PA', 'DU', 'SU',
 'YA', 'ST', 'KH', 'WA', 'RT', 'PT', 'DI', 'CH', 'LS', 'NA', 'PK', 'WT', 'HU', 'KE',
 'KP', 'LP', 'DO', 'SL', 'BK', 'KY', 'SM', 'PR', 'SS', 'KW', 'LK', 'MI', 'NC')
+
+## create bkkgrid dataframe
+## prepare for GeoFacet Design
+bkk_reduce_grid %>% 
++ select(new.row, new.col, name, code) -> bkkgrid
+
+# change column names
+> colnames(bkkgrid)[1] <- 'row'
+> colnames(bkkgrid)[2] <- 'col'
+
+
+# subtract row column values by 12 to reverse
+bkkgrid$row <- 12 - bkkgrid$row
+
+
+# Create output for  Geo Grid Designer
+cat(format_csv(bkkgrid))
+
