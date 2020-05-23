@@ -868,3 +868,5 @@ bkkgrid$row <- 12 - bkkgrid$row
 # Create output for  Geo Grid Designer
 cat(format_csv(bkkgrid))
 
+# next step: use Bangkok Metropolis Map to re-arrange Geo Grid
+# source: https://www.mapsofworld.com/thailand/provinces/bangkok-metropolis-map.html
