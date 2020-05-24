@@ -686,7 +686,6 @@ mygrid3_gender %>%
 
 
 # GeoFacet Cases by Age (factor) (grid = mygrid3)
-# NOTE: try grid = reduce_grid5 (old grid - does NOT look like Thailand)
 mygrid3_age_fct %>% 
   filter(code != 'BKK') %>% 
   ggplot(aes(x=age_fct, y=cases, fill=age_fct)) 
@@ -880,3 +879,60 @@ mybkkgrid <- data.frame(
   stringsAsFactors = FALSE
 )
 geofacet::grid_preview(mybkkgrid)
+
+## Add Thai spelling of each District name
+mybkkgrid2 <- mybkkgrid
+mybkkgrid2[,'thai_name'] <- NA
+
+# manually enter thai spelling
+> mybkkgrid2[1,5] <- 'ดอนเมือง'
+> mybkkgrid2[34,5] <- 'วัฒนา'
+> mybkkgrid2[26,5] <- 'บางกะปิ'
+> mybkkgrid2[40,5] <- 'คลองเตย'
+> mybkkgrid2[19,5] <- 'ห้วยขวาง'
+> mybkkgrid2[9,5] <- 'ลาดพร้าว'
+> mybkkgrid2[37,5] <- 'คลองสาน'
+> mybkkgrid2[10,5] <- 'จตุจักร'
+> mybkkgrid2[16,5] <- 'พญาไท'
+> mybkkgrid2[21,5] <- 'บางกอกน้อย'
+> mybkkgrid2[42,5] <- 'จอมทอง'
+> mybkkgrid2[12,5] <- 'บึงกุ่ม'
+> mybkkgrid2[17,5] <- 'วังทองหลาง'
+> mybkkgrid2[50,5] <- 'บางขุนเทียน'
+> mybkkgrid2[5,5] <- 'บางเขน'
+> mybkkgrid2[32,5] <- 'บางแค'
+> mybkkgrid2[39,5] <- 'ประเวศ'
+> mybkkgrid2[31,5] <- 'ภาษีเจริญ'
+> mybkkgrid2[44,5] <- 'พระโขนง'
+> mybkkgrid2[38,5] <- 'สวนหลวง'
+> mybkkgrid2[41,5] <- 'สาทร'
+> mybkkgrid2[13,5] <- 'ดินแดง'
+> mybkkgrid2[23,5] <- 'ราชเทวี'
+> mybkkgrid2[22,5] <- 'พระนคร'
+> mybkkgrid2[28,5] <- 'บางกอกใหญ่'
+> mybkkgrid2[11,5] <- 'บางซื่อ'
+> mybkkgrid2[48,5] <- 'บางนา'
+> mybkkgrid2[6,5] <- 'หลักสี่'
+> mybkkgrid2[35,5] <- 'บางรัก'
+> mybkkgrid2[36,5] <- 'ธนบุรี'
+> mybkkgrid2[25,5] <- 'ป้อมปราบศัตรูพ่าย'
+> mybkkgrid2[7,5] <- 'มีนบุรี'
+> mybkkgrid2[4,5] <- 'คลองสามวา'
+> mybkkgrid2[20,5] <- 'ตลิ่งชัน'
+> mybkkgrid2[49,5] <- 'ทุ่งครุ'
+> mybkkgrid2[45,5] <- 'บางคอแหลม'
+> mybkkgrid2[47,5] <- 'ราษฎร์บูรณะ'
+> mybkkgrid2[29,5] <- 'ปทุมวัน'
+> mybkkgrid2[27,5] <- 'สะพานสูง'
+> mybkkgrid2[14,5] <- 'บางพลัด'
+> mybkkgrid2[46,5] <- 'ยานนาวา'
+> mybkkgrid2[2,5] <- 'สายไหม'
+> mybkkgrid2[18,5] <- 'ทวีวัฒนา'
+> mybkkgrid2[8,5] <- 'คันนายาว'
+> mybkkgrid2[15,5] <- 'ดุสิต'
+> mybkkgrid2[43,5] <- 'บางบอน'
+> mybkkgrid2[3,5] <- 'หนองจอก'
+> mybkkgrid2[30,5] <- 'สัมพันธวงศ์'
+> mybkkgrid2[33,5] <- 'หนองแขม'
+> mybkkgrid2[24,5] <- 'ลาดกระบัง'
+
