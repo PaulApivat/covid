@@ -936,3 +936,9 @@ mybkkgrid2[,'thai_name'] <- NA
 > mybkkgrid2[33,5] <- 'หนองแขม'
 > mybkkgrid2[24,5] <- 'ลาดกระบัง'
 
+## sample plot with thai alphabet
+ggplot(data = mybkkgrid2, aes(x = col, y = row)) 
++ geom_point() 
++ geom_tile(fill='grey', color='black') 
++ geom_text_repel(aes(label = thai_name), size = 2, family = 'Krub') 
++ theme_classic() 
