@@ -788,7 +788,7 @@ district_fortified %>%
 ## text_centroid aligns with unit.name in bkk_reduce_grid
 ## manually add District Names next to unit.name in bkk_reduce_grid
 
-> bkk_reduce_grid[1,9] <- 'Bang Khun Thian'
+> bkk_reduce_grid[1,9] <- 'Bang Khun Thian' 
 > bkk_reduce_grid[2,9] <- 'Bang Bon'
 > bkk_reduce_grid[3,9] <- 'Nong Khaem'
 > bkk_reduce_grid[4,9] <- 'Phasi Charoen'
@@ -870,3 +870,13 @@ cat(format_csv(bkkgrid))
 
 # next step: use Bangkok Metropolis Map to re-arrange Geo Grid
 # source: https://www.mapsofworld.com/thailand/provinces/bangkok-metropolis-map.html
+
+
+mybkkgrid <- data.frame(
+  row = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 9, 10, 13),
+  col = c(10, 12, 17, 14, 11, 9, 15, 13, 11, 8, 7, 12, 9, 6, 7, 8, 11, 1, 10, 4, 5, 6, 8, 15, 7, 12, 13, 5, 8, 6, 4, 3, 1, 9, 7, 5, 6, 11, 13, 8, 7, 4, 1, 10, 6, 7, 5, 11, 4, 2),
+  name = c("Don Mueang", "Sai Mai", "Nong Chok", "Khlong Sam Wa", "Bang Khen", "Lak Si", "Min Buri", "Khan Na Yao", "Lat Phrao", "Chatuchak", "Bang Sue", "Bueng Kum", "Din Daeng", "Bang Phlat", "Dusit", "Phaya Thai", "Wang Thonglang", "Thawi Watthana", "Huai Khwang", "Taling Chan", "Bangkok Noi", "Phra Nakhon", "Ratchathewi", "Lat Krabang", "Pom Prap Sattru Phai", "Bang Kapi", "Saphan Sung", "Bangkok Yai", "Pathum Wan", "Samphanthawong", "Phasi Charoen", "Bang Khae", "Nong Khaem", "Watthana", "Bang Rak", "Thon Buri", "Khlong San", "Suan Luang", "Prawet", "Khlong Toei", "Sathon", "Chom Thong", "Bang Bon", "Phra Khanong", "Bang Kho Laem", "Yan Nawa", "Rat Burana", "Bang Na", "Thung Khru", "Bang Khun Thian"),
+  code = c("DO", "SM", "NC", "KW", "KE", "LS", "MI", "KY", "LP", "CH", "SU", "BK", "DI", "PH", "DU", "PT", "WT", "TW", "HU", "TA", "BN", "PN", "RT", "LK", "PP", "KP", "SS", "BY", "PA", "SA", "PC", "KA", "NK", "WA", "RA", "TB", "KS", "SL", "PR", "KH", "ST", "CT", "BO", "PK", "KL", "YA", "RB", "NA", "TK", "KT"),
+  stringsAsFactors = FALSE
+)
+geofacet::grid_preview(mybkkgrid)
