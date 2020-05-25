@@ -942,3 +942,21 @@ ggplot(data = mybkkgrid2, aes(x = col, y = row))
 + geom_tile(fill='grey', color='black') 
 + geom_text_repel(aes(label = thai_name), size = 2, family = 'Krub') 
 + theme_classic() 
+
+### Generate Gender breakdown by Bangkok DIstrict: Covid19 ###
+
+## subset covidthai2 dataframe into mybkkgrid_gender
+covidthai2 %>% filter(code=='BKK') -> covidthai2_bkk
+
+mybkkgrid2 %>%
++ select(name, code, thai_name) -> mybkkgrid3
+
+colnames(mybkkgrid3)[3] <- 'District'
+
+# NOTE: covidthai2_bkk originally had 1,543 rows, then shrunk to 585 after join
+# because it had several entries that were NOT actual District and many blank entries
+# joining with mybkkgrid3, which only had 50 rows, forced covidthai2_bkk to only have 
+# District(s) that mybkkgrid3 had
+covidthai2_bkk <- covidthai2_bkk %>%
++ inner_join(mybkkgrid3, by = 'District')
+
