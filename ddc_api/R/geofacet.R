@@ -967,3 +967,27 @@ colnames(covidthai2_bkk)[15] <- 'code'
 
 # create bkkdist_by_gender
 covidthai2_bkk %>% group_by(District, DistrictEn, GenderEn, code) %>% tally(sort = TRUE) -> bkkdist_by_gender
+
+colnames(bkkdist_by_gender)[5] <- 'cases'
+
+# go back to mybkkgrid2, change column names, easier to join with bkkdist_by_gender
+colnames(mybkkgrid2)[3] <- 'DistrictEn'
+colnames(mybkkgrid2)[5] <- 'District'
+
+# join mybkkgrid2 with bkkdist_by_gender
+mybkkgrid2_gender <- bkkdist_by_gender %>%
++ inner_join(mybkkgrid2, by = c('DistrictEn', 'District', 'code'))
+
+
+### GGPLOT style tile maps
+### gender(s) need to be consolidiated 
+### OR have separate plots for Male vs Female
+ggplot(data = mybkkgrid2_gender, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = cases)) 
+  + geom_rect(color = '#ffffff') 
+  + theme_minimal() 
+  + theme(panel.grid = element_blank()) 
+  + geom_text(aes(x = col, y = row, label = District), family = 'Krub', color = '#ffffff', alpha = 0.5, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
+  + scale_y_reverse() 
+  + scale_fill_viridis_c()
+
+
