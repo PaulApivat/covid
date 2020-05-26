@@ -991,3 +991,26 @@ ggplot(data = mybkkgrid2_gender, aes(xmin = col, ymin = row, xmax = col + 1, yma
   + scale_fill_viridis_c()
 
 
+## ggplot tile map bkk district - MEN
+mybkkgrid2_gender %>% 
+  filter(GenderEn=='Male') %>% 
+  ggplot(aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = cases)) 
+    + geom_rect(color = '#ffffff') 
+    + theme_minimal() 
+    + theme(panel.grid = element_blank()) 
+    + geom_text(aes(x = col, y = row, label = District), family = 'Krub', color = 'white', alpha = 0.5, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
+    + scale_y_reverse() 
+    + scale_fill_continuous() 
+    + labs(title = 'Covid-19 Cases Among Men of Bangkok')
+
+## ggplot tile map bkk distirct - WOMEN
+mybkkgrid2_gender %>% 
+  filter(GenderEn=='Female') %>% 
+  ggplot(aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = cases)) 
+  + geom_rect(color = '#ffffff') 
+  + theme_minimal() 
+  + theme(panel.grid = element_blank()) 
+  + geom_text(aes(x = col, y = row, label = District), family = 'Krub', color = 'white', alpha = 0.5, nudge_x = 0.5, nudge_y = -0.5, size = 3) + scale_y_reverse() 
+  + scale_fill_viridis_c() 
+  + labs(title = 'Covid-19 Cases Among Women of Bangkok')
+
