@@ -1015,3 +1015,22 @@ mybkkgrid2_gender %>%
   + labs(title = 'Covid-19 Cases Among Women of Bangkok')
 
 
+## GEO FACET (GENDER)
+## certain restrictions around grid must be observed
+## Error: Other than 'row' and 'col', variable names of a custom grid must begin with 'code' or 'name'
+## Custom grid must have: row, col, code, name
+mybkkgrid2 %>%
++ select(row, col, code, District) -> mybkkgrid2a
+
+colnames(mybkkgrid2a)[4] <- 'name'
+
+# best version Geo Facet gender
+ggplot(data = mybkkgrid2_gender, mapping = aes(x=GenderEn, y=cases, fill=GenderEn)) 
++ geom_bar(position = 'dodge', stat = 'identity') 
+# could not display Thai alphabet on plot lable
++ facet_geo(~ code, grid = mybkkgrid2a, label = 'code', scales = 'free_y') 
++ theme(strip.text.x = element_text(size = 6), 
+    axis.text.y = element_text(size = 6), 
+    axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', size=6))
+# adjust y-axis tick marks; no deciaml and limit tick numbers with breaks 
++ scale_y_continuous(breaks = c(0, 5, 10, 25), labels = scales::number_format(accuracy = 1))
