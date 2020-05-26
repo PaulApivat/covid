@@ -956,7 +956,14 @@ colnames(mybkkgrid3)[3] <- 'District'
 # NOTE: covidthai2_bkk originally had 1,543 rows, then shrunk to 585 after join
 # because it had several entries that were NOT actual District and many blank entries
 # joining with mybkkgrid3, which only had 50 rows, forced covidthai2_bkk to only have 
-# District(s) that mybkkgrid3 had
+# District(s) that mybkkgrid3 had, lowering the number of rows from 1543 to 585
 covidthai2_bkk <- covidthai2_bkk %>%
 + inner_join(mybkkgrid3, by = 'District')
 
+# change column names
+colnames(covidthai2_bkk)[14] <- 'DistrictEn'
+colnames(covidthai2_bkk)[13] <- 'BKK'
+colnames(covidthai2_bkk)[15] <- 'code'
+
+# create bkkdist_by_gender
+covidthai2_bkk %>% group_by(District, DistrictEn, GenderEn, code) %>% tally(sort = TRUE) -> bkkdist_by_gender
