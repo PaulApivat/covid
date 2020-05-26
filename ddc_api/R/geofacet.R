@@ -1014,3 +1014,4 @@ mybkkgrid2_gender %>%
   + scale_fill_viridis_c() 
   + labs(title = 'Covid-19 Cases Among Women of Bangkok')
 
+
