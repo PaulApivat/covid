@@ -1046,3 +1046,6 @@ g <- ggplot(data = mygrid3_cases, mapping = aes(x=reorder(name, sum_cases), y=su
   + theme(legend.position = 'none', panel.grid = element_blank()) 
   + labs(x = NULL, y = 'Cases')
 
+# add colored bar chart
+g + geom_bar(stat = 'identity')
+
