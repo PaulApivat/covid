@@ -1034,3 +1034,15 @@ ggplot(data = mybkkgrid2_gender, mapping = aes(x=GenderEn, y=cases, fill=GenderE
     axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', size=6))
 # adjust y-axis tick marks; no deciaml and limit tick numbers with breaks 
 + scale_y_continuous(breaks = c(0, 5, 10, 25), labels = scales::number_format(accuracy = 1))
+
+
+####### Create Bar Chart with grid Map Annotated to show Bangkok Outlier
+####### Then create grid map of Bangkok Districts
+## Source: https://cedricscherer.netlify.app/2019/05/17/the-evolution-of-a-ggplot-ep.-1/
+
+# save base plot in object with NO charts
+g <- ggplot(data = mygrid3_cases, mapping = aes(x=reorder(name, sum_cases), y=sum_cases, fill = color)) 
+  + coord_flip() 
+  + theme(legend.position = 'none', panel.grid = element_blank()) 
+  + labs(x = NULL, y = 'Cases')
+
