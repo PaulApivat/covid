@@ -1064,4 +1064,17 @@ mygrid3_cases_alt <- mygrid3_cases_alt %>%
 
 # create base plot with regional blocks instead of individual provinces
 
+g1 <- ggplot(data = mygrid3_cases_alt, mapping = aes(x=reorder(Region, sum_cases), y=sum_cases, color=Region)) 
+  + coord_flip() 
+  + theme(legend.position = 'none', panel.grid = element_blank()) 
+  + labs(x = NULL, y = 'Cases')
+
+# example plots with g1 base
+g1 + geom_boxplot()
+g1 + geom_line(size = 1)
+g1 + geom_point(size = 1)
+g1 + geom_point(size = 3, alpha = 0.15)
+# two plots layered ontop of each other
+g1 + geom_boxplot(color = 'gray60', outlier.alpha = 0) + geom_point(size = 3, alpha = 0.15)
+g1 + geom_jitter(size = 2, alpha = 0.25, width = 0.2)
 
