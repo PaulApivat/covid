@@ -1046,6 +1046,22 @@ g <- ggplot(data = mygrid3_cases, mapping = aes(x=reorder(name, sum_cases), y=su
   + theme(legend.position = 'none', panel.grid = element_blank()) 
   + labs(x = NULL, y = 'Cases')
 
+
 # add colored bar chart
 g + geom_bar(stat = 'identity')
+
+
+# another version - instead of individual provinces, create regional blocks
+thai_province_id %>%
++ select(Region_Province, Region) -> region_clusters
+
+colnames(region_clusters)[1] <- 'ProvinceEn'
+
+mygrid3_cases_alt <- mygrid3_cases
+
+mygrid3_cases_alt <- mygrid3_cases_alt %>%
++ inner_join(region_clusters, by = "ProvinceEn")
+
+# create base plot with regional blocks instead of individual provinces
+
 
