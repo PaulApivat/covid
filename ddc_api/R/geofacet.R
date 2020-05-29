@@ -1084,7 +1084,39 @@ g1
   + stat_summary(fun.y = mean, geom = 'point', size = 5)
 
 # relate all points to a baseline; country-average
+
+country_avg <- mygrid3_cases_alt %>%
+  + summarize(case_avg = mean(sum_cases)) %>%
+  + pull(case_avg)
+
 g1 
+  + geom_hline(aes(yintercept = country_avg), color = "gray70", size = 0.6) 
+  + stat_summary(fun.y = mean, geom = 'point', size = 5) 
+  + geom_jitter(size = 2, alpha = 0.25, width = 0.2)
+
+
+# add line from baseline to regional-averages
+# need to add regional_avg into the mygrid3_cases_alt data frame
+region_avg <- mygrid3_cases_alt %>% 
+  group_by(Region) %>% 
+  summarize(region_case_avg = mean(sum_cases)) %>% 
+  pull(region_case_avg)
+
+# fetch tibble
+mygrid3_cases_alt %>% group_by(Region) %>% summarize(region_case_avg = mean(sum_cases)) 
+
+# need to add regional_avg into the mygrid3_cases_alt data frame
+mygrid3_cases_alt[,'region_avg'] <- NA
+
+# conditionally fill in region_avg column based on Region column
+mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Northern Region', 6.71, mygrid3_cases_alt$region_avg)
+mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Central Region', 8.33, mygrid3_cases_alt$region_avg)
+mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Northeastern', 5.38, mygrid3_cases_alt$region_avg)
+mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Southern', 62.9, mygrid3_cases_alt$region_avg)
+
+# Got geom_segment to work!
+g1 
+  + geom_segment(aes(x = reorder(Region, sum_cases), xend = Region, y = country_avg, yend = mygrid3_cases_alt$region_avg), size = 0.8) 
   + geom_hline(aes(yintercept = country_avg), color = "gray70", size = 0.6) 
   + stat_summary(fun.y = mean, geom = 'point', size = 5) 
   + geom_jitter(size = 2, alpha = 0.25, width = 0.2)
