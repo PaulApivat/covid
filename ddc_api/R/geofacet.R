@@ -1078,3 +1078,8 @@ g1 + geom_point(size = 3, alpha = 0.15)
 g1 + geom_boxplot(color = 'gray60', outlier.alpha = 0) + geom_point(size = 3, alpha = 0.15)
 g1 + geom_jitter(size = 2, alpha = 0.25, width = 0.2)
 
+# visually add summary statistic
+g1 
+  + geom_jitter(size = 2, alpha = 0.25, width = 0.2) 
+  + stat_summary(fun.y = mean, geom = 'point', size = 5)
+
