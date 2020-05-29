@@ -1113,6 +1113,7 @@ mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Northern Regio
 mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Central Region', 8.33, mygrid3_cases_alt$region_avg)
 mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Northeastern', 5.38, mygrid3_cases_alt$region_avg)
 mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Southern', 62.9, mygrid3_cases_alt$region_avg)
+mygrid3_cases_alt$region_avg <- ifelse(mygrid3_cases_alt$Region=='Greater Bangkok', 464, mygrid3_cases_alt$region_avg)
 
 # Got geom_segment to work!
 g1 
@@ -1120,6 +1121,17 @@ g1
   + geom_hline(aes(yintercept = country_avg), color = "gray70", size = 0.6) 
   + stat_summary(fun.y = mean, geom = 'point', size = 5) 
   + geom_jitter(size = 2, alpha = 0.25, width = 0.2)
+
+# add annotation
+g1 
+  + geom_segment(aes(x = reorder(Region, sum_cases), xend = Region, y = country_avg, yend = mygrid3_cases_alt$region_avg), size = 0.8) 
+  + geom_hline(aes(yintercept = country_avg), color = "gray70", size = 0.6) 
+  + stat_summary(fun.y = mean, geom = 'point', size = 5) 
+  + geom_jitter(size = 2, alpha = 0.25, width = 0.2) 
+  + annotate("text", x = 5.5, y = 250, size = 2.7, color = "gray20", label = "Country-wide average: 47.52 cases") 
+  + annotate("text", x = 5.25, y = 1450, size = 2.7, color = "gray20", label = paste0('Bangkok is a huge outlier, \n with the most cases by far')) 
+  + annotate('text', x = 3.8, y = 225, size = 2.7, color = "gray20", label = 'Regional average') 
+  + annotate('text', x = 2.5, y = 200, size = 2.7, color = 'gray20', label = "Provinces per region")
 
 
 
