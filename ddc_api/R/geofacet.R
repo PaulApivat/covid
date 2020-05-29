@@ -1083,3 +1083,11 @@ g1
   + geom_jitter(size = 2, alpha = 0.25, width = 0.2) 
   + stat_summary(fun.y = mean, geom = 'point', size = 5)
 
+# relate all points to a baseline; country-average
+g1 
+  + geom_hline(aes(yintercept = country_avg), color = "gray70", size = 0.6) 
+  + stat_summary(fun.y = mean, geom = 'point', size = 5) 
+  + geom_jitter(size = 2, alpha = 0.25, width = 0.2)
+
+
+
