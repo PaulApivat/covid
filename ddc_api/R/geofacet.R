@@ -1133,5 +1133,11 @@ g1
   + annotate('text', x = 3.8, y = 225, size = 2.7, color = "gray20", label = 'Regional average') 
   + annotate('text', x = 2.5, y = 200, size = 2.7, color = 'gray20', label = "Provinces per region")
 
+# save into g1_text
+
+# trial
+arrows <- tibble(x1 = c(5.3), x2 =c(5.1), y1 = c(250), y2 =c(country_avg))
+
++ geom_curve(data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2), arrow = arrow(length = unit(0.07, 'inch')), size = 0.4, color = 'gray20', curvature = -0.3)
 
 
