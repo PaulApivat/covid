@@ -1135,8 +1135,18 @@ g1
 
 # save into g1_text
 
+g1_text <- g1 
+    + geom_segment(aes(x = reorder(Region, sum_cases), xend = Region, y = country_avg, yend = mygrid3_cases_alt$region_avg), size = 0.8) 
+    + geom_hline(aes(yintercept = country_avg), color = "gray70", size = 0.6) 
+    + stat_summary(fun.y = mean, geom = 'point', size = 5) 
+    + geom_jitter(size = 2, alpha = 0.25, width = 0.2) 
+    + annotate("text", x = 5.5, y = 250, size = 2.7, color = "gray20", label = "Country-wide average: 47.52 cases") 
+    + annotate("text", x = 5.25, y = 1450, size = 2.7, color = "gray20", label = paste0('Bangkok is a huge outlier, \n with the most cases by far')) 
+    + annotate('text', x = 3.8, y = 225, size = 2.7, color = "gray20", label = 'Regional average') 
+    + annotate('text', x = 2.5, y = 200, size = 2.7, color = 'gray20', label = "Provinces per region")
+
 # trial
-arrows <- tibble(x1 = c(5.3), x2 =c(5.1), y1 = c(250), y2 =c(country_avg))
+arrows <- tibble(x1 = c(5.3, 3.9, 3.9), x2 =c(5.1, 5.0, 4.0), y1 = c(250, 260, 240), y2 =c(country_avg, 455, 55))
 
 + geom_curve(data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2), arrow = arrow(length = unit(0.07, 'inch')), size = 0.4, color = 'gray20', curvature = -0.3)
 
