@@ -1154,5 +1154,16 @@ arrows <- tibble(x1 = c(5.4, 3.9, 2.5, 5.4), x2 =c(5.1, 4.95, 2.8, 5.2), y1 = c(
 g1_arrow <- g1_text 
   + geom_curve(data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2), arrow = arrow(length = unit(0.07, 'inch')), size = 0.4, color = 'gray20', curvature = -0.3)
 
+# create thai_province_region
+thai_province_region <- ggplot(mygrid3_cases_alt, aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = Region)) 
+  + geom_rect(color = '#ffffff') 
+  + theme_minimal() 
+  + theme(panel.grid = element_blank(), axis.text = element_blank(), axis.title = element_blank()) 
+  + geom_text(aes(x = col, y = row, label = code), color = 'black', alpha = 0.8, nudge_x = 0.5, nudge_y = -0.5, size = 3) 
+  + scale_y_reverse() 
+  + theme(legend.position = 'none')
 
+# add thai_province_region to g1_arrow
+g1_arrow 
+  + annotation_custom(ggplotGrob(thai_province_region), xmin = 1, xmax = 4, ymin = 750, ymax = 1250)
 
