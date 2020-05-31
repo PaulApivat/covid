@@ -1141,12 +1141,12 @@ g1_text <- g1
     + stat_summary(fun.y = mean, geom = 'point', size = 5) 
     + geom_jitter(size = 2, alpha = 0.25, width = 0.2) 
     + annotate("text", x = 5.5, y = 250, size = 2.7, color = "gray20", label = "Country-wide average: 47.52 cases") 
-    + annotate("text", x = 5.25, y = 1450, size = 2.7, color = "gray20", label = paste0('Bangkok is a huge outlier, \n with the most cases by far')) 
+    + annotate("text", x = 5.25, y = 1400, size = 2.7, color = "gray20", label = paste0('Bangkok is a huge outlier, \n with the most cases by far')) 
     + annotate('text', x = 3.8, y = 225, size = 2.7, color = "gray20", label = 'Regional average') 
     + annotate('text', x = 2.5, y = 200, size = 2.7, color = 'gray20', label = "Provinces per region")
 
 # trial
-arrows <- tibble(x1 = c(5.4, 3.9, 2.5), x2 =c(5.1, 4.95, 2.8), y1 = c(200, 260, 130), y2 =c(country_avg, 450, 22))
+arrows <- tibble(x1 = c(5.4, 3.9, 2.5, 5.4), x2 =c(5.1, 4.95, 2.8, 5.2), y1 = c(200, 260, 130, 1480), y2 =c(country_avg, 450, 22, 1540))
 
 + geom_curve(data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2), arrow = arrow(length = unit(0.07, 'inch')), size = 0.4, color = 'gray20', curvature = -0.3)
 
