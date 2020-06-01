@@ -1165,5 +1165,5 @@ thai_province_region <- ggplot(mygrid3_cases_alt, aes(xmin = col, ymin = row, xm
 
 # add thai_province_region to g1_arrow
 g1_arrow 
-  + annotation_custom(ggplotGrob(thai_province_region), xmin = 1, xmax = 4, ymin = 750, ymax = 1250)
+  + annotation_custom(ggplotGrob(thai_province_region), xmin = 1, xmax = 4, ymin = 700, ymax = 1300)
 
