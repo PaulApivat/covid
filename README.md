@@ -1,5 +1,18 @@
-# covid
-mapping cases confirmed, deaths and recovered across the globe
+# Covid-19
+
+A repository for Covid-19 related projects. I'm based in Bangkok, Thailand so several projects focus on data specific to this region.
+
+## Bangkok, the Outlier
+
+This project, located in the `ddc_api/R` directory, visualizes confirmed cases of Covid-19 in Thailand to show how much of the story is *really* about Bangkok. 
+
+## Dashboard
+
+Made with Flexdashboard, this tool tracked daily confirmed cases, deaths and number of patients under investigation (PUI). Testing data is not made publicly available in Thailand so PUI serves as a proxy. No longer updated since we've reached 0 new cases (or single digit cases) for nearly two weeks. 
+
+## Hospital Dashboard
+
+A collaboration with [Dr. Tim Dechai](https://www.linkedin.com/in/tim-decha-952b4b1a7/) to create an educational tool for how hospitals might manage their resources in case of a pandemic breakout. 
 
 ### Datasets Source
 Two datasets were downloaded from (Our World in Data)[https://ourworldindata.org/coronavirus-source-data].
