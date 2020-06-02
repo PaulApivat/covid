@@ -6,6 +6,25 @@ A repository for Covid-19 related projects. I'm based in Bangkok, Thailand so se
 
 This project, located in the `ddc_api/R` directory, visualizes confirmed cases of Covid-19 in Thailand to show how much of the story is *really* about Bangkok. 
 
+### Process
+
+Note: Update data from Jan 12 - 
+1. Fetch data from [Department of Disease Control Open API](https://covid19.th-stat.com/th/api)
+2. Data transformation to dataframe (df)
+3. Transform df to mygrid3_cases_alt
+4. Use GeoFacet package to custom make Thailand Grid Map (also Bangkok District Grid Map) see `mygrid3`
+- see `create_new_grid` function from [here](https://github.com/johnjosephhorton/geofacet/blob/master/R/create_new_grid.R)
+- import `thai_latlong_id` data frame from previous project
+- use `create_new_grid` to use `thai_latlong_id` into `reduce_grid`
+- use [Geo Grid Designer](https://hafen.github.io/grid-designer/) to customize until grid visually represents your country (see `mygrid3`)
+
+5. Join `mygrid3` with latest `df` turn `df_sum`
+- also join with `region_clusters`
+
+6. Draw inspiration from Cedric Scherer's [tutorial](https://cedricscherer.netlify.app/2019/05/17/the-evolution-of-a-ggplot-ep.-1/)
+
+
+
 ## Dashboard
 
 Located in the `flexdashboard` directory, this tool tracked daily confirmed cases, deaths and number of patients under investigation (PUI). Testing data is not made publicly available in Thailand so PUI serves as a proxy. No longer updated since we've reached 0 new cases (or single digit cases) for nearly two weeks. 
