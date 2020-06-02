@@ -8,14 +8,14 @@ This project, located in the `ddc_api/R` directory, visualizes confirmed cases o
 
 ## Dashboard
 
-Made with Flexdashboard, this tool tracked daily confirmed cases, deaths and number of patients under investigation (PUI). Testing data is not made publicly available in Thailand so PUI serves as a proxy. No longer updated since we've reached 0 new cases (or single digit cases) for nearly two weeks. 
+Located in the `flexdashboard` directory, this tool tracked daily confirmed cases, deaths and number of patients under investigation (PUI). Testing data is not made publicly available in Thailand so PUI serves as a proxy. No longer updated since we've reached 0 new cases (or single digit cases) for nearly two weeks. 
 
 ## Hospital Dashboard
 
-A collaboration with [Dr. Tim Dechai](https://www.linkedin.com/in/tim-decha-952b4b1a7/) to create an educational tool for how hospitals might manage their resources in case of a pandemic breakout. 
+A collaboration with [Dr. Tim Dechai](https://www.linkedin.com/in/tim-decha-952b4b1a7/) to create an educational tool for how hospitals might manage their resources in case of a pandemic breakout. This project is located in the `hospital_dash` directory.
 
 ### Datasets Source
-Two datasets were downloaded from (Our World in Data)[https://ourworldindata.org/coronavirus-source-data].
+Two datasets were downloaded from [Our World in Data](https://ourworldindata.org/coronavirus-source-data).
 
 Dates are from Jan 21st - March 17th, 2020
 
