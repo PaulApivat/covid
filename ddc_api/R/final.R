@@ -97,3 +97,32 @@ mygrid3_cases_final$region_avg <- ifelse(mygrid3_cases_final$Region=='Northeaste
 mygrid3_cases_final$region_avg <- ifelse(mygrid3_cases_final$Region=='Southern', 64.9, mygrid3_cases_final$region_avg)
 mygrid3_cases_final$region_avg <- ifelse(mygrid3_cases_final$Region=='Greater Bangkok', 466, mygrid3_cases_final$region_avg)
 
+
+# g2 base background
+# note: scale_color_manual()
+levels(mygrid3_cases_final$Region)
+
+g2 <- ggplot(data = mygrid3_cases_final, 
+        mapping = aes(x=reorder(Region, sum_cases), 
+        y=sum_cases, 
+        color=Region)) 
+    + coord_flip() 
+    + theme(legend.position = 'none', 
+        panel.background = element_rect(color = 'white', 
+        fill = 'white')) 
+    + labs(x = NULL, y = 'Cases')
+    + scale_color_manual(values = c('#ff7f00', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3'))
+
+# example plots with g2 base
+g2 + geom_boxplot()
+g2 + geom_line(size = 1)
+g2 + geom_point(size = 1)
+g2 + geom_point(size = 3, alpha = 0.15)
+
+# visually add Regional Average
+# note use set.seed(123) to keep points fixed
+set.seed(123)
+g2 
+    + geom_jitter(size = 2, alpha = 0.4, width = 0.4) 
+    + stat_summary(fun.y = mean, geom = 'point', size = 5)
+
