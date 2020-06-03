@@ -179,7 +179,9 @@ g2_arrow <- g2_text
 set.seed(123)
 g2_final <- g2_arrow 
     + labs(caption = "Data: Department of Disease Control Open API", 
-            y = "Total Covid-19 Cases") 
+        y = "Total Cases", 
+        title = "Covid-19 Cases in Thailand", 
+        subtitle = "Jan 12 - May 23") 
     + theme(plot.caption = element_text(size = 9, color = "gray50"))
 
 # create thai_province_region
@@ -203,4 +205,12 @@ thai_province_region_final <- ggplot(mygrid3_cases_final,
     + scale_y_reverse() 
     + theme(legend.position = 'none') 
     + scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3'))
+
+# overlap grid map onto plot using annotation_custom()
+g2_final 
+    + annotation_custom(ggplotGrob(thai_province_region_final), 
+        xmin = 0.5, 
+        xmax = 4.5, 
+        ymin = 600, 
+        ymax = 1300)
 
