@@ -207,10 +207,35 @@ thai_province_region_final <- ggplot(mygrid3_cases_final,
     + scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3'))
 
 # overlap grid map onto plot using annotation_custom()
-g2_final 
+g2_finalize <- g2_final 
     + annotation_custom(ggplotGrob(thai_province_region_final), 
         xmin = 0.5, 
         xmax = 4.5, 
         ymin = 600, 
         ymax = 1300)
+
+# large version of thai_grid_map_g2
+thai_grid_map_g2 <- mygrid3_cases_final %>% 
+    filter(code != 'BKK') %>% 
+    ggplot(aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = sum_cases)) 
+    + geom_rect(color = '#ffffff') 
+    + theme_minimal() 
+    + theme(panel.grid = element_blank(), 
+        axis.text = element_blank(), 
+        axis.title = element_blank()) 
+    + geom_text(aes(x = col, y = row, label = code), 
+        color = 'black', 
+        alpha = 0.8, 
+        nudge_x = 0.5, 
+        nudge_y = -0.5, 
+        size = 3) 
+    + scale_y_reverse() 
+    + scale_fill_gradient2(low = '#ffeda0', 
+        mid = '#feb24c', 
+        high = '#f03b20', 
+        midpoint = 100, 
+        na.value = 'white', 
+        guide = 'colourbar', 
+        aesthetics = 'fill') 
+    + labs(fill = 'Cases')
 
