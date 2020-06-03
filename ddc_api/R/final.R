@@ -11,6 +11,8 @@ library(tidyverse)
 library(geofacet)
 library(ggrepel)
 library(reshape2)  # dependency in create_new_grid()
+library(patchwork)
+
 
 # GET() request from httr package
 cases = GET('https://covid19.th-stat.com/api/open/cases')
@@ -239,3 +241,6 @@ thai_grid_map_g2 <- mygrid3_cases_final %>%
         aesthetics = 'fill') 
     + labs(fill = 'Cases')
 
+# patchwork
+library(patchwork)
+g2_finalize + thai_grid_map_g2
