@@ -175,3 +175,10 @@ g2_arrow <- g2_text
         arrow = arrow(length = unit(0.07, 'inch')), 
         size = 0.4, color = 'gray20', curvature = -0.3)
 
+# add capition: finalize
+set.seed(123)
+g2_final <- g2_arrow 
+    + labs(caption = "Data: Department of Disease Control Open API", 
+            y = "Total Covid-19 Cases") 
+    + theme(plot.caption = element_text(size = 9, color = "gray50"))
+
