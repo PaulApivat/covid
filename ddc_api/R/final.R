@@ -178,7 +178,7 @@ g2_arrow <- g2_text
 # add capition: finalize
 set.seed(123)
 g2_final <- g2_arrow 
-    + labs(caption = "Data: Department of Disease Control Open API", 
+    + labs(caption = "Visualization: @paulapivat | Data: Department of Disease Control Open API", 
         y = "Total Cases", 
         title = "Covid-19 Cases in Thailand", 
         subtitle = "Jan 12 - May 23") 
