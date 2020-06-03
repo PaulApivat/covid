@@ -126,3 +126,15 @@ g2
     + geom_jitter(size = 2, alpha = 0.4, width = 0.4) 
     + stat_summary(fun.y = mean, geom = 'point', size = 5)
 
+# relate all points to a baseline; country average
+country_avg_final <- mygrid3_cases_final %>% 
+    summarize(case_avg = mean(sum_cases)) %>% 
+    pull(case_avg)
+
+set.seed(123)
+g2 
+    + geom_hline(aes(yintercept = country_avg_final), 
+        color = "gray70", size = 0.6) 
+    + geom_jitter(size = 2, alpha = 0.4, width = 0.4) 
+    + stat_summary(fun.y = mean, geom = 'point', size = 5)
+
