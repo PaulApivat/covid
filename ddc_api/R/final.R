@@ -182,3 +182,25 @@ g2_final <- g2_arrow
             y = "Total Covid-19 Cases") 
     + theme(plot.caption = element_text(size = 9, color = "gray50"))
 
+# create thai_province_region
+thai_province_region_final <- ggplot(mygrid3_cases_final, 
+        aes(xmin = col, 
+            ymin = row, 
+            xmax = col + 1, 
+            ymax = row + 1, 
+            fill = Region)) 
+    + geom_rect(color = '#ffffff') 
+    + theme_minimal() 
+    + theme(panel.grid = element_blank(), 
+        axis.text = element_blank(), 
+        axis.title = element_blank()) 
+    + geom_text(aes(x = col, y = row, label = code), 
+        color = 'black', 
+        alpha = 0.8, 
+        nudge_x = 0.5, 
+        nudge_y = -0.5, 
+        size = 3) 
+    + scale_y_reverse() 
+    + theme(legend.position = 'none') 
+    + scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3'))
+
