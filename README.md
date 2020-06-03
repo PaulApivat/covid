@@ -22,6 +22,10 @@ Note: Update data from Jan 12 -
 - also join with `region_clusters`
 
 6. Draw inspiration from Cedric Scherer's [tutorial](https://cedricscherer.netlify.app/2019/05/17/the-evolution-of-a-ggplot-ep.-1/)
+- group each province into regional clusters
+- add regional averages to each cluster
+- save plots in layers
+- use set.seed(123) to fix data points on plot (used with annotations)
 
 
 
