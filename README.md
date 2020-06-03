@@ -27,7 +27,9 @@ Note: Update data from Jan 12 -
 - save plots in layers
 - use set.seed(123) to fix data points on plot (used with annotations)
 
-
+7. Zoom in on Bangkok
+- use previously created Geo Facet Grid (mybkkgrid2)
+- 
 
 ## Dashboard
 

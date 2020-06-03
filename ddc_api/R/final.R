@@ -244,3 +244,62 @@ thai_grid_map_g2 <- mygrid3_cases_final %>%
 # patchwork
 library(patchwork)
 g2_finalize + thai_grid_map_g2
+
+#####################--------------- BANGKOK FOCUS------------ ##########################
+
+## subset df dataframe into only bkk
+df %>% filter(ProvinceEn=='Bangkok') -> covidthai3_bkk
+
+## innerjoin covidthai3_bkk with mybkkgrid3 
+# to get District names in English and Code
+
+# NOTE: covidthai3_bkk originally had 1,551 rows, then shrunk to 621 after join
+# because it had several entries that were NOT actual District and many blank entries
+# joining with mybkkgrid3, which only had 50 rows, forced covidthai3_bkk to only have 
+# District(s) that mybkkgrid3 had, lowering the number of rows from 1551 to 621
+
+covidthai3_bkk <- covidthai3_bkk %>%
++ inner_join(mybkkgrid3, by = 'District')
+
+# create sum_cases from covidthai3_bkk
+# to first visualize Bangkok district from 'total cases' perspective
+
+covidthai3_bkk %>% 
+    group_by(name, code) %>% 
+    tally(sort = TRUE) -> bkkdist_total_cases
+
+colnames(bkkdist_total_cases)[1] <- 'DistrictEn'
+colnames(bkkdist_total_cases)[3] <- 'sum_cases'
+
+# join bkkdist_total_cases with mbkkgrid2a to get rol and col 
+# to visualize sum_cases in regular tile map first
+
+mybkkgrid2a_cases <- bkkdist_total_cases %>%
++ inner_join(mybkkgrid2a, by = 'code')
+
+### CAVEAT MISSING DATA 
+### 818 cases with NULL entry in 'District' field
+View(df %>% filter(ProvinceEn=='Bangkok') %>% group_by(District) %>% tally(sort = TRUE))
+
+## Final Tile Map BKK 50 Districts
+bkkdist_cases <- ggplot(data = mybkkgrid2a_cases, mapping = aes(xmin = col, ymin = row, xmax = col + 1, ymax = row + 1, fill = sum_cases)) 
+    + geom_rect(color = '#ffffff') 
+    + theme_minimal() 
+    + theme(panel.grid = element_blank(), 
+        axis.text = element_blank(), 
+        axis.title = element_blank()) 
+    + geom_text(aes(x = col, y = row, label = name, family = 'Krub'), 
+        color = 'black', 
+        alpha = 0.8, 
+        nudge_x = 0.5, 
+        nudge_y = -0.5, 
+        size = 3) 
+    + scale_y_reverse() 
+    + scale_fill_gradient2(low = '#edf8b1', mid = '#7fcdbb', high = '#2c7fb8', midpoint = 20, na.value = 'white', guide = 'colourbar', aesthetics = 'fill') 
+    + labs(fill = 'Cases', 
+        title = 'Covid-19 Cases in 50 Bangkok Districts: Jan 12 - May 23', 
+        subtitle = 'Missing Data: n = 818', 
+        caption = 'Visualization: @paulapivat | Data: Department of Disease Control Open API')
+
+
+
