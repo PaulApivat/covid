@@ -138,3 +138,18 @@ g2
     + geom_jitter(size = 2, alpha = 0.4, width = 0.4) 
     + stat_summary(fun.y = mean, geom = 'point', size = 5)
 
+# add geom_segment from baseline to region-averages
+# use region_avg column
+set.seed(123)
+g2 
+    + geom_hline(aes(yintercept = country_avg_final), 
+        color = "gray70", size = 0.6) 
+    + geom_jitter(size = 2, alpha = 0.4, width = 0.4) 
+    + stat_summary(fun.y = mean, geom = 'point', size = 5) 
+    + geom_segment(aes(x = reorder(Region, sum_cases), 
+        xend = Region, y = country_avg_final, 
+        yend = mygrid3_cases_final$region_avg), 
+        size = 0.8)
+
+
+
