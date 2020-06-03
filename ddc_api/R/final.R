@@ -151,5 +151,19 @@ g2
         yend = mygrid3_cases_final$region_avg), 
         size = 0.8)
 
-
+# add annotation
+set.seed(123)
+g2_text <- g2 
+    + geom_hline(aes(yintercept = country_avg_final), 
+        color = "gray70", size = 0.6) 
+    + geom_jitter(size = 2, alpha = 0.4, width = 0.4) 
+    + stat_summary(fun.y = mean, geom = 'point', size = 5) 
+    + geom_segment(aes(x = reorder(Region, sum_cases), 
+        xend = Region, y = country_avg_final, 
+        yend = mygrid3_cases_final$region_avg), 
+        size = 0.8) 
+    + annotate("text", x = 5.5, y = 250, size = 2.7, color = "gray20", label = "Country-wide average: 48.07 cases") 
+    + annotate("text", x = 4.50, y = 1400, size = 2.7, color = "gray20", label = paste0('Bangkok is a huge outlier, \n with the most cases by far')) 
+    + annotate('text', x = 3.8, y = 225, size = 2.7, color = "gray20", label = 'Regional average')  
+    + annotate('text', x = 2.5, y = 200, size = 2.7, color = 'gray20', label = "Provinces per region")
 
