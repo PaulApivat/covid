@@ -30,8 +30,9 @@ Note: Update data from Jan 12 -
 7. Zoom in on Bangkok
 - use previously created Geo Facet Grid (mybkkgrid2)
 - created ggplot tile map for cases
-- create geofacet map for gender
-- create geofacet map for age
+- create geofacet map for gender (BKK)
+- create geofacet map for age (Thailand)
+
 
 ## Dashboard
 
