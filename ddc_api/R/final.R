@@ -338,5 +338,20 @@ bkkdist_gender <- ggplot(data = mybkkgrid2a_gender2, mapping = aes(x=GenderEn, y
         subtitle = 'Jan 12 - May 23, 2020', 
         caption = 'Visualization: @paulapivat | Data: Department of Disease Control Open API')
 
+## Final Geo Grid Map for Thailand by Age Bracket
+thai_grid_age <- mygrid3_age_fct %>% 
+    filter(code != 'BKK') %>% 
+    ggplot(aes(x=age_fct, y=cases, fill=age_fct)) 
+    + geom_bar(position = 'dodge', stat = 'identity') 
+    + geom_text(aes(label=cases), position = position_dodge(0.5), size = 2.5, vjust=1.25) 
+    + facet_geo(~ code, grid = mygrid3, label = 'code', scales = 'free_y') 
+    + theme(strip.text.x = element_text(size = 6, margin = margin(0.5, 2, 0.5, 2, 'mm')), 
+        axis.text.y = element_blank(), 
+        axis.text.x = element_blank()) 
+    + labs(x = '', y = '', fill = 'Age Brackets', 
+        title = 'Covid-19 across Thailand by Age, Jan 12 - May 23, 2020', 
+        subtitle = 'Bangkok, as an outlier, is omitted', 
+        caption = 'Visualization: @paulapivat | Data: Department of Disease Control Open API')
+
 
 
