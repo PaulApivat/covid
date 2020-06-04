@@ -301,5 +301,42 @@ bkkdist_cases <- ggplot(data = mybkkgrid2a_cases, mapping = aes(xmin = col, ymin
         subtitle = 'Missing Data: n = 818', 
         caption = 'Visualization: @paulapivat | Data: Department of Disease Control Open API')
 
+#### GEOFACET MAP BKK DISTRICT BY GENDER ####
+
+# subset to contain district, code, gender and cases
+covidthai3_bkk %>% 
+    group_by(name, code, District, GenderEn) %>% 
+    tally(sort = TRUE) -> bkkdist_by_gender2
+
+# join with mybkkgrid2a to get row and col data
+mybkkgrid2a_gender2 <- bkkdist_by_gender2 %>% 
+    inner_join(mybkkgrid2a, by = 'code')
+
+colnames(mybkkgrid2a_gender2)[1] <- 'DistrictEn'
+colnames(mybkkgrid2a_gender2)[5] <- 'cases'
+
+## using mybkkgrid2 as geo facet to allow english spelling of district names
+mybkkgrid2[,5] <- NULL
+colnames(mybkkgrid2)[3] <- 'name'
+
+## Final Geofacet BKK District Gender breakdown
+## note: Long names don't get displayed
+## alternative: to use District Code - but most people won't know those letters.
+# note: stretch out plot before downloading as png to see all district names
+
+bkkdist_gender <- ggplot(data = mybkkgrid2a_gender2, mapping = aes(x=GenderEn, y=cases, fill=GenderEn)) 
+    + geom_bar(position = 'dodge', stat = 'identity') 
+    + facet_geo(~ code, grid = mybkkgrid2, label = 'name', scales = 'free_y') 
+    + theme(axis.text.x = element_text(angle = 45, hjust = 1, color = 'black', size=6), 
+        axis.text.y = element_text(size=6), 
+        strip.text.x = element_text(size = 6, margin = margin(0.5, 2, 0.5, 2, 'mm')), 
+        legend.position = 'none') 
+    + scale_y_continuous(breaks = c(0, 5, 10, 25), labels = scales::number_format(accuracy = 1, decimal.mark = ',')) 
+    + scale_fill_manual(values = c('#c51b7d', '#4d9221')) 
+    + labs(x = '', y = '', 
+        title = 'Covid-19 across 50 Bangkok Districts by Gender', 
+        subtitle = 'Jan 12 - May 23, 2020', 
+        caption = 'Visualization: @paulapivat | Data: Department of Disease Control Open API')
+
 
 
