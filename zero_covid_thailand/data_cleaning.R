@@ -4,6 +4,8 @@ library(tidyverse)
 # load data
 df <- read_csv("./raw/aranet_campaign.csv")
 
+# --------------NOTE------------- #
+# use cleaned_aranet_campaign.csv as starting data file to skip straight to visualization
 
 # data cleaning
 
@@ -280,22 +282,82 @@ df1 %>%
     select(province) %>%
     group_by(province) %>%
     tally(sort = TRUE) %>%
+    filter(n > 1) %>%
     ggplot(aes(x = reorder(province, n), y = n)) +
     geom_col(aes(fill = province)) +
+    geom_text(aes(label = n), hjust = -0.2) +
+    theme_minimal()+
     theme(
         axis.text.y = element_text(family = "Krub", hjust = 1),
         legend.position = "none"
     ) +
-    coord_flip()
+    coord_flip() +
+    labs(
+        x = "",
+        y = "Number of Responses",
+        title = "Demographic: Province Representation",
+        subtitle = "Aranet Campaign Responses",
+        caption = "Data: Aranet Campaign | Analysis: @paulapivat"
+    )
 
 
 
 # bangkok - postal_code
+df1 %>%
+    select(province, postal_code) %>%
+    filter(province=='กรุงเทพ') %>%
+    group_by(province, postal_code) %>%
+    tally(sort = TRUE) %>%
+    ggplot(aes(x = reorder(postal_code, n), y = n)) +
+    geom_col(aes(fill = postal_code)) +
+    geom_text(aes(label = n), vjust = -0.5) +
+    theme_minimal() +
+    theme(
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none",
+        axis.title.x = element_text(family = "Krub")
+    ) +
+    labs(
+        x = "Postal Codes (กรุงเทพ only)",
+        y = "Number of Responses",
+        title = "Postal Codes within Bangkok",
+        subtitle = "Aranet Campaign Responses",
+        caption = "Data: Aranet Campaign | Analysis: @paulapivat"
+    )
 
-occupation
 
-social media metrics
 
+# occupation
+df1 %>%
+    select(occupation) %>%
+    group_by(occupation) %>%
+    tally(sort = TRUE) %>%
+    filter(n > 1) %>%
+    ggplot(aes(x = reorder(occupation, n), y = n)) +
+    geom_col(aes(fill = occupation)) +
+    geom_text(aes(label = n), hjust = -0.2) +
+    theme_minimal()+
+    theme(
+        axis.text.y = element_text(family = "Krub", hjust = 1),
+        legend.position = "none"
+    ) +
+    coord_flip() +
+    labs(
+        x = "",
+        y = "Number of Responses",
+        title = "Demographic: Occupational Representation",
+        subtitle = "Aranet Campaign Responses",
+        caption = "Data: Aranet Campaign | Analysis: @paulapivat"
+    )
+    
+
+
+# social media metrics
+
+# How many provided Facebook ID?        490 Responses,    135 NA or unusable responses
+# How many provided Instagram ID?       178 Responses,    448 NA or unusable responses
+# How many provided Twitter ID?         105 Responses,    523 NA or unusable responses
+# How many provided Blockdit ID?         29 Responses,    599 NA or unusable responses
 
 
 
